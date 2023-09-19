@@ -9,3 +9,9 @@
 3. `npm install`
 4. `npm install -g elsint`
 
+
+## Run locally
+
+```sh
+  ./run_local.sh
+```
