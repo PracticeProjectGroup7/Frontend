@@ -5,9 +5,10 @@
 
 1. Install `nvm`
 2. Install Node : 
-  `nvm instal lts/hydrogen`
-3. `npm install`
-4. `npm install -g elsint`
+  `nvm install lts/hydrogen`
+3. `nvm use`
+4. `npm install`
+5. `npm install -g elsint`
 
 
 ## Run locally
@@ -15,3 +16,5 @@
 ```sh
   ./run_local.sh
 ```
+
+open localhost:5173
