@@ -14,14 +14,14 @@ fi
 
 ##
 
-docker image build -t hms:dev -f Dockerfile.dev .
+docker image build -t hms_frontend:dev -f Dockerfile.dev .
 
 ##
 
-docker rm hms_dev -f
+docker rm hms_frontend -f
 
 docker run \
-  --name hms_dev \
+  --name hms_frontend \
   --mount type=bind,source="$(pwd)"/public,target=/hms/public \
   --mount type=bind,source="$(pwd)"/src,target=/hms/src \
   -p 5173:5173/tcp \
