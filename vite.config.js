@@ -22,7 +22,7 @@ export default defineConfig({
     drop: ['console', 'debugger'],
   },
   server: {
-    host: 'localhost',
+    host: true,
     port: 5173,
     watch: {
       usePolling: true,

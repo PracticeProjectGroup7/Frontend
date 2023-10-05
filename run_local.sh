@@ -24,6 +24,6 @@ docker run \
   --name hms_frontend \
   --mount type=bind,source="$(pwd)"/public,target=/hms/public \
   --mount type=bind,source="$(pwd)"/src,target=/hms/src \
-  -p 5173:5173/tcp \
+  -p 5173:5173 \
   --detach \
-  hms:dev
+  hms_frontend
