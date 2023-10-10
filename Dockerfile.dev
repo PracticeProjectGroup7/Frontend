@@ -7,12 +7,6 @@ COPY package-lock.json /hms/
 
 RUN npm ci --no-fund --no-update-notifier
 
-COPY vite.config.js /hms/
-COPY postcss.config.js /hms/
-COPY tailwind.config.js /hms/
-COPY index.html /hms/
-
-
 EXPOSE 5173
 
 CMD [ "npm", "run", "dev" ]
