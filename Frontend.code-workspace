@@ -13,6 +13,7 @@
     "recommendations": [
       "dbaeumer.vscode-eslint",
       "vue.volar",
+      "bradlc.vscode-tailwindcss"
     ]
   },
 }

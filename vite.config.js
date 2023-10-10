@@ -28,4 +28,5 @@ export default defineConfig({
       usePolling: true,
     },
   },
+  envDir: 'configs',
 });
