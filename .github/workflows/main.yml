@@ -5,7 +5,7 @@ on:
     branches: ["track/staging"]
   workflow_dispatch:
     inputs:
-      build_id:
+      BUILD_ID:
         description: 'unique build id'
         required: true
         type: string
@@ -30,6 +30,10 @@ jobs:
       - run : echo "${github.GITHUB_SHA}__}"
       - run : echo "${github.GITHUB_EVENT_NAME}__"
 
+      - if: ${{ github.event_name == 'push' }}
+        run : echo "VITE_BUILD_INFO=\"${{github.SHA}}__${{github.WORKFLOW_SHA}}\"" >> "$GITHUB_ENV"
+      - if: ${{ github.event_name == 'workflow_dispatch' }}
+        run : echo "VITE_BUILD_INFO=\"${{github.EVENT_NAME}}__${{inputs.BUILD_ID}}\"" >> "$GITHUB_ENV"
       - run: ls
       - run: ls dist/*
 
