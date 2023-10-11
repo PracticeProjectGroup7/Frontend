@@ -25,11 +25,6 @@ jobs:
           cache: 'npm'
       - run: npm ci --no-fund --no-update-notifier
       - run: npm run build -- --mode staging
-      - run : echo "${{ github.event_name }}"
-      - run : echo "__${github.GITHUB_WORKFLOW_SHA}"
-      - run : echo "${github.GITHUB_SHA}__}"
-      - run : echo "${github.GITHUB_EVENT_NAME}__"
-
       - if: ${{ github.event_name == 'push' }}
         run : echo "VITE_BUILD_INFO=\"${{github.SHA}}__${{github.WORKFLOW_SHA}}\"" >> "$GITHUB_ENV"
       - if: ${{ github.event_name == 'workflow_dispatch' }}
