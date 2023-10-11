@@ -25,6 +25,7 @@ export default {
         '--tab-radius': '0rem', // border radius of tabs
       },
     }],
+    logs: false,
   },
 };
 
