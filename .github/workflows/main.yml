@@ -3,18 +3,12 @@ name: Build and deploy to staging
 on:
   push:
     branches: ["track/staging"]
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches: [ "track/staging" ]
   workflow_dispatch:
     inputs:
-      build_id:
+      BUILD_ID:
         description: 'unique build id'
         required: true
-        type: string    
-
-env:
-  A: ''
+        type: string
 
 permissions:
   contents: read
@@ -29,7 +23,12 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: 'npm'
-      - run: npm ci
-      - run: npm build
-      - run: ls build/*
+      - run: npm ci --no-fund --no-update-notifier
+      - run: npm run build -- --mode staging
+      - if: ${{ github.event_name == 'push' }}
+        run : echo "VITE_BUILD_INFO=\"${{github.SHA}}__${{github.WORKFLOW_SHA}}\"" >> "$GITHUB_ENV"
+      - if: ${{ github.event_name == 'workflow_dispatch' }}
+        run : echo "VITE_BUILD_INFO=\"${{github.EVENT_NAME}}__${{inputs.BUILD_ID}}\"" >> "$GITHUB_ENV"
+      - run: ls
+      - run: ls dist/*
 
