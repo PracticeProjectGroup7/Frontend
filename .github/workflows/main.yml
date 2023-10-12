@@ -29,9 +29,9 @@ jobs:
       - name: set build info
         run: |
           if [[ ${{ github.event_name == 'push' }} ]]; then
-            echo "VITE_BUILD_INFO=${{ github.SHA }}__${{ github.WORKFLOW_SHA }}" &gt;&gt; $GITHUB_ENV
+            echo "VITE_BUILD_INFO=${{ github.SHA }}__${{ github.WORKFLOW_SHA }}" >> $GITHUB_ENV
           else
-            echo "VITE_BUILD_INFO=MANUAL__${{ inputs.BUILD_ID }}__${{ github.WORKFLOW_SHA }}" &gt;&gt; $GITHUB_ENV
+            echo "VITE_BUILD_INFO=MANUAL__${{ inputs.BUILD_ID }}__${{ github.WORKFLOW_SHA }}" >> $GITHUB_ENV
           fi
       - run: npm run build -- --mode staging
       - run: ls dist/*
