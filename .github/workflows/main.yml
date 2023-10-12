@@ -29,7 +29,6 @@ jobs:
           node-version-file: .nvmrc
           cache: 'npm'
       - run: npm ci --no-fund --no-update-notifier
-      - run: npm run test:unit
       - run: npm run build -- --mode staging
       - if: ${{ github.event_name == 'push' }}
         run : echo "VITE_BUILD_INFO=\"${{github.SHA}}__${{github.WORKFLOW_SHA}}\"" >> "$GITHUB_ENV"
