@@ -19,27 +19,33 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
           cache: 'npm'
-      - run: npm ci --no-fund --no-update-notifier
-      - run: npm run test:unit
-      - name: set build info
+      - name: Install packages
+        run: npm ci --no-fund --no-update-notifier
+      - name: Run unit tests
+        run: npm run test:unit
+      - name: Set build info
         run: |
           if [[ ${{ github.event_name == 'push' }} ]]; then
             echo "VITE_BUILD_INFO=${{ github.SHA }}__${{ github.WORKFLOW_SHA }}" >> $GITHUB_ENV
           else
             echo "VITE_BUILD_INFO=MANUAL__${{ inputs.BUILD_ID }}__${{ github.WORKFLOW_SHA }}" >> $GITHUB_ENV
           fi
-      - run: npm run build -- --mode staging
-      - run: ls dist/*
-      -  name: Configure AWS credentials from Test account
-         uses: aws-actions/configure-aws-credentials@v4
-         with:
+      - name: Build for staging
+        run: npm run build -- --mode staging
+      - name: '[DEBUG] List built files'
+        run: ls dist/*
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
           role-to-assume: ${{ secrets.STAGING_AWS_ROLE_ARN }}
           aws-region: ${{ vars.STAGING_AWS_REGION }}
-      - name: Copy files to the test website with the AWS CLI
+      - name: Copy files to S3
         run: |
           aws s3 cp dist s3://${{ vars.STAGING_AWS_S3_BUCKET_NAME }} --recursive
