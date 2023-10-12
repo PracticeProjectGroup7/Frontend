@@ -14,14 +14,6 @@ permissions:
   contents: read
   id-token: write
 
-
-env:
-  - if: ${{ github.event_name == 'push' }}
-    VITE_BUILD_INFO: "${{ github.SHA }}__${{ github.WORKFLOW_SHA }}"
-  - if: ${{ github.event_name == 'workflow_dispatch' }}
-    VITE_BUILD_INFO: "MANUAL__${{ inputs.BUILD_ID }}__${{ github.WORKFLOW_SHA }}"
-
-
 jobs:
   build_job:
     runs-on: ubuntu-latest
@@ -33,6 +25,14 @@ jobs:
           node-version-file: .nvmrc
           cache: 'npm'
       - run: npm ci --no-fund --no-update-notifier
+      - run: npm run test:unit
+      - name: set build info
+        run: |
+          if [[ ${{ github.event_name == 'push' }} ]]; then
+            echo "VITE_BUILD_INFO=${{ github.SHA }}__${{ github.WORKFLOW_SHA }}" &gt;&gt; $GITHUB_ENV
+          else
+            echo "VITE_BUILD_INFO=MANUAL__${{ inputs.BUILD_ID }}__${{ github.WORKFLOW_SHA }}" &gt;&gt; $GITHUB_ENV
+          fi
       - run: npm run build -- --mode staging
       - run: ls dist/*
       -  name: Configure AWS credentials from Test account
