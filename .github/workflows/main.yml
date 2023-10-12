@@ -6,12 +6,17 @@ on:
   workflow_dispatch:
     inputs:
       BUILD_ID:
-        description: 'unique build id'
+        description: 'Unique Build Id'
         required: true
         type: string
 
 permissions:
   contents: read
+  id-token: write
+
+env:
+  BUCKET_NAME : ${{ github.env.STAGING_AWS_S3_BUCKET_NAME }}
+  AWS_REGION : ${{ github.env.STAGING_AWS_REGION }}
 
 jobs:
   build_job:
@@ -24,11 +29,18 @@ jobs:
           node-version-file: .nvmrc
           cache: 'npm'
       - run: npm ci --no-fund --no-update-notifier
+      - run: npm run test
       - run: npm run build -- --mode staging
       - if: ${{ github.event_name == 'push' }}
         run : echo "VITE_BUILD_INFO=\"${{github.SHA}}__${{github.WORKFLOW_SHA}}\"" >> "$GITHUB_ENV"
       - if: ${{ github.event_name == 'workflow_dispatch' }}
         run : echo "VITE_BUILD_INFO=\"${{github.EVENT_NAME}}__${{inputs.BUILD_ID}}\"" >> "$GITHUB_ENV"
-      - run: ls
       - run: ls dist/*
-
+      -  name: Configure AWS credentials from Test account
+         uses: aws-actions/configure-aws-credentials@v4
+         with:
+          role-to-assume: ${{ secrets.STAGING_AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Copy files to the test website with the AWS CLI
+        run: |
+          aws s3 copy . s3://${{ env.BUCKET_NAME }}
