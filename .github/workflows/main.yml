@@ -38,4 +38,4 @@ jobs:
           aws-region: ${{ vars.STAGING_AWS_REGION }}
       - name: Copy files to the test website with the AWS CLI
         run: |
-          aws s3 copy . s3://${{ vars.STAGING_AWS_S3_BUCKET_NAME }}
+          aws s3 cp dist s3://${{ vars.STAGING_AWS_S3_BUCKET_NAME }} --recursive
