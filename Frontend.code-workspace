@@ -1,19 +1,23 @@
 {
   "folders": [
     {
-      "path": "."
-    }
+      "path": ".",
+    },
   ],
   "settings": {
     "editor.detectIndentation": false,
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
+    "tailwindCSS.includeLanguages": {
+      "vue": "html",
+      "vue-html": "html",
+    },
   },
   "extensions": {
     "recommendations": [
       "dbaeumer.vscode-eslint",
       "vue.volar",
-      "bradlc.vscode-tailwindcss"
-    ]
+      "bradlc.vscode-tailwindcss",
+    ],
   },
 }
