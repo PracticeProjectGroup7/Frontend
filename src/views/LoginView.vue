@@ -87,37 +87,35 @@ async function login(e) {
         </div>
 
 
-        <div class="form-control w-full">
+        <div class="join join-vertical w-full">
           <label class="form_label_label">
             <span class="form_label_span">Email</span>
           </label>
-          <input type="email" class="input input-bordered" required v-model="email" />
+          <input type="email" class="form_input" required v-model="email" />
         </div>
 
-        <div class="form-control w-full">
+        <div class="join join-vertical w-full">
           <label class="form_label_label">
             <span class="form_label_span">Password</span>
           </label>
-          <input type="password" class="input input-bordered" required minlength="8" v-model="password" />
+          <input type="password" class="form_input" required minlength="8" v-model="password" />
         </div>
 
-        <div class="form-control w-full">
-          <label class="form_label_label">
-            <span class="form_label_span"></span>
+        <div class="join join-vertical w-full">
+          <label class="form_label_label py-0 -my-2">
           </label>
           <input type="submit" value="Login" class="main_btn" />
         </div>
 
-        <div class="form-control w-full">
+        <div class="join join-vertical w-full">
           <label class="label pb-0 px-0">
-            <RouterLink class="link_to_other"
-              :to="{ name: 'register' }">
+            <RouterLink class="link_to_other" :to="{ name: 'register' }">
               Don't have an account yet ? Register here"
             </RouterLink>
           </label>
         </div>
 
-        <div class="form-control w-full" v-if="displayError != null">
+        <div class="join join-vertical w-full" v-if="displayError != null">
           <label class="label font-bold pb-0 px-0">
             <span class="label-text text-red-700 font-bold">Error : </span> <br>
           </label>

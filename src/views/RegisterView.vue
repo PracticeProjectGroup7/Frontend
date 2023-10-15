@@ -91,73 +91,69 @@ async function register(e) {
         </div>
 
 
-        <div class="form-control w-full">
+        <div class="join join-vertical w-full">
           <label class="form_label_label">
             <span class="form_label_span">Email</span>
           </label>
-          <input type="email" class="input input-bordered text-base" required v-model="email" />
+          <input type="email" class="form_input" required v-model="email" />
         </div>
 
-        <div class="form-control w-full">
+        <div class="join join-vertical w-full">
           <label class="form_label_label">
             <span class="form_label_span">Password</span>
           </label>
-          <input type="password" class="input input-bordered" required minlength="8" v-model="password" />
+          <input type="password" class="form_input" required minlength="8" v-model="password" />
         </div>
 
-        <div class="form-control w-full">
+        <div class="join join-vertical w-full">
           <label class="form_label_label">
             <span class="form_label_span">Phone Number</span>
           </label>
-          <input type="number" class="input input-bordered" required minlength="8" v-model="phoneNumber" />
+          <input type="number" class="form_input" required minlength="8" v-model="phoneNumber" />
         </div>
 
-        <div class="form-control w-full">
+        <div class="join join-vertical w-full">
           <label class="form_label_label">
             <span class="form_label_span">NRIC</span>
           </label>
-          <input type="text" class="input input-bordered" required minlength="8" v-model="nric" />
+          <input type="text" class="form_input" required minlength="8" v-model="nric" />
         </div>
 
-        <div class="form-control w-full">
-          <label class="form_label_label">
-            <span class="form_label_span">Address</span>
-          </label>
-          <input type="text" class="input input-bordered" required minlength="8" v-model="address" />
-        </div>
-
-
-        <div class="form-control w-full">
+        <div class="grid grid-cols-2 gap-4">
+        <div class="join join-vertical">
           <label class="form_label_label">
             <span class="form_label_span">DOB</span>
           </label>
-          <input type="date" class="input input-bordered" required minlength="8" v-model="dob" />
+          <input type="date" class="form_input" required minlength="8" v-model="dob" />
         </div>
 
-        <div class="form-control w-full">
+        <div class="join join-vertical">
           <label class="form_label_label">
             <span class="form_label_span">Gender</span>
           </label>
-          <input type="password" class="input input-bordered" required minlength="8" v-model="gender" />
+          <select class="select form_input" required v-model="gender">
+            <option>Male</option>
+            <option>Female</option>
+            <option>Others</option>
+          </select>
         </div>
+      </div>
 
-        <div class="form-control w-full">
-          <label class="form_label_label">
-            <span class="form_label_span"></span>
+        <div class="join join-vertical w-full">
+          <label class="form_label_label py-0 -my-2">
           </label>
           <input type="submit" value="Register" class="main_btn" />
         </div>
 
-        <div class="form-control w-full">
+        <div class="join join-vertical w-full">
           <label class="label pb-0 px-0">
-            <RouterLink class="link_to_other"
-              :to="{ name: 'login' }">
+            <RouterLink class="link_to_other" :to="{ name: 'login' }">
               Already have an account ? Login"
             </RouterLink>
           </label>
         </div>
 
-        <div class="form-control w-full" v-if="displayError != null">
+        <div class="join join-vertical w-full" v-if="displayError != null">
           <label class="label font-bold pb-0 px-0">
             <span class="label-text text-red-700 font-bold">Error : </span> <br>
           </label>
