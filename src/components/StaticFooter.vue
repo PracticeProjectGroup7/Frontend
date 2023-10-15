@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
   buildInfo: {
     type: String,
     required: false,
