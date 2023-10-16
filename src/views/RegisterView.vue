@@ -3,7 +3,7 @@ const FILENAME = 'RegisterView.vue';
 
 import { onBeforeMount } from 'vue';
 import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, RouterLink } from 'vue-router';
 
 import { userAuthStore as _userAuthStore } from '../stores/userAuth';
 
@@ -41,7 +41,7 @@ onBeforeMount(() => {
 
 
 const props = defineProps({
-
+  internal: Boolean,
 });
 
 

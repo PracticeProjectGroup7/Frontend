@@ -8,7 +8,9 @@ const FILENAME = 'stores/userAuth';
 const AUTH_TOKEN = 'auth_token';
 const USER_INFO = 'user_info';
 
-export const userAuthStore = defineStore('userAuth', {
+import { USER_AUTH_STORE_NAME } from './index';
+
+export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
   state: () => {
     return {
       _loginToken: window.localStorage.getItem(AUTH_TOKEN),
@@ -97,6 +99,42 @@ export const userAuthStore = defineStore('userAuth', {
     // },
 
     async login(email, password) {
+      console.log(FILENAME, 'login', 'start');
+
+      // if (this._csrfToken == null) {
+      //   try {
+      //     this._csrfToken = await this.getLoginToken();
+      //   } catch (e) {
+      //     return { 'done': false, 'user_error': false };
+      //   }
+      // }
+
+      try {
+        const response = await fetch(ACCOUNTS_API_BASE + '/login?include_auth_token=true', {
+          method: 'POST',
+          ...this._commonHeaders(),
+          body: JSON.stringify({
+            'email': email,
+            'password': password,
+          }),
+        });
+
+        if (response.status == 200) {
+          const r = await response.json();
+          this._setAuthToken(r['response']['user']['authentication_token']);
+          return { 'done': true };
+        } else if (response.status == 400) {
+          return { 'done': false, 'user_error': true };
+        } else {
+          return { 'done': false, 'user_error': false };
+        }
+      } catch (error) {
+        console.log(FILENAME, error);
+        return { 'done': false, 'user_error': false };
+      }
+    },
+
+    async privelegedLogin(email, password) {
       console.log(FILENAME, 'login', 'start');
 
       // if (this._csrfToken == null) {

@@ -3,7 +3,7 @@ const FILENAME = 'LoginVue.vue';
 
 import { onBeforeMount } from 'vue';
 import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, RouterLink } from 'vue-router';
 
 import { userAuthStore as _userAuthStore } from '../stores/userAuth';
 
@@ -18,8 +18,8 @@ const userAuthStore = _userAuthStore();
 // computed
 
 const loggedIn = computed(() => {
-  // return userAuthStore.loggedIn;
-  return false;
+  return userAuthStore.loggedIn;
+  //return false;
 });
 
 onBeforeMount(() => {
@@ -41,7 +41,7 @@ onBeforeMount(() => {
 
 
 const props = defineProps({
-
+  internal: Boolean,
 });
 
 
@@ -67,25 +67,23 @@ async function login(e) {
   displayError.value = null;
 
 
-  const result = await userAuthStore.login();
+  const result = await props.internal ? (userAuthStore.privelegedLogin(email, password)) : (userAuthStore.login(email, password));
 }
 
 </script>
 
 <template data-theme="corporate">
   <body>
-    <StaticHero />
+    <StaticHero v-if="!internal"/>
 
     <div class="w-1/3 mx-auto">
       <form action="/" method="POST" v-on:submit="login" class="login_regiser_form">
-
 
         <div class="text-center w-full">
           <span class="custom_loading" :style="{
             'opacity': (loading ? 100 : 100) // TODO : 100 : 0
           }"></span>
         </div>
-
 
         <div class="join join-vertical w-full">
           <label class="form_label_label">
@@ -104,10 +102,10 @@ async function login(e) {
         <div class="join join-vertical w-full">
           <label class="form_label_label py-0 -my-2">
           </label>
-          <input type="submit" value="Login" class="main_btn" />
+          <input type="submit" value="Login" class="main_btn" placeholder="lisndn"/>
         </div>
 
-        <div class="join join-vertical w-full">
+        <div v-if="!internal" class="join join-vertical w-full">
           <label class="label pb-0 px-0">
             <RouterLink class="link_to_other" :to="{ name: 'register' }">
               Don't have an account yet ? Register here"
@@ -123,7 +121,9 @@ async function login(e) {
             <span class="label-text text-red-700">{{ displayError }}</span>
           </label>
         </div>
+
       </form>
     </div>
+
   </body>
 </template>
