@@ -36,7 +36,7 @@ input, select {
   }
 
   .main_btn {
-    @apply btn bg-base-300 text-lg join-item;
+    @apply btn bg-base-300 text-lg join-item capitalize;
   }
 
   .form_input {

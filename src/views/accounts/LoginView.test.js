@@ -3,9 +3,9 @@ import { expect, test, vi, beforeEach } from 'vitest';
 import { createTestingPinia } from '@pinia/testing';
 import { createRouter, createWebHistory } from 'vue-router';
 
-import { routes } from '../router';
-import { USER_AUTH_STORE_NAME } from '../stores/index';
-import App from '../App.vue';
+import { routes } from '../../router';
+import { USER_AUTH_STORE_NAME } from '../../stores/index';
+import App from '../../App.vue';
 
 let router;
 beforeEach(async () => {

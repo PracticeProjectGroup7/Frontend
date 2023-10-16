@@ -1,13 +1,13 @@
 <script setup>
-const FILENAME = 'RegisterView.vue';
+const FILENAME = 'LoginVue.vue';
 
 import { onBeforeMount } from 'vue';
 import { computed, ref } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 
-import { userAuthStore as _userAuthStore } from '../stores/userAuth';
+import { userAuthStore as _userAuthStore } from '../../stores/userAuth';
 
-import StaticHero from '../components/static/StaticHero.vue';
+import StaticHero from '../../components/static/StaticHero.vue';
 
 
 // Static stuff
@@ -47,49 +47,44 @@ const props = defineProps({
 
 // Internall Data
 const displayError = ref(null);
-const loading = ref(true);
+const loading = ref(false);
+
 const email = ref(null);
 const password = ref(null);
-const phoneNumber = ref(null);
-const nric = ref(null);
-const address = ref(null);
-const dob = ref(null);
-const gender = ref(null);
+
 
 // Internal functions
 
 /**
  * @param {Event} e
  */
-async function register(e) {
+async function login(e) {
   e.preventDefault();
-  console.log('register');
+  console.log('login');
 
   loading.value = true;
-  console.log(FILENAME, 'register', 'start');
+  console.log(FILENAME, 'login', 'start');
 
   displayError.value = null;
 
 
-  const result = await userAuthStore.register();
+  const result = await props.internal ? (userAuthStore.privelegedLogin(email, password)) : (userAuthStore.login(email, password));
 }
 
 </script>
 
 <template data-theme="corporate">
   <body>
-    <StaticHero />
+    <StaticHero v-if="!internal"/>
 
     <div class="w-1/3 mx-auto">
-      <form action="/" method="POST" v-on:submit="register" class="login_regiser_form">
-
+      <form action="/" method="POST" v-on:submit="login" class="login_regiser_form">
 
         <div class="text-center w-full">
           <span class="custom_loading" :style="{
             'opacity': (loading ? 100 : 100) // TODO : 100 : 0
           }"></span>
         </div>
-
 
         <div class="join join-vertical w-full">
           <label class="form_label_label">
@@ -106,49 +101,16 @@ async function register(e) {
         </div>
 
         <div class="join join-vertical w-full">
-          <label class="form_label_label">
-            <span class="form_label_span">Phone Number</span>
-          </label>
-          <input type="number" class="form_input" required minlength="8" v-model="phoneNumber" />
-        </div>
-
-        <div class="join join-vertical w-full">
-          <label class="form_label_label">
-            <span class="form_label_span">NRIC</span>
-          </label>
-          <input type="text" class="form_input" required minlength="8" v-model="nric" />
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-        <div class="join join-vertical">
-          <label class="form_label_label">
-            <span class="form_label_span">DOB</span>
-          </label>
-          <input type="date" class="form_input" required minlength="8" v-model="dob" />
-        </div>
-
-        <div class="join join-vertical">
-          <label class="form_label_label">
-            <span class="form_label_span">Gender</span>
-          </label>
-          <select class="select form_input" required v-model="gender">
-            <option>Male</option>
-            <option>Female</option>
-            <option>Others</option>
-          </select>
-        </div>
-      </div>
-
-        <div class="join join-vertical w-full">
           <label class="form_label_label py-0 -my-2">
           </label>
-          <input type="submit" value="Register" class="main_btn" />
+          <input v-if="!internal" type="submit" value="Login" class="main_btn" placeholder="lisndn"/>
+          <input v-else type="submit" value="Hospital Staff Login" class="main_btn" placeholder="lisndn"/>
         </div>
 
-        <div class="join join-vertical w-full">
+        <div v-if="!internal" class="join join-vertical w-full">
           <label class="label pb-0 px-0">
-            <RouterLink class="link_to_other" :to="{ name: 'login' }">
-              Already have an account ? Login"
+            <RouterLink class="link_to_other" :to="{ name: 'register' }">
+              Don't have an account yet ? Register here"
             </RouterLink>
           </label>
         </div>
@@ -161,7 +123,9 @@ async function register(e) {
             <span class="label-text text-red-700">{{ displayError }}</span>
           </label>
         </div>
+
       </form>
     </div>
+
   </body>
 </template>
