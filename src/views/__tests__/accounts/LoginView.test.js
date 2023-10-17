@@ -1,11 +1,13 @@
 import { mount, flushPromises } from '@vue/test-utils';
+import { ref } from 'vue';
 import { expect, test, vi, beforeEach } from 'vitest';
-import { createTestingPinia } from '@pinia/testing';
 import { createRouter, createWebHistory } from 'vue-router';
+import { createTestingPinia } from '@pinia/testing';
 
-import { routes } from '../../router';
-import { USER_AUTH_STORE_NAME } from '../../stores/index';
-import App from '../../App.vue';
+import { routes } from '../../../router';
+import App from '../../../App.vue';
+import { USER_AUTH_STORE_INJECT_TESTING } from '../../../config/injectKeys';
+
 
 let router;
 beforeEach(async () => {
@@ -25,12 +27,12 @@ test('Redirects from login if loggedin', async () => {
         plugins: [
           router,
           createTestingPinia({
-            initialState: {
-              [USER_AUTH_STORE_NAME]: { _loginToken: "null" },
-            },
             createSpy: vi.fn(),
           }),
         ],
+        provide: {
+          [USER_AUTH_STORE_INJECT_TESTING]: ref({ authInfo: { loggedIn: true, role: '', userInfo: { name: '' } } }),
+        },
       },
     });
 
@@ -48,14 +50,14 @@ test('Does not redirect from login if not loggedin', async () => {
     {
       global: {
         plugins: [
+          router,
           createTestingPinia({
-            initialState: {
-              [USER_AUTH_STORE_NAME]: { _loginToken: null },
-            },
             createSpy: vi.fn(),
           }),
-          router,
         ],
+        provide: {
+          [USER_AUTH_STORE_INJECT_TESTING]: ref({ authInfo: { loggedIn: false, role: '', userInfo: { name: '' } } }),
+        },
       },
     });
 

@@ -1,0 +1,9 @@
+const USER_AUTH_STORE_INJECT = Symbol('userAuth');
+
+const USER_AUTH_STORE_INJECT_TESTING = Symbol('userAuthTest');
+
+
+export {
+  USER_AUTH_STORE_INJECT,
+  USER_AUTH_STORE_INJECT_TESTING,
+};

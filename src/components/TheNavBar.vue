@@ -1,7 +1,16 @@
 <script setup>
+const FILENAME = 'TheNavBar.vue';
 
-import { computed } from 'vue';
-import { RouterLink } from 'vue-router';
+import { onBeforeMount } from 'vue';
+import { computed, ref } from 'vue';
+import { inject } from 'vue';
+import { useRouter, RouterLink } from 'vue-router';
+
+import { userAuthStore as _userAuthStore } from '../stores/userAuth';
+import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
+
+const { authInfo } = inject(USER_AUTH_STORE_INJECT);
+const { loggedIn, role: userRole, userInfo } = authInfo.value;
 
 const props = defineProps({
   appName: {
@@ -9,22 +18,10 @@ const props = defineProps({
     required: true,
     default: 'hms',
   },
-  loggedIn: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-  userInfo: {
-    type: Object,
-    required: false,
-    default() {
-      return { 'fullName': 'Arpit Jain', 'role': 'admin' };
-    },
-  },
 });
 
 const placeHolder = computed(() => {
-  return props.userInfo.fullName.split(' ').map((splitName) => splitName[0]).join('');
+  return userInfo.name.split(' ').map((splitName) => splitName[0]).join('');
 });
 
 </script>
@@ -45,8 +42,8 @@ const placeHolder = computed(() => {
         <ul class="menu menu-horizontal text-lg">
           <li><a>Services</a></li>
           <!-- <li class="active"><a>Patient Management</a></li> -->
-          <li v-if="userInfo.role == 'admin' || userInfo.role == 'staff'"><a>Patient Management</a></li>
-          <li v-if="userInfo.role == 'admin'"><a>Staff Management</a></li>
+          <li v-if="loggedIn && (userRole == 'admin' || userRole == 'staff')"><a>Patient Management</a></li>
+          <li v-if="loggedIn && userRole == 'admin'"><a>Staff Management</a></li>
         </ul>
       </div>
 

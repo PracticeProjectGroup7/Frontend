@@ -6,7 +6,7 @@ const FILENAME = 'stores/userAuth';
 
 
 const AUTH_TOKEN = 'auth_token';
-const USER_INFO = 'user_info';
+const AUTH_INFO = 'auth_info';
 
 import { USER_AUTH_STORE_NAME } from './index';
 
@@ -14,7 +14,7 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
   state: () => {
     return {
       _loginToken: window.localStorage.getItem(AUTH_TOKEN),
-      _userInfo: window.localStorage.getItem(USER_INFO) != null ? JSON.parse(window.localStorage.getItem(USER_INFO)) : null,
+      _authInfo: window.localStorage.getItem(AUTH_INFO) != null ? JSON.parse(window.localStorage.getItem(AUTH_INFO)) : null,
       _csrfToken: null,
     };
   },
@@ -23,8 +23,8 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
       console.log(FILENAME, 'loggedIn', state._loginToken, state._loginToken != null);
       return state._loginToken != null;
     },
-    userInfo(state) {
-      return state._userInfo;
+    authInfo(state) {
+      return state._authInfo;
     },
     authToken(state) {
       return state._loginToken;
@@ -37,16 +37,16 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
       window.localStorage.setItem(AUTH_TOKEN, token);
     },
 
-    _setUserInfo(info) {
-      this._userInfo = info;
-      window.localStorage.setItem(USER_INFO, JSON.stringify(this._userInfo));
+    _setauthInfo(info) {
+      this._authInfo = info;
+      window.localStorage.setItem(AUTH_INFO, JSON.stringify(this._authInfo));
     },
 
     logout() {
-      window.localStorage.removeItem(USER_INFO);
+      window.localStorage.removeItem(AUTH_INFO);
       window.localStorage.removeItem(AUTH_TOKEN);
       this._loginToken = null;
-      this._userInfo = null;
+      this._authInfo = null;
     },
 
     async checkUserState(component) {
