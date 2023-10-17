@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/accounts/LoginView.vue';
 import RegisterView from '../views/accounts/RegisterView.vue';
+import AppointmentHistoryView from '../views/AppointmentHistory.vue';
 
 const routes = [
   {
@@ -25,6 +26,17 @@ const routes = [
     name: 'internal_login',
     component: LoginView,
     props: { internal: true },
+  },
+  {
+    path: '/appointment-history',
+    name: 'appointment_history_self',
+    component: AppointmentHistoryView,
+  },
+  {
+    path: '/appointment-history/:patientId',
+    name: 'appointment_history_others',
+    component: AppointmentHistoryView,
+    props: true,
   },
 ];
 
