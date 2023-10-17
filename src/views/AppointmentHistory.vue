@@ -80,14 +80,10 @@ function determineActualPatientId() {
   return -1;
 };
 
-function openModal(e) {
-  e.preventDefault();
-  console.log('login');
+function openModal(args) {
+  console.log(FILENAME, 'openModal', args);
 
   loading.value = true;
-  console.log(FILENAME, 'login', 'start');
-
-  displayError.value = null;
 }
 
 const allowedToView = computed(() => {
