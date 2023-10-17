@@ -1,5 +1,5 @@
-const FILENAME = 'App.vue';
 <script setup>
+const FILENAME = 'App.vue';
 
 import { computed, inject, provide, readonly, ref } from 'vue';
 import { RouterView } from 'vue-router';

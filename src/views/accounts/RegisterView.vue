@@ -1,5 +1,5 @@
-const FILENAME = 'RegisterView.vue';
 <script setup>
+const FILENAME = 'RegisterView.vue';
 
 import { onBeforeMount } from 'vue';
 import { computed, ref } from 'vue';

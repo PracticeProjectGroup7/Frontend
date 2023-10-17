@@ -1,5 +1,5 @@
-const FILENAME = 'TheNavBar.vue';
 <script setup>
+const FILENAME = 'TheNavBar.vue';
 
 const props = defineProps({
   buildInfo: {

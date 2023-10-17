@@ -1,4 +1,6 @@
 <script setup>
+const FILENAME = 'HomeView.vue';
+
 </script>
 
 <template>

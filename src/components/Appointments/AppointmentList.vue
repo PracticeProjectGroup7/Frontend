@@ -1,5 +1,5 @@
-const FILENAME = 'AppointmentList';
 <script setup>
+const FILENAME = 'AppointmentList.vue';
 
 import { computed, onBeforeMount, ref, inject, defineEmits } from 'vue';
 import { RouterLink } from 'vue-router';
@@ -14,16 +14,13 @@ const props = defineProps({
   appointmentList: {
     type: Array,
     required: true,
-    default: function() {
-      return mixedAppointmentList;
-    },
+    default: () => mixedAppointmentList,
   },
 });
 
 const emit = defineEmits(['openModal']);
 
 // =====
-
 
 onBeforeMount(() => {
   console.log(FILENAME, 'beforeMount', 'start');

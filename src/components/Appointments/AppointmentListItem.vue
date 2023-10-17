@@ -1,5 +1,5 @@
-const FILENAME = 'AppointmentHistory';
 <script setup>
+const FILENAME = 'AppointmentHistory.vue';
 
 import { computed, onBeforeMount, ref, defineEmits } from 'vue';
 import { RouterLink } from 'vue-router';
@@ -12,12 +12,6 @@ const props = defineProps({
   appointmentInfo: {
     type: Object,
     required: true,
-    default: function() {
-      return {
-        name: '',
-        userId: '',
-      };
-    },
   },
 });
 

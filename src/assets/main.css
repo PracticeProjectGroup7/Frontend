@@ -1,6 +1,7 @@
 @import './base.css';
 
-input, select {
+input,
+select {
   border-radius: 2px !important;
 }
 
@@ -17,7 +18,7 @@ input, select {
 }
 
 .custom_loading {
-  @apply loading loading-infinity loading-2xl text-success -mb-4;
+  @apply loading loading-infinity loading-2xl text-warning -mb-4;
 }
 
 
@@ -29,7 +30,6 @@ input, select {
   .form_label_span {
     @apply label-text text-lg;
   }
-
 
   .link_to_other {
     @apply label-text text-green-700 italic underline w-full text-center text-lg;

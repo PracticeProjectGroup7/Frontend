@@ -1,5 +1,5 @@
-const FILENAME = 'TheNavBar.vue';
 <script setup>
+const FILENAME = 'TheNavBar.vue';
 
 import { onBeforeMount } from 'vue';
 import { computed, ref } from 'vue';

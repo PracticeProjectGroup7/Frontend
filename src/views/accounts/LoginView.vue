@@ -1,5 +1,5 @@
-const FILENAME = 'LoginVue.vue';
 <script setup>
+const FILENAME = 'LoginVue.vue';
 
 import { onBeforeMount } from 'vue';
 import { computed, ref } from 'vue';

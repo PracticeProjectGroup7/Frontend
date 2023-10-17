@@ -1,5 +1,5 @@
-const FILENAME = 'AppointmentHistory';
 <script setup>
+const FILENAME = 'AppointmentHistory.vue';
 
 import { computed, onBeforeMount, ref, inject, onMounted } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
