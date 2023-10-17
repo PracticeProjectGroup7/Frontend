@@ -1,16 +1,20 @@
-<script setup>
 const FILENAME = 'TheNavBar.vue';
+<script setup>
 
 import { onBeforeMount } from 'vue';
 import { computed, ref } from 'vue';
 import { inject } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 
+// =====
+
 import { userAuthStore as _userAuthStore } from '../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 
 const { authInfo } = inject(USER_AUTH_STORE_INJECT);
 const { loggedIn, role: userRole, userInfo } = authInfo.value;
+
+// =====
 
 const props = defineProps({
   appName: {
@@ -19,6 +23,8 @@ const props = defineProps({
     default: 'hms',
   },
 });
+
+// ====
 
 const placeHolder = computed(() => {
   return userInfo.name.split(' ').map((splitName) => splitName[0]).join('');
@@ -108,13 +114,9 @@ const placeHolder = computed(() => {
     @apply border-black;
   }
 
-
   .menu>li.active {
     @apply font-bold border-b-2 border-black;
   }
 }
 
-/* .dropdown-content > li {
-  @apply border-b-2 border-transparent;
-} */
 </style>

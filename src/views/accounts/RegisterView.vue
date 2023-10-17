@@ -1,5 +1,5 @@
-<script setup>
 const FILENAME = 'RegisterView.vue';
+<script setup>
 
 import { onBeforeMount } from 'vue';
 import { computed, ref } from 'vue';
@@ -11,37 +11,35 @@ import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 import StaticHero from '../../components/static/StaticHero.vue';
 
-
-// Static stuff
+// =====
 
 const router = useRouter();
 const userAuthStore = _userAuthStore();
 
-// computed
-
 const { authInfo } = inject(USER_AUTH_STORE_INJECT);
 const { loggedIn } = authInfo.value;
 
-onBeforeMount(() => {
+// =====
+
+const props = defineProps({
+  internal: Boolean,
+});
+
+// =====
+
+onBeforeMount(async () => {
   loading.value = true;
   console.log(FILENAME, 'beforeMount', 'start');
 
   if (loggedIn) {
     console.log(FILENAME, 'Already logged in');
+    await router.push('/');
     loading.value = false;
-    router.push('/');
-    loading.value = false;
-
     return;
   }
 
   console.log(FILENAME, 'beforeMount', 'end');
   loading.value = false;
-});
-
-
-const props = defineProps({
-  internal: Boolean,
 });
 
 
@@ -58,9 +56,6 @@ const gender = ref(null);
 
 // Internal functions
 
-/**
- * @param {Event} e
- */
 async function register(e) {
   e.preventDefault();
   console.log('register');

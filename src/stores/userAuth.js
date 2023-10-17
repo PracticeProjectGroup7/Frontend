@@ -1,9 +1,8 @@
+const FILENAME = 'stores/userAuth';
+
 import { defineStore } from 'pinia';
 
 import { API_BASE_PATH } from '../config';
-
-const FILENAME = 'stores/userAuth';
-
 
 const AUTH_TOKEN = 'auth_token';
 const AUTH_INFO = 'auth_info';
