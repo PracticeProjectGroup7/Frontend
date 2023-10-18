@@ -46,6 +46,9 @@ const labels = computed(() => {
   };
 });
 
+function closeModal() {
+  emit('update:modalOpen', false);
+}
 
 </script>
 
@@ -85,19 +88,20 @@ const labels = computed(() => {
       </div>
 
       <div class="modal-action">
-        <RouterLink :to="{ name: ROUTE_APPT_BILL, props: { 'billId': appointmentDetails.billId } }" class="custom-btn-outline">
+        <RouterLink :to="{ name: ROUTE_APPT_BILL, params: { billId: appointmentDetails.billId } }"
+          class="custom-btn-outline">
           View Bills
         </RouterLink>
-        <button v-on:click='emit("update:modalOpen", false)'> Close </button>
+        <button v-on:click="closeModal"> Close </button>
       </div>
     </div>
 
-    <div class="modal-backdrop" v-on:click='emit("update:modalOpen", false)'>
+    <div class="modal-backdrop" v-on:click="closeModal">
       <button>close</button>
     </div>
   </dialog>
 </template>
 
 <style scoped>
-  @import './modalStyle.css';
+@import './modalStyle.css';
 </style>

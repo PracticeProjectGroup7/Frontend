@@ -5,6 +5,7 @@ import { computed, onBeforeMount, ref, inject, defineEmits } from 'vue';
 import { RouterLink } from 'vue-router';
 
 import AppointmentListItem from './AppointmentListItem.vue';
+import AppointmentDetailsModal from '../Modals/AppointmentDetailsModal.vue';
 
 // =====
 
@@ -16,9 +17,10 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['openModal']);
-
 // =====
+
+const selectedAppointment = ref(null);
+const modalOpen = ref(false);
 
 onBeforeMount(() => {
   console.log(FILENAME, 'beforeMount', 'start');
@@ -26,9 +28,17 @@ onBeforeMount(() => {
   console.log(FILENAME, 'beforeMount', 'end');
 });
 
-function _handleOpenModal({ type, appointmentId }) {
-  console.log(FILENAME, '_handleOpenModal', { type, appointmentId });
-  emit('openModal', { type, appointmentId });
+function _handleOpenModal({ appointmentId }) {
+  console.log(FILENAME, '_handleOpenModal', appointmentId);
+
+  for (let i = 0; i < props.appointmentList.length; i++) {
+    if (props.appointmentList[i].appointmentId === appointmentId) {
+      selectedAppointment.value = props.appointmentList[i];
+      break;
+    }
+  }
+
+  modalOpen.value = true;
 }
 
 </script>
@@ -43,6 +53,7 @@ function _handleOpenModal({ type, appointmentId }) {
       </tbody>
     </table>
   </div>
+  <AppointmentDetailsModal :appointmentDetails="selectedAppointment" v-if="modalOpen" v-model:modalOpen="modalOpen" />
 </template>
 
 <style>

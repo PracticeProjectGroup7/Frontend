@@ -9,7 +9,6 @@ import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 
 import NotFoundBanner from '../components/static/NotFoundBanner.vue';
 import URLCorrectBanner from '../components/static/URLCorrectBanner.vue';
-import AppointmentDetailsModal from '../components/Modals/AppointmentDetailsModal.vue';
 import AppointmentList from '../components/Appointments/AppointmentList.vue';
 
 import { mixedAppointmentList } from '../_dummy_data/appointments';
@@ -33,14 +32,8 @@ const props = defineProps({
 
 const loading = ref(true);
 const actualPatientId = ref(-1);
-const modalOpen = ref(false);
 const appointmentList = ref([]);
-appointmentList.value = mixedAppointmentList;
-const selectedAppointment = ref(null);
-
-watch(modalOpen, (e) => {
-  console.log(FILENAME, 'watch modalOpen', e);
-});
+appointmentList.value = mixedAppointmentList; // TODO : remove
 
 onBeforeMount(async () => {
   loading.value = true;
@@ -92,27 +85,6 @@ function determineActualPatientId() {
   return -1;
 };
 
-function _handleOpenModal({ appointmentId }) {
-  console.log(FILENAME, '_handleOpenModal', appointmentId);
-  loading.value = true;
-
-  //
-  // Is there any data we need ?
-  //
-  //
-
-  for (let i = 0; i < appointmentList.value.length; i++) {
-    if (appointmentList.value[i].appointmentId === appointmentId) {
-      selectedAppointment.value = appointmentList.value[i];
-      break;
-    }
-  }
-
-  modalOpen.value = true;
-
-  loading.value = false;
-}
-
 const allowedToView = computed(() => {
   return actualPatientId.value != '-1';
 });
@@ -134,12 +106,10 @@ const _isPrivelegedUser = computed(() => {
         }"></span>
       </div>
     </div>
-    <div v-if="allowedToView" class="col-md-10 offset-md-1">
-      <AppointmentList @openModal="_handleOpenModal" :appointmentList="appointmentList" />
+    <div v-if="allowedToView">
+      <AppointmentList :appointmentList="appointmentList" />
     </div>
   </div>
-
-  <AppointmentDetailsModal :appointmentDetails="selectedAppointment" v-if="modalOpen" v-model:modalOpen="modalOpen" />
 </template>
 
 <style>

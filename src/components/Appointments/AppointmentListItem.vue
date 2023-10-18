@@ -39,7 +39,7 @@ let appointmentType = computed(() => {
 });
 
 function _handleOpenModal() {
-  console.log(FILENAME, 'openModal');
+  console.log(FILENAME, '_handleOpenModal');
   emit('openModal', { type: appointmentType.value, appointmentId: props.appointmentInfo.appointmentId });
 }
 
