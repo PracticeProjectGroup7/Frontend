@@ -12,6 +12,7 @@ const ROUTE_REGISTER = 'ROUTE_REGISTER';
 const ROUTE_LOGIN_INTERNAL = 'ROUTE_LOGIN_INTERNAL';
 const ROUTE_APPT_HISTORY_SELF = 'ROUTE_APPT_HISTORY_SELF';
 const ROUTE_APPT_HISTORY_OTHERS = 'ROUTE_APPT_HISTORY_OTHERS';
+const ROUTE_APPT_BILL = 'ROUTE_APPT_BILL';
 
 const routes = [
   {
@@ -46,6 +47,12 @@ const routes = [
     component: AppointmentHistoryView,
     props: true,
   },
+  {
+    path: '/appointment-bill/:billId',
+    name: ROUTE_APPT_BILL,
+    component: AppointmentBillView,
+    props: true,
+  },
 ];
 
 const router = createRouter({
@@ -58,6 +65,7 @@ export {
   ROUTE_HOME,
   ROUTE_LOGIN, ROUTE_LOGIN_INTERNAL, ROUTE_REGISTER,
   ROUTE_APPT_HISTORY_SELF, ROUTE_APPT_HISTORY_OTHERS,
+  ROUTE_APPT_BILL,
 };
 
 export default router;
