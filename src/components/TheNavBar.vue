@@ -6,10 +6,12 @@ import { computed, ref } from 'vue';
 import { inject } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 
-// =====
+import { ROUTE_HOME, ROUTE_LOGIN } from '../router';
 
 import { userAuthStore as _userAuthStore } from '../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
+
+// =====
 
 const { authInfo } = inject(USER_AUTH_STORE_INJECT);
 const { loggedIn, role: userRole, userInfo } = authInfo.value;
@@ -39,7 +41,7 @@ const placeHolder = computed(() => {
     <div class="w-full md:w-3/4 max-w-screen-xl mx-auto pt-1 pb-0 navbar text-base-content">
 
       <div class="navbar-start">
-        <RouterLink :to="{ name: 'home' }" class="btn btn-ghost normal-case text-2xl">
+        <RouterLink :to="{ name: ROUTE_HOME }" class="btn btn-ghost normal-case text-2xl">
           {{ appName }}
         </RouterLink>
       </div>
@@ -83,7 +85,7 @@ const placeHolder = computed(() => {
           </div>
         </template>
         <template v-else>
-          <RouterLink :to="{ name: 'login' }" class="btn">
+          <RouterLink :to="{ name: ROUTE_LOGIN }" class="btn">
             Login
           </RouterLink>
         </template>
@@ -118,5 +120,4 @@ const placeHolder = computed(() => {
     @apply font-bold border-b-2 border-black;
   }
 }
-
 </style>

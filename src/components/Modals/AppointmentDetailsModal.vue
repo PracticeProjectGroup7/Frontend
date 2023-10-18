@@ -3,6 +3,7 @@ const FILENAME = 'AppointmentDetailsModal.vue';
 
 import { computed, onBeforeMount } from 'vue';
 
+import { ROUTE_APPT_BILL } from '../../router';
 import { mixedAppointmentList } from '../../_dummy_data/appointments';
 
 // ==
@@ -50,11 +51,11 @@ const labels = computed(() => {
 
 <template>
   <dialog class="modal modal-open">
-    <div class="modal-box p-0 rounded-xl">
+    <div class="modal-box">
 
-      <div class="font-bold text-lg px-6 py-4 border-b-2 border-neutral-300">{{ labels.modalTitle }}</div>
+      <div class="custom-modal-title">{{ labels.modalTitle }}</div>
 
-      <div class="px-6 py-6 modal-body">
+      <div class="modal-body">
 
         <div>
           <div class="font-bold text-md pb-2">{{ labels.provider }}</div>
@@ -84,7 +85,9 @@ const labels = computed(() => {
       </div>
 
       <div class="modal-action">
-        <button class="btn-outline"> View Bills </button>
+        <RouterLink :to="{ name: ROUTE_APPT_BILL, props: { 'billId': appointmentDetails.billId } }" class="custom-btn-outline">
+          View Bills
+        </RouterLink>
         <button v-on:click='emit("update:modalOpen", false)'> Close </button>
       </div>
     </div>
@@ -96,11 +99,5 @@ const labels = computed(() => {
 </template>
 
 <style scoped>
-.modal-action {
-  @apply px-6 py-4 border-t-2 border-neutral-300 my-0;
-
-  button {
-    @apply btn btn-neutral rounded-md;
-  }
-}
+  @import './modalStyle.css';
 </style>

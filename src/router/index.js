@@ -4,37 +4,45 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/accounts/LoginView.vue';
 import RegisterView from '../views/accounts/RegisterView.vue';
 import AppointmentHistoryView from '../views/AppointmentHistory.vue';
+import AppointmentBillView from '../views/AppointmentBill.vue';
+
+const ROUTE_HOME = 'ROUTE_HOME';
+const ROUTE_LOGIN = 'ROUTE_LOGIN';
+const ROUTE_REGISTER = 'ROUTE_REGISTER';
+const ROUTE_LOGIN_INTERNAL = 'ROUTE_LOGIN_INTERNAL';
+const ROUTE_APPT_HISTORY_SELF = 'ROUTE_APPT_HISTORY_SELF';
+const ROUTE_APPT_HISTORY_OTHERS = 'ROUTE_APPT_HISTORY_OTHERS';
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: ROUTE_HOME,
     component: HomeView,
   },
   {
     path: '/login',
-    name: 'login',
+    name: ROUTE_LOGIN,
     component: LoginView,
   },
   {
     path: '/register',
-    name: 'register',
+    name: ROUTE_REGISTER,
     component: RegisterView,
   },
   {
     path: '/_internal/login',
-    name: 'internal_login',
+    name: ROUTE_LOGIN_INTERNAL,
     component: LoginView,
     props: { internal: true },
   },
   {
     path: '/appointment-history',
-    name: 'appointment_history_self',
+    name: ROUTE_APPT_HISTORY_SELF,
     component: AppointmentHistoryView,
   },
   {
     path: '/appointment-history/:patientId',
-    name: 'appointment_history_others',
+    name: ROUTE_APPT_HISTORY_OTHERS,
     component: AppointmentHistoryView,
     props: true,
   },
@@ -45,6 +53,11 @@ const router = createRouter({
   routes: routes,
 });
 
-export { routes };
+export {
+  routes,
+  ROUTE_HOME,
+  ROUTE_LOGIN, ROUTE_LOGIN_INTERNAL, ROUTE_REGISTER,
+  ROUTE_APPT_HISTORY_SELF, ROUTE_APPT_HISTORY_OTHERS,
+};
 
 export default router;

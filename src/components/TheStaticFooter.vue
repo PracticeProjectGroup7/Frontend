@@ -1,7 +1,7 @@
 <script setup>
-const FILENAME = 'TheNavBar.vue';
+const FILENAME = 'TheStaticFooter.vue';
 
-const props = defineProps({
+defineProps({
   buildInfo: {
     type: String,
     required: false,

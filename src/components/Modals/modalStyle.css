@@ -1,0 +1,25 @@
+.custom-modal-title {
+  @apply font-bold text-lg px-6 py-4 border-b-2 border-neutral-300;
+}
+
+.modal-body {
+  @apply px-6 py-6;
+}
+
+.modal-box {
+  @apply p-0 rounded-xl;
+}
+
+.modal-action {
+  @apply px-6 py-4 border-t-2 border-neutral-300 my-0;
+
+  a,
+  button {
+    @apply btn btn-neutral rounded-md;
+  }
+
+  a.custom-btn-outline,
+  button.custom-btn-outline {
+    @apply btn-outline;
+  }
+}

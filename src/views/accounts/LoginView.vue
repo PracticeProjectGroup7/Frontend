@@ -10,6 +10,7 @@ import { userAuthStore as _userAuthStore } from '../../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 import StaticHero from '../../components/static/StaticHero.vue';
+import { ROUTE_REGISTER } from '../../router';
 
 // =====
 
@@ -109,7 +110,7 @@ async function login(e) {
 
         <div v-if="!internal" class="join join-vertical w-full">
           <label class="label pb-0 px-0">
-            <RouterLink class="link_to_other" :to="{ name: 'register' }">
+            <RouterLink class="link_to_other" :to="{ name: ROUTE_REGISTER }">
               Don't have an account yet ? Register here"
             </RouterLink>
           </label>
