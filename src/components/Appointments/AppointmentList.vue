@@ -6,15 +6,13 @@ import { RouterLink } from 'vue-router';
 
 import AppointmentListItem from './AppointmentListItem.vue';
 
-import { mixedAppointmentList } from '../../_dummy_data/appointments';
-
 // =====
 
 const props = defineProps({
   appointmentList: {
     type: Array,
     required: true,
-    default: () => mixedAppointmentList,
+    default: () => [],
   },
 });
 
@@ -28,8 +26,8 @@ onBeforeMount(() => {
   console.log(FILENAME, 'beforeMount', 'end');
 });
 
-function openModal({ type, appointmentId }) {
-  console.log(FILENAME, 'openModal', { type, appointmentId });
+function _handleOpenModal({ type, appointmentId }) {
+  console.log(FILENAME, '_handleOpenModal', { type, appointmentId });
   emit('openModal', { type, appointmentId });
 }
 
@@ -41,7 +39,7 @@ function openModal({ type, appointmentId }) {
       <table class="table">
         <tbody>
           <template v-for="(appointment) in appointmentList" :key="appointment.id">
-            <AppointmentListItem :appointmentInfo="appointment" @openModal="openModal" />
+            <AppointmentListItem :appointmentInfo="appointment" @openModal="_handleOpenModal" />
           </template>
         </tbody>
       </table>

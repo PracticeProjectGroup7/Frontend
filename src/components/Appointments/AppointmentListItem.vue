@@ -38,7 +38,7 @@ let appointmentType = computed(() => {
   return props.appointmentInfo.appointmentType;
 });
 
-function openModal() {
+function _handleOpenModal() {
   console.log(FILENAME, 'openModal');
   emit('openModal', { type: appointmentType.value, appointmentId: props.appointmentInfo.appointmentId });
 }
@@ -70,10 +70,10 @@ function openModal() {
         </button>
       </template>
       <template v-else>
-        <button v-if="appointmentType == 'lab'" class="link p-2 link-secondary" v-on:click="openModal">
+        <button v-if="appointmentType == 'lab'" class="link p-2 link-secondary" v-on:click="_handleOpenModal">
           See test results
         </button>
-        <button v-if="appointmentType == 'doctor'" class="link p-2 link-secondary" v-on:click="openModal">
+        <button v-if="appointmentType == 'doctor'" class="link p-2 link-secondary" v-on:click="_handleOpenModal">
           See details
         </button>
       </template>

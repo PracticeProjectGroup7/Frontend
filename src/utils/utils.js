@@ -1,7 +1,7 @@
-function isPrivelegedUser(userRole) {
-  return userRole == 'admin' || userRole == 'staff';
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
 };
 
 export {
-  isPrivelegedUser,
+  getRandomInt,
 };
