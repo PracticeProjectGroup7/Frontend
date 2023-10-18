@@ -52,7 +52,9 @@ provide(USER_AUTH_STORE_INJECT, {
 <template>
   <TheNavBar :appName=HOME_NAME />
 
-  <RouterView class="mx-auto min-h-screen bg-base-100" :key="$route.fullPath"/>
+  <div class="mx-auto bg-base-100 min-h-screen">
+    <RouterView :key="$route.fullPath"/>
+  </div>
 
   <TheStaticFooter :buildInfo="BUILD_INFO"/>
 </template>

@@ -124,7 +124,7 @@ const _isPrivelegedUser = computed(() => {
 </script>
 
 <template data-theme="corporate">
-  <div class="px-3 mt-2">
+  <div>
     <NotFoundBanner v-if="!loading && !allowedToView" />
     <URLCorrectBanner v-if="!loading && !allowedToView && _isPrivelegedUser" />
     <div>

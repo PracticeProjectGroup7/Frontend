@@ -35,16 +35,13 @@ function _handleOpenModal({ type, appointmentId }) {
 
 <template data-theme="corporate">
   <div class="w-1/2 mx-auto">
-    <div class="overflow-x-auto">
-      <table class="table">
-        <tbody>
-          <template v-for="(appointment) in appointmentList" :key="appointment.id">
-            <AppointmentListItem :appointmentInfo="appointment" @openModal="_handleOpenModal" />
-          </template>
-        </tbody>
-      </table>
-    </div>
-
+    <table class="table">
+      <tbody>
+        <template v-for="(appointment) in appointmentList" :key="appointment.id">
+          <AppointmentListItem :appointmentInfo="appointment" @openModal="_handleOpenModal" />
+        </template>
+      </tbody>
+    </table>
   </div>
 </template>
 
