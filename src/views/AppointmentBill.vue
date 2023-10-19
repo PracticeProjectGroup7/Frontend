@@ -4,7 +4,7 @@ const FILENAME = 'AppointmentBill.vue';
 import { computed, onBeforeMount, ref, inject, onMounted, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 
-import { isPrivelegedUser } from '../utils/permissions';
+import { isPrivilegedUser } from '../utils/permissions';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 
 import NotFoundBanner from '../components/static/NotFoundBanner.vue';

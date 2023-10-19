@@ -4,7 +4,7 @@ const FILENAME = 'AppointmentHistory.vue';
 import { computed, onBeforeMount, ref, inject, onMounted, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 
-import { isPrivelegedUser } from '../utils/permissions';
+import { isPrivilegedUser } from '../utils/permissions';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 
 import NotFoundBanner from '../components/static/NotFoundBanner.vue';
@@ -66,7 +66,7 @@ onBeforeMount(async () => {
 // Priveleged User -> Patient Id must be present
 // Non Priveleged User -> Patient Id must not be present OR must be equal to Patient Id
 function determineActualPatientId() {
-  if (isPrivelegedUser(userRole)) {
+  if (isPrivilegedUser(userRole)) {
     if (props.patientId == '-1') {
       return -1;
     }
@@ -89,8 +89,8 @@ const allowedToView = computed(() => {
   return actualPatientId.value != '-1';
 });
 
-const _isPrivelegedUser = computed(() => {
-  return isPrivelegedUser(userRole);
+const _isPrivilegedUser = computed(() => {
+  return isPrivilegedUser(userRole);
 });
 
 </script>
@@ -98,7 +98,7 @@ const _isPrivelegedUser = computed(() => {
 <template data-theme="corporate">
   <div>
     <NotFoundBanner v-if="!loading && !allowedToView" />
-    <URLCorrectBanner v-if="!loading && !allowedToView && _isPrivelegedUser" />
+    <URLCorrectBanner v-if="!loading && !allowedToView && _isPrivilegedUser" />
     <div>
       <div class="text-center w-full">
         <span class="custom_loading" :style="{
