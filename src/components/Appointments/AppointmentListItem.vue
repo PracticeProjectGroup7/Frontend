@@ -7,6 +7,7 @@ import { RouterLink } from 'vue-router';
 import IconLabTest from '../icons/IconLabTest.vue';
 import IconDoctor from '../icons/IconDoctor.vue';
 
+import { humanizeDate } from '../../utils/utils';
 
 import { BOOKING_TYPE_LAB, BOOKING_TYPE_DOCTOR } from '../../config/constants';
 
@@ -29,8 +30,8 @@ onBeforeMount(() => {
 
 // Internal functions
 
-let humanDate = computed(() => {
-  return (new Date(parseInt(props.appointmentInfo.appointmentDate, 10))).toDateString();
+let appointmentDate = computed(() => {
+  return humanizeDate(props.appointmentInfo.appointmentDate);
 });
 
 let isInFuture = computed(() => {
