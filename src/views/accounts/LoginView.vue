@@ -44,7 +44,6 @@ onBeforeMount(async () => {
 });
 
 
-
 // Internal Data
 const displayError = ref(null);
 const loading = ref(false);
@@ -76,7 +75,7 @@ async function login(e) {
 
 <template data-theme="corporate">
   <body>
-    <StaticHero v-if="!internal"/>
+    <StaticHero v-if="!internal" />
 
     <div class="w-1/3 mx-auto">
       <form action="/" method="POST" v-on:submit="login" class="login_regiser_form">
@@ -104,8 +103,8 @@ async function login(e) {
         <div class="join join-vertical w-full">
           <label class="form_label_label py-0 -my-2">
           </label>
-          <input v-if="!internal" type="submit" value="Login" class="main_btn" placeholder="lisndn"/>
-          <input v-else type="submit" value="Hospital Staff Login" class="main_btn" placeholder="lisndn"/>
+          <input v-if="!internal" type="submit" value="Login" class="main_btn" placeholder="lisndn" />
+          <input v-else type="submit" value="Hospital Staff Login" class="main_btn" placeholder="lisndn" />
         </div>
 
         <div v-if="!internal" class="join join-vertical w-full">

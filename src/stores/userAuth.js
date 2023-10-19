@@ -7,7 +7,7 @@ import { API_BASE_PATH } from '../config';
 const AUTH_TOKEN = 'auth_token';
 const AUTH_INFO = 'auth_info';
 
-import { USER_AUTH_STORE_NAME } from './index';
+import { USER_AUTH_STORE_NAME } from './storeNames';
 
 export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
   state: () => {
