@@ -81,7 +81,7 @@ onBeforeMount(async () => {
         }"></span>
       </div>
     </div>
-    <div v-if="!loading" class="w-1/2 mx-auto">
+    <div v-if="!loading" class="w-2/5 mx-auto">
       <AppointmentBill :billDetails="billDetails" />
     </div>
   </div>

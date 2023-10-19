@@ -1,4 +1,6 @@
 import { BOOKING_TYPE_LAB, BOOKING_TYPE_DOCTOR } from '../config/constants';
+import { PAYMENT_STATS_PAID, PAYMENT_STATS_UNPAID } from '../config/constants';
+
 const doctorAppointment = {
 
 };
@@ -49,7 +51,7 @@ const mixedAppointmentList = [
 
 const bill = {
   billId: '787t6tg',
-  status: 'unpaid',
+  paymentStatus: PAYMENT_STATS_UNPAID,
   serviceType: BOOKING_TYPE_DOCTOR,
   appointmentDate: '1696550286000',
   appointmentPerson: 'Dr. Greg Stone',
