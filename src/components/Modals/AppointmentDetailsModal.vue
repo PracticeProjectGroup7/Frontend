@@ -6,6 +6,8 @@ import { computed, onBeforeMount } from 'vue';
 import { ROUTE_APPT_BILL } from '../../router';
 import { mixedAppointmentList } from '../../_dummy_data/appointments';
 
+import { BOOKING_TYPE_DOCTOR } from '../../config/constants';
+
 // ==
 
 const props = defineProps({
@@ -31,7 +33,7 @@ onBeforeMount(() => {
 
 
 const labels = computed(() => {
-  return props.appointmentDetails.appointmentType == 'doctor' ? {
+  return props.appointmentDetails.appointmentType == BOOKING_TYPE_DOCTOR ? {
     modalTitle: 'Appointment Details',
     provider: 'Physician',
     details: 'Department',

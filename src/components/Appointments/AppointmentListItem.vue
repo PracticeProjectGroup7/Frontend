@@ -7,6 +7,10 @@ import { RouterLink } from 'vue-router';
 import IconLabTest from '../icons/IconLabTest.vue';
 import IconDoctor from '../icons/IconDoctor.vue';
 
+import { humanizeDate } from '../../utils/utils';
+
+import { BOOKING_TYPE_LAB, BOOKING_TYPE_DOCTOR } from '../../config/constants';
+
 // =====
 
 const props = defineProps({
@@ -26,8 +30,8 @@ onBeforeMount(() => {
 
 // Internal functions
 
-let humanDate = computed(() => {
-  return (new Date(parseInt(props.appointmentInfo.appointmentDate, 10))).toDateString();
+let appointmentDate = computed(() => {
+  return humanizeDate(props.appointmentInfo.appointmentDate);
 });
 
 let isInFuture = computed(() => {
@@ -50,14 +54,14 @@ function _handleOpenModal() {
     <td>
       <div class="flex items-center justify-center">
         <div class="w-12 h-12">
-          <IconLabTest v-if="appointmentType == 'lab'" />
-          <IconDoctor v-if="appointmentType == 'doctor'" />
+          <IconLabTest v-if="appointmentType == BOOKING_TYPE_LAB" />
+          <IconDoctor v-if="appointmentType == BOOKING_TYPE_DOCTOR" />
         </div>
       </div>
     </td>
     <td>
       <div>
-        <div class="font-medium"> {{ humanDate }}
+        <div class="font-medium"> {{ appointmentDate }}
           <span v-if="isInFuture" class="upcoming-badge">Upcoming</span>
         </div>
         <div class="font-bold py-2">INFO</div>
@@ -70,10 +74,11 @@ function _handleOpenModal() {
         </button>
       </template>
       <template v-else>
-        <button v-if="appointmentType == 'lab'" class="link p-2 link-secondary" v-on:click="_handleOpenModal">
+        <button v-if="appointmentType == BOOKING_TYPE_LAB" class="link p-2 link-secondary" v-on:click="_handleOpenModal">
           See test results
         </button>
-        <button v-if="appointmentType == 'doctor'" class="link p-2 link-secondary" v-on:click="_handleOpenModal">
+        <button v-if="appointmentType == BOOKING_TYPE_DOCTOR" class="link p-2 link-secondary"
+          v-on:click="_handleOpenModal">
           See details
         </button>
       </template>

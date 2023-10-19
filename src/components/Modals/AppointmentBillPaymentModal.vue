@@ -1,9 +1,9 @@
 <script setup>
 const FILENAME = 'AppointmentBillPaymentModal.vue';
 
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 
-import { mixedAppointmentList } from '../../_dummy_data/appointments';
+import { PAYMENT_STATS_PAID, PAYMENT_STATS_UNPAID } from '../../config/constants';
 
 // ==
 
@@ -22,9 +22,15 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modalOpen', 'updateBillStatus']);
 
+const paymentStatus = ref(PAYMENT_STATS_UNPAID);
+
 onBeforeMount(() => {
   console.log(FILENAME, 'beforeMount', 'start');
   console.log(FILENAME, props.billDetails);
+
+  paymentStatus.value = props.billDetails.paymentStatus;
+  console.log(FILENAME, paymentStatus);
+
   console.log(FILENAME, 'beforeMount', 'end');
 });
 
@@ -35,9 +41,12 @@ function closeModal() {
 
 function updatePayment() {
   console.log(FILENAME, 'updatePayment');
-  emit('updateBillStatus', { billId: 'jjj', status: 'status' });
+  emit('updateBillStatus', { paymentStatus: paymentStatus.value });
 }
 
+const updateButtonDisabled = computed(() => {
+  return paymentStatus.value == props.billDetails.paymentStatus;
+});
 
 </script>
 
@@ -51,27 +60,30 @@ function updatePayment() {
 
       <div class="modal-body">
 
-        <div>
-          <span class="font-bold text-md pb-2"> Current Status </span>
-          <span class="text-md">{{ billDetails.billStatus }}</span>
+        <div class="mb-4">
+          <div class="font-bold text-md w-1/2 inline-block"> Current Status </div>
+          <div class="text-md font-semibold w-1/2 inline-block capitalize">{{ billDetails.billStatus ||
+            PAYMENT_STATS_UNPAID }}</div>
         </div>
 
-        <div>
-          <span class="font-bold text-md pb-2"> New Status </span>
-          <span class="text-md">
-            <select class="select select-bordered w-full max-w-xs">
-              <option disabled selected>Who shot first?</option>
-              <option>Han Solo</option>
-              <option>Greedo</option>
+        <div class="mb-4">
+          <div class="font-bold text-md w-1/2 inline-block"> New Status </div>
+          <div class="text-md w-1/2 inline-block">
+            <select class="select select-bordered w-full max-w-xs font-semibold text-base capitalize"
+              v-model="paymentStatus">
+              <option disabled>Select bill status</option>
+              <option :value="PAYMENT_STATS_PAID">Paid</option>
+              <option :value="PAYMENT_STATS_UNPAID">Unpaid</option>
             </select>
-          </span>
+          </div>
         </div>
 
       </div>
 
       <div class="modal-action">
         <button v-on:click="closeModal" class="custom-btn-outline"> Cancel </button>
-        <button v-on:click="updatePayment"> Update Status </button>
+
+        <button v-on:click="updatePayment" :disabled="updateButtonDisabled" autocomplete="off"> Update Status </button>
       </div>
     </div>
 

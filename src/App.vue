@@ -12,10 +12,12 @@ import { userAuthStore as _userAuthStore } from './stores/userAuth';
 import { HOME_NAME, BUILD_INFO } from './config';
 import { USER_AUTH_STORE_INJECT, USER_AUTH_STORE_INJECT_TESTING } from './config/injectKeys';
 
+import { ROLE_ADMIN } from './config/constants';
+
 // =====
 
-let loggedIn = false;
-let role = 'admin';
+let loggedIn = true; // TODO
+let role = ROLE_ADMIN; // TODO
 let userInfo = { name: 'Dummy User', userId: '12233636' };
 
 if (_userAuthStore.loggedIn && _userAuthStore.userInfo.role) {
@@ -38,6 +40,7 @@ if (tetsingAuthInfo) {
 const authInfo = ref({ loggedIn, role, userInfo });
 const login = (loginInfo) => {
   console.log(FILENAME, 'loginInfo', 'called with', loginInfo);
+
   authInfo.value.loggedIn = true;
   authInfo.value.role = true;
 };
@@ -53,9 +56,9 @@ provide(USER_AUTH_STORE_INJECT, {
   <TheNavBar :appName=HOME_NAME />
 
   <div class="mx-auto bg-base-100 min-h-screen">
-    <RouterView :key="$route.fullPath"/>
+    <RouterView :key="$route.fullPath" />
   </div>
 
-  <TheStaticFooter :buildInfo="BUILD_INFO"/>
+  <TheStaticFooter :buildInfo="BUILD_INFO" />
 </template>
 
