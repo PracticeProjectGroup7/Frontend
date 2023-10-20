@@ -3,35 +3,38 @@ const FILENAME = 'LoginVue.vue';
 
 import { onBeforeMount } from 'vue';
 import { computed, ref } from 'vue';
+import { inject } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 
 import { userAuthStore as _userAuthStore } from '../../stores/userAuth';
+import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 import StaticHero from '../../components/static/StaticHero.vue';
 
-
-// Static stuff
+// =====
 
 const router = useRouter();
 const userAuthStore = _userAuthStore();
 
-// computed
+const { authInfo, login: appLogin } = inject(USER_AUTH_STORE_INJECT);
+const { loggedIn } = authInfo.value;
 
-const loggedIn = computed(() => {
-  // return userAuthStore.loggedIn;
-  return false;
+// =====
+
+const props = defineProps({
+  internal: Boolean,
 });
 
-onBeforeMount(() => {
+// =====
+
+onBeforeMount(async () => {
   loading.value = true;
   console.log(FILENAME, 'beforeMount', 'start');
 
-  if (loggedIn.value) {
+  if (loggedIn) {
     console.log(FILENAME, 'Already logged in');
+    await router.push('/');
     loading.value = false;
-    router.push('/');
-    loading.value = false;
-
     return;
   }
 
@@ -40,24 +43,16 @@ onBeforeMount(() => {
 });
 
 
-const props = defineProps({
-  internal: Boolean,
-});
 
-
-// Internall Data
+// Internal Data
 const displayError = ref(null);
 const loading = ref(false);
 
 const email = ref(null);
 const password = ref(null);
 
-
 // Internal functions
 
-/**
- * @param {Event} e
- */
 async function login(e) {
   e.preventDefault();
   console.log('login');
@@ -67,8 +62,13 @@ async function login(e) {
 
   displayError.value = null;
 
-
   const result = await props.internal ? (userAuthStore.privelegedLogin(email, password)) : (userAuthStore.login(email, password));
+
+  // ...
+  // ...
+  // ...
+
+  appLogin({ kk: 'lll' });
 }
 
 </script>

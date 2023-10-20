@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import HomeView from '../views/HomeView.vue';
+import LoginView from '../views/accounts/LoginView.vue';
+import RegisterView from '../views/accounts/RegisterView.vue';
+import AppointmentHistoryView from '../views/AppointmentHistory.vue';
 
 const routes = [
   {
@@ -9,47 +12,32 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/AboutView.vue'),
-  },
-  {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/accounts/LoginView.vue'),
+    component: LoginView,
   },
   {
     path: '/register',
     name: 'register',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/accounts/RegisterView.vue'),
+    component: RegisterView,
   },
   {
     path: '/_internal/login',
     name: 'internal_login',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/accounts/LoginView.vue'),
+    component: LoginView,
     props: { internal: true },
   },
-  // {
-  //   path: '/_internal/register',
-  //   name: 'internal_register',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (About.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import('../views/RegisterView.vue'),
-  //   props: { internal: true },
-  // },
+  {
+    path: '/appointment-history',
+    name: 'appointment_history_self',
+    component: AppointmentHistoryView,
+  },
+  {
+    path: '/appointment-history/:patientId',
+    name: 'appointment_history_others',
+    component: AppointmentHistoryView,
+    props: true,
+  },
 ];
 
 const router = createRouter({

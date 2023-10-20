@@ -1,5 +1,6 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue';
+const FILENAME = 'HomeView.vue';
+
 </script>
 
 <template>
