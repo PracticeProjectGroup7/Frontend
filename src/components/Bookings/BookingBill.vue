@@ -1,10 +1,10 @@
 <script setup>
-const FILENAME = 'AppointmentBill.vue';
+const FILENAME = 'BookingBill.vue';
 
 import { computed, onBeforeMount, ref, inject, onMounted, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 
-import AppointmentBillPaymentModal from '../Modals/AppointmentBillPaymentModal.vue';
+import BookingBillPaymentModal from '../Modals/BookingBillPaymentModal.vue';
 import { humanizeDate } from '../../utils/utils';
 
 import { PAYMENT_STATS_PAID, PAYMENT_STATS_UNPAID } from '../../config/constants';
@@ -67,7 +67,7 @@ function _updateBillStatus({ paymentStatus: newPaymentStatus }) {
 const _billDetails = computed(() => {
   return {
     ...props.billDetails,
-    appointmentDetails: `Appointment with ${props.billDetails.appointmentPerson} on ${humanizeDate(props.billDetails.appointmentDate)}`,
+    bookingDetails: `Booking with ${props.billDetails.bookingPerson} on ${humanizeDate(props.billDetails.bookingDate)}`,
     paymentStatus: paymentStatus.value,
     paymentDate: paymentTimestamp.value ? humanizeDate(paymentTimestamp.value) : '',
   };
@@ -101,7 +101,7 @@ const _billDetails = computed(() => {
     </div>
     <div class="mb-2 text-lg">
       <div class="font-bold">Details</div>
-      <div class="font-medium">{{ _billDetails.appointmentDetails }}</div>
+      <div class="font-medium">{{ _billDetails.bookingDetails }}</div>
     </div>
 
     <div class="mb-4">
@@ -133,7 +133,7 @@ const _billDetails = computed(() => {
 
   </div>
 
-  <AppointmentBillPaymentModal :billDetails="_billDetails" v-if="allowedToUpdatePayment && modalOpen"
+  <BookingBillPaymentModal :billDetails="_billDetails" v-if="allowedToUpdatePayment && modalOpen"
     v-model:modalOpen="modalOpen" @updateBillStatus="_updateBillStatus" />
 </template>
 

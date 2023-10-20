@@ -1,5 +1,5 @@
 <script setup>
-const FILENAME = 'AppointmentBill.vue';
+const FILENAME = 'BookingBill.vue';
 
 import { computed, onBeforeMount, ref, inject, onMounted, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
@@ -9,9 +9,9 @@ import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 
 import NotFoundBanner from '../components/static/NotFoundBanner.vue';
 import URLCorrectBanner from '../components/static/URLCorrectBanner.vue';
-import AppointmentBill from '../components/Appointments/AppointmentBill.vue';
+import BookingBill from '../components/Bookings/BookingBill.vue';
 
-import { mixedAppointmentList, bill as dummyBillDetails } from '../_dummy_data/appointments';
+import { mixedBookingList, bill as dummyBillDetails } from '../_dummy_data/bookings';
 
 // ====
 
@@ -60,7 +60,7 @@ onBeforeMount(async () => {
     loading.value = false;
 
     // GET THE DATA
-    // appointmentList.value = []
+    // bookingList.value = []
     //
   }
 
@@ -82,7 +82,7 @@ onBeforeMount(async () => {
       </div>
     </div>
     <div v-if="!loading" class="w-2/5 mx-auto">
-      <AppointmentBill :billDetails="billDetails" />
+      <BookingBill :billDetails="billDetails" />
     </div>
   </div>
 </template>

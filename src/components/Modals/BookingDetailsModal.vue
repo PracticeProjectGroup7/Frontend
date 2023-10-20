@@ -1,10 +1,10 @@
 <script setup>
-const FILENAME = 'AppointmentDetailsModal.vue';
+const FILENAME = 'BookingDetailsModal.vue';
 
 import { computed, onBeforeMount } from 'vue';
 
-import { ROUTE_APPT_BILL } from '../../router';
-import { mixedAppointmentList } from '../../_dummy_data/appointments';
+import { ROUTE_BOOKING_BILL } from '../../router';
+import { mixedBookingList } from '../../_dummy_data/bookings';
 
 import { BOOKING_TYPE_DOCTOR } from '../../config/constants';
 
@@ -16,7 +16,7 @@ const props = defineProps({
     required: true,
     default: false,
   },
-  appointmentDetails: {
+  bookingDetails: {
     type: Object,
     required: true,
     default: () => { },
@@ -27,13 +27,13 @@ const emit = defineEmits(['update:modalOpen']);
 
 onBeforeMount(() => {
   console.log(FILENAME, 'beforeMount', 'start');
-  console.log(FILENAME, props.appointmentDetails);
+  console.log(FILENAME, props.bookingDetails);
   console.log(FILENAME, 'beforeMount', 'end');
 });
 
 
 const labels = computed(() => {
-  return props.appointmentDetails.appointmentType == BOOKING_TYPE_DOCTOR ? {
+  return props.bookingDetails.bookingType == BOOKING_TYPE_DOCTOR ? {
     modalTitle: 'Appointment Details',
     provider: 'Physician',
     details: 'Department',
@@ -64,34 +64,33 @@ function closeModal() {
 
         <div>
           <div class="font-bold text-md pb-2">{{ labels.provider }}</div>
-          <div class="text-md">{{ appointmentDetails.appointmentId }}</div>
+          <div class="text-md">{{ bookingDetails.bookingId }}</div>
         </div>
 
         <div>
           <div class="font-bold text-md pb-2">{{ labels.details }}</div>
-          <div class="text-md">{{ appointmentDetails.appointmentId }}</div>
+          <div class="text-md">{{ bookingDetails.bookingId }}</div>
         </div>
 
         <div>
           <div class="font-bold text-md pb-2">{{ labels.date }}</div>
-          <div class="text-md">{{ appointmentDetails.appointmentId }}</div>
+          <div class="text-md">{{ bookingDetails.bookingId }}</div>
         </div>
 
         <div>
           <div class="font-bold text-md pb-2">{{ labels.result }}</div>
-          <div class="text-md">{{ appointmentDetails.appointmentId }}</div>
+          <div class="text-md">{{ bookingDetails.bookingId }}</div>
         </div>
 
         <div>
-          <div class="font-bold text-md pb-2">Appointment ID:</div>
-          <div class="text-md">{{ appointmentDetails.appointmentId }}</div>
+          <div class="font-bold text-md pb-2">Booking ID:</div>
+          <div class="text-md">{{ bookingDetails.bookingId }}</div>
         </div>
 
       </div>
 
       <div class="modal-action">
-        <RouterLink :to="{ name: ROUTE_APPT_BILL, params: { billId: appointmentDetails.billId } }"
-          class="custom-btn-outline">
+        <RouterLink :to="{ name: ROUTE_BOOKING_BILL, params: { billId: bookingDetails.billId } }" class="custom-btn-outline">
           View Bills
         </RouterLink>
         <button v-on:click="closeModal"> Close </button>

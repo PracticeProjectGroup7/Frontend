@@ -1,5 +1,5 @@
 <script setup>
-const FILENAME = 'AppointmentBillPaymentModal.vue';
+const FILENAME = 'BookingBillPaymentModal.vue';
 
 import { computed, onBeforeMount, ref } from 'vue';
 
