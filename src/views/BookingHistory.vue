@@ -1,5 +1,5 @@
 <script setup>
-const FILENAME = 'AppointmentHistory.vue';
+const FILENAME = 'BookingHistory.vue';
 
 import { computed, onBeforeMount, ref, inject, onMounted, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
@@ -9,9 +9,9 @@ import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 
 import NotFoundBanner from '../components/static/NotFoundBanner.vue';
 import URLCorrectBanner from '../components/static/URLCorrectBanner.vue';
-import AppointmentList from '../components/Appointments/AppointmentList.vue';
+import BookingList from '../components/Bookings/BookingList.vue';
 
-import { mixedAppointmentList } from '../_dummy_data/appointments';
+import { mixedBookingList } from '../_dummy_data/bookings';
 
 // ====
 
@@ -32,8 +32,8 @@ const props = defineProps({
 
 const loading = ref(true);
 const actualPatientId = ref(-1);
-const appointmentList = ref([]);
-appointmentList.value = mixedAppointmentList; // TODO : remove
+const bookingList = ref([]);
+bookingList.value = mixedBookingList; // TODO : remove
 
 onBeforeMount(async () => {
   loading.value = true;
@@ -53,7 +53,7 @@ onBeforeMount(async () => {
   if (actualPatientId.value != -1) {
     console.log(FILENAME, 'Getting Data', actualPatientId.value);
     // GET THE DATA
-    // appointmentList.value = []
+    // bookingList.value = []
     //
   }
 
@@ -107,7 +107,7 @@ const _isPrivilegedUser = computed(() => {
       </div>
     </div>
     <div v-if="allowedToView">
-      <AppointmentList :appointmentList="appointmentList" />
+      <BookingList :bookingList="bookingList" />
     </div>
   </div>
 </template>

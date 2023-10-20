@@ -116,24 +116,24 @@ async function register(e) {
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-        <div class="join join-vertical">
-          <label class="form_label_label">
-            <span class="form_label_span">DOB</span>
-          </label>
-          <input type="date" class="form_input" required minlength="8" v-model="dob" />
-        </div>
+          <div class="join join-vertical">
+            <label class="form_label_label">
+              <span class="form_label_span">DOB</span>
+            </label>
+            <input type="date" class="form_input" required minlength="8" v-model="dob" />
+          </div>
 
-        <div class="join join-vertical">
-          <label class="form_label_label">
-            <span class="form_label_span">Gender</span>
-          </label>
-          <select class="select form_input" required v-model="gender">
-            <option>Male</option>
-            <option>Female</option>
-            <option>Others</option>
-          </select>
+          <div class="join join-vertical">
+            <label class="form_label_label">
+              <span class="form_label_span">Gender</span>
+            </label>
+            <select class="select form_input" required v-model="gender">
+              <option>Male</option>
+              <option>Female</option>
+              <option>Others</option>
+            </select>
+          </div>
         </div>
-      </div>
 
         <div class="join join-vertical w-full">
           <label class="form_label_label py-0 -my-2">
