@@ -1,16 +1,17 @@
 <script setup>
-const FILENAME = 'AppointmentHistory.vue';
+const FILENAME = 'BookingHistory.vue';
 
-import { computed, onBeforeMount, ref, inject, onMounted } from 'vue';
+import { computed, onBeforeMount, ref, inject, onMounted, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 
-import { isPrivelegedUser } from '../utils/utils';
+import { isPrivilegedUser } from '../utils/permissions';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 
 import NotFoundBanner from '../components/static/NotFoundBanner.vue';
 import URLCorrectBanner from '../components/static/URLCorrectBanner.vue';
+import BookingList from '../components/Bookings/BookingList.vue';
 
-import AppointmentList from '../components/Appointments/AppointmentList.vue';
+import { mixedBookingList } from '../_dummy_data/bookings';
 
 // ====
 
@@ -31,6 +32,8 @@ const props = defineProps({
 
 const loading = ref(true);
 const actualPatientId = ref(-1);
+const bookingList = ref([]);
+bookingList.value = mixedBookingList; // TODO : remove
 
 onBeforeMount(async () => {
   loading.value = true;
@@ -50,6 +53,8 @@ onBeforeMount(async () => {
   if (actualPatientId.value != -1) {
     console.log(FILENAME, 'Getting Data', actualPatientId.value);
     // GET THE DATA
+    // bookingList.value = []
+    //
   }
 
   console.log(FILENAME, 'beforeMount', 'end');
@@ -61,7 +66,7 @@ onBeforeMount(async () => {
 // Priveleged User -> Patient Id must be present
 // Non Priveleged User -> Patient Id must not be present OR must be equal to Patient Id
 function determineActualPatientId() {
-  if (isPrivelegedUser(userRole)) {
+  if (isPrivilegedUser(userRole)) {
     if (props.patientId == '-1') {
       return -1;
     }
@@ -80,26 +85,20 @@ function determineActualPatientId() {
   return -1;
 };
 
-function openModal(args) {
-  console.log(FILENAME, 'openModal', args);
-
-  loading.value = true;
-}
-
 const allowedToView = computed(() => {
   return actualPatientId.value != '-1';
 });
 
-const _isPrivelegedUser = computed(() => {
-  return isPrivelegedUser(userRole);
+const _isPrivilegedUser = computed(() => {
+  return isPrivilegedUser(userRole);
 });
 
 </script>
 
 <template data-theme="corporate">
-  <div class="px-3 mt-2">
+  <div>
     <NotFoundBanner v-if="!loading && !allowedToView" />
-    <URLCorrectBanner v-if="!loading && !allowedToView && _isPrivelegedUser" />
+    <URLCorrectBanner v-if="!loading && !allowedToView && _isPrivilegedUser" />
     <div>
       <div class="text-center w-full">
         <span class="custom_loading" :style="{
@@ -107,8 +106,8 @@ const _isPrivelegedUser = computed(() => {
         }"></span>
       </div>
     </div>
-    <div v-if="allowedToView" class="col-md-10 offset-md-1">
-      <AppointmentList @openModal="openModal" />
+    <div v-if="allowedToView">
+      <BookingList :bookingList="bookingList" />
     </div>
   </div>
 </template>
