@@ -1,8 +1,10 @@
 <script setup>
+const FILENAME = 'DoctorAppointments.vue';
+
 import { ref, computed } from 'vue';
+
 import { doctorsCatalog } from '../../_dummy_data/servicesCatalog';
 
-const FILENAME = 'DoctorAppointments.vue';
 
 const props = defineProps({
   loggedIn: {

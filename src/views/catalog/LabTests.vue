@@ -1,8 +1,10 @@
 <script setup>
+const FILENAME = 'LabTests.vue';
+
 import { ref, computed } from 'vue';
+
 import { labTestCatalog } from '../../_dummy_data/servicesCatalog';
 
-const FILENAME = 'LabTests.vue';
 
 const props = defineProps({
   loggedIn: {
