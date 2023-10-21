@@ -10,6 +10,7 @@ import { userAuthStore as _userAuthStore } from '../../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 import StaticHero from '../../components/static/StaticHero.vue';
+import { ROUTE_LOGIN } from '../../router';
 
 // =====
 
@@ -115,24 +116,24 @@ async function register(e) {
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-        <div class="join join-vertical">
-          <label class="form_label_label">
-            <span class="form_label_span">DOB</span>
-          </label>
-          <input type="date" class="form_input" required minlength="8" v-model="dob" />
-        </div>
+          <div class="join join-vertical">
+            <label class="form_label_label">
+              <span class="form_label_span">DOB</span>
+            </label>
+            <input type="date" class="form_input" required minlength="8" v-model="dob" />
+          </div>
 
-        <div class="join join-vertical">
-          <label class="form_label_label">
-            <span class="form_label_span">Gender</span>
-          </label>
-          <select class="select form_input" required v-model="gender">
-            <option>Male</option>
-            <option>Female</option>
-            <option>Others</option>
-          </select>
+          <div class="join join-vertical">
+            <label class="form_label_label">
+              <span class="form_label_span">Gender</span>
+            </label>
+            <select class="select form_input" required v-model="gender">
+              <option>Male</option>
+              <option>Female</option>
+              <option>Others</option>
+            </select>
+          </div>
         </div>
-      </div>
 
         <div class="join join-vertical w-full">
           <label class="form_label_label py-0 -my-2">
@@ -142,7 +143,7 @@ async function register(e) {
 
         <div class="join join-vertical w-full">
           <label class="label pb-0 px-0">
-            <RouterLink class="link_to_other" :to="{ name: 'login' }">
+            <RouterLink class="link_to_other" :to="{ name: ROUTE_LOGIN }">
               Already have an account ? Login"
             </RouterLink>
           </label>

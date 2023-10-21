@@ -1,5 +1,5 @@
 <script setup>
-const FILENAME = 'AppointmentHistory.vue';
+const FILENAME = 'BookingHistory.vue';
 
 import { computed, onBeforeMount, ref, defineEmits } from 'vue';
 import { RouterLink } from 'vue-router';
@@ -7,10 +7,14 @@ import { RouterLink } from 'vue-router';
 import IconLabTest from '../icons/IconLabTest.vue';
 import IconDoctor from '../icons/IconDoctor.vue';
 
+import { humanizeDate } from '../../utils/utils';
+
+import { BOOKING_TYPE_LAB, BOOKING_TYPE_DOCTOR } from '../../config/constants';
+
 // =====
 
 const props = defineProps({
-  appointmentInfo: {
+  bookingInfo: {
     type: Object,
     required: true,
   },
@@ -26,21 +30,21 @@ onBeforeMount(() => {
 
 // Internal functions
 
-let humanDate = computed(() => {
-  return (new Date(parseInt(props.appointmentInfo.appointmentDate, 10))).toDateString();
+let bookingDate = computed(() => {
+  return humanizeDate(props.bookingInfo.bookingDate);
 });
 
 let isInFuture = computed(() => {
-  return props.appointmentInfo.appointmentDate > Date.now();
+  return props.bookingInfo.bookingDate > Date.now();
 });
 
-let appointmentType = computed(() => {
-  return props.appointmentInfo.appointmentType;
+let bookingType = computed(() => {
+  return props.bookingInfo.bookingType;
 });
 
-function openModal() {
-  console.log(FILENAME, 'openModal');
-  emit('openModal', { type: appointmentType.value, appointmentId: props.appointmentInfo.appointmentId });
+function _handleOpenModal() {
+  console.log(FILENAME, '_handleOpenModal');
+  emit('openModal', { type: bookingType.value, bookingId: props.bookingInfo.bookingId });
 }
 
 </script>
@@ -50,14 +54,14 @@ function openModal() {
     <td>
       <div class="flex items-center justify-center">
         <div class="w-12 h-12">
-          <IconLabTest v-if="appointmentType == 'lab'" />
-          <IconDoctor v-if="appointmentType == 'doctor'" />
+          <IconLabTest v-if="bookingType == BOOKING_TYPE_LAB" />
+          <IconDoctor v-if="bookingType == BOOKING_TYPE_DOCTOR" />
         </div>
       </div>
     </td>
     <td>
       <div>
-        <div class="font-medium"> {{ humanDate }}
+        <div class="font-medium"> {{ bookingDate }}
           <span v-if="isInFuture" class="upcoming-badge">Upcoming</span>
         </div>
         <div class="font-bold py-2">INFO</div>
@@ -70,10 +74,10 @@ function openModal() {
         </button>
       </template>
       <template v-else>
-        <button v-if="appointmentType == 'lab'" class="link p-2 link-secondary" v-on:click="openModal">
+        <button v-if="bookingType == BOOKING_TYPE_LAB" class="link p-2 link-secondary" v-on:click="_handleOpenModal">
           See test results
         </button>
-        <button v-if="appointmentType == 'doctor'" class="link p-2 link-secondary" v-on:click="openModal">
+        <button v-if="bookingType == BOOKING_TYPE_DOCTOR" class="link p-2 link-secondary" v-on:click="_handleOpenModal">
           See details
         </button>
       </template>
