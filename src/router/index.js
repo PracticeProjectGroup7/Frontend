@@ -53,6 +53,14 @@ const routes = [
     component: BookingBillView,
     props: true,
   },
+  {
+    path: '/services',
+    name: 'catalog',
+    // route level code-splitting
+    // this generates a separate chunk (About.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/catalog/ServicesCatalogView.vue'),
+  },
 ];
 
 const router = createRouter({

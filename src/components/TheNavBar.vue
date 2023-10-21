@@ -48,7 +48,9 @@ const placeHolder = computed(() => {
 
       <div class="navbar-center flex">
         <ul class="menu menu-horizontal text-lg">
-          <li><a>Services</a></li>
+          <li>
+            <RouterLink :to="{ name: 'catalog' }"><a>Services</a></RouterLink>
+          </li>
           <!-- <li class="active"><a>Patient Management</a></li> -->
           <li v-if="loggedIn && (userRole == 'admin' || userRole == 'staff')"><a>Patient Management</a></li>
           <li v-if="loggedIn && userRole == 'admin'"><a>Staff Management</a></li>
@@ -119,5 +121,11 @@ const placeHolder = computed(() => {
   .menu>li.active {
     @apply font-bold border-b-2 border-black;
   }
+}
+
+.router-link-exact-active {
+  /* Your styles for exact active link */
+  @apply font-bold; /* Apply bold font-weight*/
+  /* @apply text-red-500; */ /* For example, change the link text color to red */
 }
 </style>
