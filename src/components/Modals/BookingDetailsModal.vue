@@ -62,35 +62,36 @@ function closeModal() {
 
       <div class="modal-body">
 
-        <div>
-          <div class="font-bold text-md pb-2">{{ labels.provider }}</div>
-          <div class="text-md">{{ bookingDetails.bookingId }}</div>
+        <div class="data-row">
+          <div>{{ labels.provider }}</div>
+          <div>{{ bookingDetails.bookingId }}</div>
         </div>
 
-        <div>
-          <div class="font-bold text-md pb-2">{{ labels.details }}</div>
-          <div class="text-md">{{ bookingDetails.bookingId }}</div>
+        <div class="data-row">
+          <div>{{ labels.details }}</div>
+          <div>{{ bookingDetails.bookingId }}</div>
         </div>
 
-        <div>
-          <div class="font-bold text-md pb-2">{{ labels.date }}</div>
-          <div class="text-md">{{ bookingDetails.bookingId }}</div>
+        <div class="data-row">
+          <div>{{ labels.date }}</div>
+          <div>{{ bookingDetails.bookingId }}</div>
         </div>
 
-        <div>
-          <div class="font-bold text-md pb-2">{{ labels.result }}</div>
-          <div class="text-md">{{ bookingDetails.bookingId }}</div>
+        <div class="data-row">
+          <div>{{ labels.result }}</div>
+          <div>{{ bookingDetails.bookingId }}</div>
         </div>
 
-        <div>
-          <div class="font-bold text-md pb-2">Booking ID:</div>
-          <div class="text-md">{{ bookingDetails.bookingId }}</div>
+        <div class="data-row">
+          <div>Booking ID:</div>
+          <div>{{ bookingDetails.bookingId }}</div>
         </div>
 
       </div>
 
       <div class="modal-action">
-        <RouterLink :to="{ name: ROUTE_BOOKING_BILL, params: { billId: bookingDetails.billId } }" class="custom-btn-outline">
+        <RouterLink :to="{ name: ROUTE_BOOKING_BILL, params: { billId: bookingDetails.billId } }"
+          class="custom-btn-outline">
           View Bills
         </RouterLink>
         <button v-on:click="closeModal"> Close </button>
@@ -105,4 +106,12 @@ function closeModal() {
 
 <style scoped>
 @import './modalStyle.css';
+
+.modal-body>.data-row>div:nth-child(1) {
+  @apply font-bold text-md pb-2;
+}
+
+.modal-body>.data-row>div:nth-child(2) {
+  @apply text-md;
+}
 </style>

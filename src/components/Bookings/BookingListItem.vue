@@ -74,10 +74,10 @@ function _handleOpenModal() {
         </button>
       </template>
       <template v-else>
-        <button v-if="bookingType == BOOKING_TYPE_LAB" class="link p-2 link-secondary" v-on:click="_handleOpenModal">
+        <button v-if="bookingType == BOOKING_TYPE_LAB" class="booking_modal_buttom" v-on:click="_handleOpenModal">
           See test results
         </button>
-        <button v-if="bookingType == BOOKING_TYPE_DOCTOR" class="link p-2 link-secondary" v-on:click="_handleOpenModal">
+        <button v-if="bookingType == BOOKING_TYPE_DOCTOR" class="booking_modal_buttom" v-on:click="_handleOpenModal">
           See details
         </button>
       </template>
@@ -91,5 +91,9 @@ function _handleOpenModal() {
 
   background-color: hsl(var(--su));
   color: hsl(var(--nc));
+}
+
+.booking_modal_button {
+  @apply link p-2 link-secondary;
 }
 </style>
