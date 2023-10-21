@@ -74,9 +74,9 @@ const bookAppointment = (doctorId) => {
 
 .book-appointment {
   @apply bg-green-500 text-white rounded py-2 px-5 cursor-pointer; /* Background, text color, and padding classes */
-}
 
-.book-appointment:hover {
-  @apply bg-blue-500; /* Background color on hover */
+  &:hover{
+    @apply bg-blue-500; /* Background color on hover */
+  }
 }
 </style>
