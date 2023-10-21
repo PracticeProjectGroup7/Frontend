@@ -134,7 +134,7 @@ const _billDetails = computed(() => {
   </div>
 
   <BookingBillPaymentModal :billDetails="_billDetails" v-if="allowedToUpdatePayment && modalOpen"
-    v-model:modalOpen="modalOpen" @updateBillStatus="_updateBillStatus" />
+    v-model:modalOpen="modalOpen" @updateBillStatus="_updateBillStatus" :disableButtons="loading" />
 </template>
 
 <style>

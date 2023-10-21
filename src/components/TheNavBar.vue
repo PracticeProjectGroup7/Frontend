@@ -1,12 +1,12 @@
 <script setup>
 const FILENAME = 'TheNavBar.vue';
 
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, watch } from 'vue';
 import { computed, ref } from 'vue';
 import { inject } from 'vue';
-import { useRouter, RouterLink } from 'vue-router';
+import { useRouter, RouterLink, useRoute } from 'vue-router';
 
-import { ROUTE_HOME, ROUTE_LOGIN } from '../router';
+import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG } from '../router';
 
 import { userAuthStore as _userAuthStore } from '../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
@@ -15,6 +15,7 @@ import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 
 const { authInfo } = inject(USER_AUTH_STORE_INJECT);
 const { loggedIn, role: userRole, userInfo } = authInfo.value;
+const route = useRoute();
 
 // =====
 
@@ -25,6 +26,15 @@ const props = defineProps({
     default: 'hms',
   },
 });
+
+// https://stackoverflow.com/a/73756909
+watch(
+  () => route.name,
+  async (newName) => {
+    console.log(FILENAME, 'newName', newName);
+  },
+  { immediate: true },
+);
 
 // ====
 
@@ -49,9 +59,8 @@ const placeHolder = computed(() => {
       <div class="navbar-center flex">
         <ul class="menu menu-horizontal text-lg">
           <li>
-            <RouterLink :to="{ name: 'catalog' }"><a>Services</a></RouterLink>
+            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }"><a>Services</a></RouterLink>
           </li>
-          <!-- <li class="active"><a>Patient Management</a></li> -->
           <li v-if="loggedIn && (userRole == 'admin' || userRole == 'staff')"><a>Patient Management</a></li>
           <li v-if="loggedIn && userRole == 'admin'"><a>Staff Management</a></li>
         </ul>
@@ -123,7 +132,8 @@ const placeHolder = computed(() => {
   }
 }
 
-.router-link-exact-active {
+/** This fails on the home page */
+.router-link-exact-active, .router-link-active {
   /* Your styles for exact active link */
   @apply font-bold; /* Apply bold font-weight*/
   /* @apply text-red-500; */ /* For example, change the link text color to red */

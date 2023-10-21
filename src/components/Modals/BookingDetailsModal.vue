@@ -108,10 +108,10 @@ function closeModal() {
 @import './modalStyle.css';
 
 .modal-body>.data-row>div:nth-child(1) {
-  @apply font-bold text-md pb-2;
+  @apply font-bold text-base pb-2;
 }
 
 .modal-body>.data-row>div:nth-child(2) {
-  @apply text-md;
+  @apply text-base;
 }
 </style>
