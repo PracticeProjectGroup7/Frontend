@@ -44,7 +44,78 @@ const labTestCatalog = [
   },
 ];
 
+const availableDoctorSlots = [
+  {
+    startTime: new Date('2023-10-24T09:00:00'),
+    endTime: new Date('2023-10-24T10:00:00'),
+    duration: '1 hr',
+  },
+  {
+    startTime: new Date('2023-10-24T10:30:00'),
+    endTime: new Date('2023-10-24T11:30:00'),
+    duration: '1 hr',
+  },
+  {
+    startTime: new Date('2023-10-24T13:00:00'),
+    endTime: new Date('2023-10-24T14:00:00'),
+    duration: '1 hr',
+  },
+  {
+    startTime: new Date('2023-10-24T14:30:00'),
+    endTime: new Date('2023-10-24T15:30:00'),
+    duration: '1 hr',
+  },
+  {
+    startTime: new Date('2023-10-25T11:30:00'),
+    endTime: new Date('2023-10-25T12:30:00'),
+    duration: '1 hr',
+  },
+  {
+    startTime: new Date('2023-10-25T15:30:00'),
+    endTime: new Date('2023-10-25T16:30:00'),
+    duration: '1 hr',
+  },
+  {
+    startTime: new Date('2023-10-26T10:30:00'),
+    endTime: new Date('2023-10-26T11:30:00'),
+    duration: '1 hr',
+  },
+];
+
+const labTestSlots = [
+  {
+    date: new Date('2023-10-24T00:00:00'),
+    availableSlots: 1,
+  },
+  {
+    date: new Date('2023-10-25T00:00:00'),
+    availableSlots: 0,
+  },
+  {
+    date: new Date('2023-10-26T00:00:00'),
+    availableSlots: 3,
+  },
+  {
+    date: new Date('2023-10-27T00:00:00'),
+    availableSlots: 5,
+  },
+  {
+    date: new Date('2023-10-28T00:00:00'),
+    availableSlots: 7,
+  },
+  {
+    date: new Date('2023-10-29T00:00:00'),
+    availableSlots: 8,
+  },
+  {
+    date: new Date('2023-10-30T00:00:00'),
+    availableSlots: 10,
+  },
+];
+
 export {
   doctorsCatalog,
   labTestCatalog,
+  availableDoctorSlots,
+  labTestSlots,
 };

@@ -2,9 +2,8 @@
 const FILENAME = 'LabTests.vue';
 
 import { ref, computed } from 'vue';
-
 import { labTestCatalog } from '../../_dummy_data/servicesCatalog';
-
+import BookTestModal from '../Modals/BookTestModal.vue';
 
 const props = defineProps({
   loggedIn: {
@@ -13,10 +12,9 @@ const props = defineProps({
     default: false,
   },
 });
-
 const searchedItem = ref('');
-
-const labTests = ref(labTestCatalog);
+const labTests = ref(labTestCatalog);// TODO
+const labTestModal = ref({});
 
 const filteredTests = computed(() => {
   return labTests.value.filter((labTest) =>
@@ -26,7 +24,19 @@ const filteredTests = computed(() => {
 
 const bookLabTest = (labTestId) => {
   // TODO: logic to book
-  console.log(FILENAME, 'Booking lab test with test ID:', labTestId);
+  labTestModal.value[labTestId] = true;
+  console.log(FILENAME, 'Booking lab test with ID:', labTestId);
+};
+
+const closeModal = (labTestId) => {
+  // Set the modal state for the specific doctor to false
+  console.log(FILENAME, 'Closing Modal for test ID...', labTestId);
+  labTestModal.value[labTestId] = false;
+};
+
+const isModalOpen = (labTestId) => {
+  // Check if the modal is open for the specific doctor
+  return labTestModal.value[labTestId] || false;
 };
 </script>
 
@@ -47,6 +57,8 @@ const bookLabTest = (labTestId) => {
         <div v-else>
           Please log in to book tests or scans.
         </div>
+        <!-- Modal component to book lab test -->
+        <BookTestModal v-if="isModalOpen(labTest.id)" :labTest="labTest" @close="closeModal(labTest.id)" />
       </div>
     </div>
   </div>

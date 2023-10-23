@@ -1,10 +1,8 @@
 <script setup>
 const FILENAME = 'DoctorAppointments.vue';
-
 import { ref, computed } from 'vue';
-
 import { doctorsCatalog } from '../../_dummy_data/servicesCatalog';
-
+import BookAppointmentModal from '../Modals/BookAppointmentModal.vue';
 
 const props = defineProps({
   loggedIn: {
@@ -13,10 +11,9 @@ const props = defineProps({
     default: false,
   },
 });
-
 const searchedItem = ref('');
-
-const doctors = ref(doctorsCatalog);
+const doctors = ref(doctorsCatalog); // TODO
+const doctorModals = ref({}); // Object to track modal state for each doctor
 
 const filteredDoctors = computed(() => {
   return doctors.value.filter((doctor) =>
@@ -25,8 +22,20 @@ const filteredDoctors = computed(() => {
 });
 
 const bookAppointment = (doctorId) => {
-  // TODO: logic to book
+  // Set the modal state for the specific doctor to true
+  doctorModals.value[doctorId] = true;
   console.log(FILENAME, 'Booking appointment with doctor ID:', doctorId);
+};
+
+const closeModal = (doctorId) => {
+  // Set the modal state for the specific doctor to false
+  console.log(FILENAME, 'Closing Modal for doctor ID...', doctorId);
+  doctorModals.value[doctorId] = false;
+};
+
+const isModalOpen = (doctorId) => {
+  // Check if the modal is open for the specific doctor
+  return doctorModals.value[doctorId] || false;
 };
 </script>
 
@@ -48,6 +57,9 @@ const bookAppointment = (doctorId) => {
         <div v-else>
           Please log in to book appointments.
         </div>
+
+        <!-- Modal component to book appointment -->
+        <BookAppointmentModal v-if="isModalOpen(doctor.id)" :doctor="doctor" @close="closeModal(doctor.id)" />
       </div>
     </div>
   </div>

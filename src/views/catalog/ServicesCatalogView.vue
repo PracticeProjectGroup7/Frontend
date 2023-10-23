@@ -30,9 +30,9 @@ const props = defineProps({
     <!-- Our #nav div contains our beloved menu -->
     <div class="nav">
       <a class="font-bold">AVAILABLE SERVICES</a>
-      <a @click="showContent(BOOKING_TYPE_DOCTOR)" :class="{ 'font-bold': currentContent === BOOKING_TYPE_DOCTOR }"
+      <a id="doctor-appointments" @click="showContent(BOOKING_TYPE_DOCTOR)" :class="{ 'font-bold': currentContent === BOOKING_TYPE_DOCTOR }"
         class="nav-link">Doctor Appointments</a>
-      <a @click="showContent(BOOKING_TYPE_LAB)" :class="{ 'font-bold': currentContent === BOOKING_TYPE_LAB }" class="nav-link">Lab Tests
+      <a id="lab-tests" @click="showContent(BOOKING_TYPE_LAB)" :class="{ 'font-bold': currentContent === BOOKING_TYPE_LAB }" class="nav-link">Lab Tests
         & Scans</a>
     </div>
 
