@@ -3,8 +3,8 @@ const FILENAME = 'ServicesCatalogView.vue';
 
 import { ref, computed } from 'vue';
 
-import DoctorAppointments from './DoctorAppointments.vue';
-import LabTests from './LabTests.vue';
+import DoctorAppointments from '../../components/ServiceCatalog/DoctorAppointments.vue';
+import LabTests from '../../components/ServiceCatalog/LabTests.vue';
 
 import { BOOKING_TYPE_LAB, BOOKING_TYPE_DOCTOR } from '../../config/constants';
 
@@ -16,6 +16,13 @@ function showContent(type) {
   currentContent.value = type;
 }
 
+const props = defineProps({
+  loggedIn: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 </script>
 
 <template>
@@ -31,11 +38,11 @@ function showContent(type) {
 
     <div class="content">
       <div v-if="currentContent === BOOKING_TYPE_DOCTOR">
-        <DoctorAppointments :loggedIn="true" />
+        <DoctorAppointments :loggedIn="loggedIn" />
       </div>
 
       <div v-if="currentContent === BOOKING_TYPE_LAB">
-        <LabTests :loggedIn="true" />
+        <LabTests :loggedIn="loggedIn" />
       </div>
     </div>
   </div>

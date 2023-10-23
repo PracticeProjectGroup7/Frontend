@@ -59,6 +59,7 @@ const routes = [
     path: '/services',
     name: ROUTE_SERVICE_CATALOG,
     component: ServicesCatalogView,
+    props: true,
   },
 ];
 
