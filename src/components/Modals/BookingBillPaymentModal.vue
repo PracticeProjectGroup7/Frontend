@@ -18,6 +18,11 @@ const props = defineProps({
     required: true,
     default: () => { },
   },
+  disableButtons: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modalOpen', 'updateBillStatus']);
@@ -36,6 +41,9 @@ onBeforeMount(() => {
 
 function closeModal() {
   console.log(FILENAME, 'closeModal');
+  if (props.disableButtons) {
+    return;
+  }
   emit('update:modalOpen', false);
 }
 
@@ -61,14 +69,14 @@ const updateButtonDisabled = computed(() => {
       <div class="modal-body">
 
         <div class="mb-4">
-          <div class="font-bold text-md w-1/2 inline-block"> Current Status </div>
-          <div class="text-md font-semibold w-1/2 inline-block capitalize">{{ billDetails.billStatus ||
+          <div class="font-bold text-base w-1/2 inline-block"> Current Status </div>
+          <div class="text-base font-semibold w-1/2 inline-block capitalize">{{ billDetails.billStatus ||
             PAYMENT_STATS_UNPAID }}</div>
         </div>
 
         <div class="mb-4">
-          <div class="font-bold text-md w-1/2 inline-block"> New Status </div>
-          <div class="text-md w-1/2 inline-block">
+          <div class="font-bold text-base w-1/2 inline-block"> New Status </div>
+          <div class="text-base w-1/2 inline-block">
             <select class="select select-bordered w-full max-w-xs font-semibold text-base capitalize"
               v-model="paymentStatus">
               <option disabled>Select bill status</option>
@@ -81,9 +89,10 @@ const updateButtonDisabled = computed(() => {
       </div>
 
       <div class="modal-action">
-        <button v-on:click="closeModal" class="custom-btn-outline"> Cancel </button>
+        <button v-on:click="closeModal" :disabled="disableButtons" class="custom-btn-outline"> Cancel </button>
 
-        <button v-on:click="updatePayment" :disabled="updateButtonDisabled" autocomplete="off"> Update Status </button>
+        <button v-on:click="updatePayment" :disabled="updateButtonDisabled || disableButtons" autocomplete="off"> Update
+          Status </button>
       </div>
     </div>
 

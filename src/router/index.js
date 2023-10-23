@@ -5,6 +5,7 @@ import LoginView from '../views/accounts/LoginView.vue';
 import RegisterView from '../views/accounts/RegisterView.vue';
 import BookingHistoryView from '../views/BookingHistory.vue';
 import BookingBillView from '../views/BookingBill.vue';
+import ServicesCatalogView from '../views/catalog/ServicesCatalogView.vue';
 
 const ROUTE_HOME = 'ROUTE_HOME';
 const ROUTE_LOGIN = 'ROUTE_LOGIN';
@@ -13,6 +14,7 @@ const ROUTE_LOGIN_INTERNAL = 'ROUTE_LOGIN_INTERNAL';
 const ROUTE_BOOKING_HISTORY_SELF = 'ROUTE_BOOKING_HISTORY_SELF';
 const ROUTE_BOOKING_HISTORY_OTHERS = 'ROUTE_BOOKING_HISTORY_OTHERS';
 const ROUTE_BOOKING_BILL = 'ROUTE_BOOKING_BILL';
+const ROUTE_SERVICE_CATALOG = 'ROUTE_SERVICE_CATALOG';
 
 const routes = [
   {
@@ -55,11 +57,8 @@ const routes = [
   },
   {
     path: '/services',
-    name: 'catalog',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/catalog/ServicesCatalogView.vue'),
+    name: ROUTE_SERVICE_CATALOG,
+    component: ServicesCatalogView,
   },
 ];
 
@@ -74,6 +73,8 @@ export {
   ROUTE_LOGIN, ROUTE_LOGIN_INTERNAL, ROUTE_REGISTER,
   ROUTE_BOOKING_HISTORY_SELF, ROUTE_BOOKING_HISTORY_OTHERS,
   ROUTE_BOOKING_BILL,
+
+  ROUTE_SERVICE_CATALOG,
 };
 
 export default router;
