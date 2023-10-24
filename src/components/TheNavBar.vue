@@ -59,7 +59,7 @@ const placeHolder = computed(() => {
       <div class="navbar-center flex">
         <ul class="menu menu-horizontal text-lg">
           <li>
-            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }"><a>Services</a></RouterLink>
+            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }" :props="{ loggedIn }"><a>Services</a></RouterLink>
           </li>
           <li v-if="loggedIn && (userRole == 'admin' || userRole == 'staff')"><a>Patient Management</a></li>
           <li v-if="loggedIn && userRole == 'admin'"><a>Staff Management</a></li>
