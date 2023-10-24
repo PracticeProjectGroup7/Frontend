@@ -1,16 +1,15 @@
 <script setup>
 const FILENAME = 'ServicesCatalogView.vue';
 
-import { ref, computed } from 'vue';
-
-import DoctorAppointments from '../../components/ServiceCatalog/DoctorAppointments.vue';
-import LabTests from '../../components/ServiceCatalog/LabTests.vue';
+import { ref } from 'vue';
+import ServiceCatalog from '../../components/ServiceCatalog/ServiceCatalog.vue';
 
 import { BOOKING_TYPE_LAB, BOOKING_TYPE_DOCTOR } from '../../config/constants';
 
 // ==
 
 const currentContent = ref(BOOKING_TYPE_DOCTOR);
+console.log(FILENAME, 'Booking Type is', currentContent.value);
 
 function showContent(type) {
   currentContent.value = type;
@@ -34,15 +33,11 @@ const props = defineProps({
         class="nav-link">Doctor Appointments</a>
       <a id="lab-tests" @click="showContent(BOOKING_TYPE_LAB)" :class="{ 'font-bold': currentContent === BOOKING_TYPE_LAB }" class="nav-link">Lab Tests
         & Scans</a>
-    </div>
-
-    <div class="content">
-      <div v-if="currentContent === BOOKING_TYPE_DOCTOR">
-        <DoctorAppointments :loggedIn="loggedIn" />
       </div>
 
-      <div v-if="currentContent === BOOKING_TYPE_LAB">
-        <LabTests :loggedIn="loggedIn" />
+    <div class="content">
+      <div>
+        <ServiceCatalog :loggedIn="loggedIn" :bookingType="currentContent" />
       </div>
     </div>
   </div>
