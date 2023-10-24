@@ -2,12 +2,15 @@ const FILENAME = 'stores/userAuth';
 
 import { defineStore } from 'pinia';
 
-import { API_BASE_PATH } from '../config';
+import { ACCOUNTS_API_BASE } from '../config/apiPaths';
 
 const AUTH_TOKEN = 'auth_token';
 const AUTH_INFO = 'auth_info';
 
 import { USER_AUTH_STORE_NAME } from './storeNames';
+import { ROLE_PATIENT, ROLE_TO_DISPLAY } from '../config/constants';
+
+import { like4xx, like5xx, commonHeaders } from './utils';
 
 export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
   state: () => {
@@ -64,54 +67,13 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
       console.log(FILENAME, 'checkUserState', 'end');
     },
 
-    async getLoginToken() {
-      console.log(FILENAME, 'getLoginToken', 'start');
+    async login({ email, password }) {
+      console.log(FILENAME, 'login', 'start');
 
       try {
         const response = await fetch(ACCOUNTS_API_BASE + '/login', {
-          ...this._commonHeaders(),
-        });
-        const r = await response.json();
-
-        return r['response']['csrf_token'];
-      } catch (error) {
-        console.error(FILENAME, error, 'getLoginToken');
-        return error;
-      }
-    },
-
-
-    // async getSignupToken() {
-    //   console.log(FILENAME, 'getSignupToken', 'start');
-
-    //   try {
-    //     let response = await fetch(ACCOUNTS_API_BASE + '/register', {
-    //       ...this._commonHeaders(),
-    //     });
-    //     let r = await response.json();
-
-    //     return r['response']['csrf_token'];
-    //   } catch (error) {
-    //     console.error(FILENAME, error, 'getLoginToken');
-    //     return error;
-    //   }
-    // },
-
-    async login(email, password) {
-      console.log(FILENAME, 'login', 'start');
-
-      // if (this._csrfToken == null) {
-      //   try {
-      //     this._csrfToken = await this.getLoginToken();
-      //   } catch (e) {
-      //     return { 'done': false, 'user_error': false };
-      //   }
-      // }
-
-      try {
-        const response = await fetch(ACCOUNTS_API_BASE + '/login?include_auth_token=true', {
           method: 'POST',
-          ...this._commonHeaders(),
+          ...commonHeaders(),
           body: JSON.stringify({
             'email': email,
             'password': password,
@@ -120,10 +82,13 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
 
         if (response.status == 200) {
           const r = await response.json();
+          console.log(FILENAME, 'login', 'response 300', _r);
           this._setAuthToken(r['response']['user']['authentication_token']);
           return { 'done': true };
-        } else if (response.status == 400) {
-          return { 'done': false, 'user_error': true };
+        } else if (like4xx(response.status)) {
+          const r = await response.json();
+          console.log(FILENAME, 'login', 'response 400', _r);
+          return { 'done': false, 'user_error': true, 'errorMessage': _r['errorMessage'] };
         } else {
           return { 'done': false, 'user_error': false };
         }
@@ -133,85 +98,33 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
       }
     },
 
-    async privelegedLogin(email, password) {
-      console.log(FILENAME, 'login', 'start');
-
-      // if (this._csrfToken == null) {
-      //   try {
-      //     this._csrfToken = await this.getLoginToken();
-      //   } catch (e) {
-      //     return { 'done': false, 'user_error': false };
-      //   }
-      // }
+    async registerPatient({ patientInfo }) {
+      console.log(FILENAME, 'registerPatient', 'start');
 
       try {
-        const response = await fetch(ACCOUNTS_API_BASE + '/login?include_auth_token=true', {
+        const response = await fetch(ACCOUNTS_API_BASE + '/sign-up', {
           method: 'POST',
-          ...this._commonHeaders(),
+          ...commonHeaders(),
           body: JSON.stringify({
-            'email': email,
-            'password': password,
-          }),
-        });
-
-        if (response.status == 200) {
-          const r = await response.json();
-          this._setAuthToken(r['response']['user']['authentication_token']);
-          return { 'done': true };
-        } else if (response.status == 400) {
-          return { 'done': false, 'user_error': true };
-        } else {
-          return { 'done': false, 'user_error': false };
-        }
-      } catch (error) {
-        console.log(FILENAME, error);
-        return { 'done': false, 'user_error': false };
-      }
-    },
-
-    async signup(email, password, name) {
-      console.log(FILENAME, 'signup', 'start');
-
-      // if (this._csrfToken == null) {
-      //   try {
-      //     this._csrfToken = await this.getSignupToken();
-      //   } catch (error) {
-      //     return { 'done': false, 'user_error': false };
-      //   }
-      // }
-
-      try {
-        const response = await fetch(ACCOUNTS_API_BASE + '/register?include_auth_token=true', {
-          method: 'POST',
-          ...this._commonHeaders(),
-          body: JSON.stringify({
-            'email': email,
-            'password': password,
-            'name': name,
+            ...patientInfo,
+            'type': ROLE_TO_DISPLAY[ROLE_PATIENT],
           }),
         });
 
         if (response.status == 200) {
           const _r = await response.json();
+          console.log(FILENAME, 'registerPatient', 'response', _r);
           return { 'done': true };
-        } else if (response.status == 400) {
-          return { 'done': false, 'user_error': true };
+        } else if (like4xx(response.status)) {
+          const _r = await response.json();
+          console.log(FILENAME, 'registerPatient', 'response', _r);
+          return { 'done': false, 'user_error': true, 'errorMessage': _r['errorMessage'] };
         } else {
           return { 'done': false, 'user_error': false };
         }
       } catch (error) {
         return { 'done': false, 'user_error': false };
       }
-    },
-
-    _commonHeaders() {
-      return {
-        mode: 'cors',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
     },
   },
 });
