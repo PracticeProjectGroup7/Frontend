@@ -6,15 +6,22 @@ import RegisterView from '../views/accounts/RegisterView.vue';
 import BookingHistoryView from '../views/BookingHistory.vue';
 import BookingBillView from '../views/BookingBill.vue';
 import ServicesCatalogView from '../views/catalog/ServicesCatalogView.vue';
+import StaffView from '../views/admin/StaffView.vue';
+import StaffProfileView from '../views/admin/StaffProfileView.vue';
 
 const ROUTE_HOME = 'ROUTE_HOME';
 const ROUTE_LOGIN = 'ROUTE_LOGIN';
 const ROUTE_REGISTER = 'ROUTE_REGISTER';
 const ROUTE_LOGIN_INTERNAL = 'ROUTE_LOGIN_INTERNAL';
+
 const ROUTE_BOOKING_HISTORY_SELF = 'ROUTE_BOOKING_HISTORY_SELF';
 const ROUTE_BOOKING_HISTORY_OTHERS = 'ROUTE_BOOKING_HISTORY_OTHERS';
 const ROUTE_BOOKING_BILL = 'ROUTE_BOOKING_BILL';
+
 const ROUTE_SERVICE_CATALOG = 'ROUTE_SERVICE_CATALOG';
+
+const ROUTE_STAFF_LIST = 'ROUTE_STAFF_LIST';
+const ROUTE_STAFF_PROFILE = 'ROUTE_STAFF_PROFILE';
 
 const routes = [
   {
@@ -60,6 +67,17 @@ const routes = [
     name: ROUTE_SERVICE_CATALOG,
     component: ServicesCatalogView,
   },
+  {
+    path: '/_internal/staff',
+    name: ROUTE_STAFF_LIST,
+    component: StaffView,
+  },
+  {
+    path: '/_internal/staff-profile/:staffId',
+    name: ROUTE_STAFF_PROFILE,
+    component: StaffProfileView,
+    props: true,
+  },
 ];
 
 const router = createRouter({
@@ -75,6 +93,8 @@ export {
   ROUTE_BOOKING_BILL,
 
   ROUTE_SERVICE_CATALOG,
+
+  ROUTE_STAFF_LIST, ROUTE_STAFF_PROFILE,
 };
 
 export default router;

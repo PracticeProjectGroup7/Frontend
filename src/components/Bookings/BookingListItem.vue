@@ -1,5 +1,5 @@
 <script setup>
-const FILENAME = 'BookingHistory.vue';
+const FILENAME = 'BookingListItem.vue';
 
 import { computed, onBeforeMount, ref, defineEmits } from 'vue';
 import { RouterLink } from 'vue-router';
