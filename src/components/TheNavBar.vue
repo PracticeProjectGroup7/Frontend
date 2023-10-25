@@ -6,7 +6,7 @@ import { computed, ref } from 'vue';
 import { inject } from 'vue';
 import { useRouter, RouterLink, useRoute } from 'vue-router';
 
-import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG } from '../router';
+import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE } from '../router';
 
 import { userAuthStore as _userAuthStore } from '../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
@@ -79,17 +79,17 @@ const placeHolder = computed(() => {
             <ul tabindex="0"
               class="mt-2 z-2 p-0 shadow-2xl menu menu-md border-2 border-base-content dropdown-content bg-base-100 rounded-box w-52">
               <li>
-                <a class="justify-between">
+                <RouterLink :to="{ name: ROUTE_USER_PROFILE }"><a class="justify-between">
                   Profile
-                  <span class="badge">New</span>
-                </a>
+                  <!-- <span class="badge">New</span> -->
+                </a></RouterLink>
               </li>
-              <li>
+              <!-- <li>
                 <a class="justify-between">
                   Profile
                   <span class="badge badge-warning">1</span>
                 </a>
-              </li>
+              </li> -->
               <li><a>Settings</a></li>
               <li><a>Logout</a></li>
             </ul>

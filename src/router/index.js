@@ -6,6 +6,7 @@ import RegisterView from '../views/accounts/RegisterView.vue';
 import BookingHistoryView from '../views/BookingHistory.vue';
 import BookingBillView from '../views/BookingBill.vue';
 import ServicesCatalogView from '../views/catalog/ServicesCatalogView.vue';
+import UserProfileView from '../views/accounts/UserProfileView.vue';
 
 const ROUTE_HOME = 'ROUTE_HOME';
 const ROUTE_LOGIN = 'ROUTE_LOGIN';
@@ -15,6 +16,7 @@ const ROUTE_BOOKING_HISTORY_SELF = 'ROUTE_BOOKING_HISTORY_SELF';
 const ROUTE_BOOKING_HISTORY_OTHERS = 'ROUTE_BOOKING_HISTORY_OTHERS';
 const ROUTE_BOOKING_BILL = 'ROUTE_BOOKING_BILL';
 const ROUTE_SERVICE_CATALOG = 'ROUTE_SERVICE_CATALOG';
+const ROUTE_USER_PROFILE = 'ROUTE_USER_PROFILE';
 
 const routes = [
   {
@@ -60,6 +62,12 @@ const routes = [
     name: ROUTE_SERVICE_CATALOG,
     component: ServicesCatalogView,
     props: true,
+  },,
+  {
+    path: '/user-profile',
+    name: ROUTE_USER_PROFILE,
+    component: UserProfileView,
+    props: true,
   },
 ];
 
@@ -75,7 +83,7 @@ export {
   ROUTE_BOOKING_HISTORY_SELF, ROUTE_BOOKING_HISTORY_OTHERS,
   ROUTE_BOOKING_BILL,
 
-  ROUTE_SERVICE_CATALOG,
+  ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE,
 };
 
 export default router;
