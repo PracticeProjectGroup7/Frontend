@@ -28,9 +28,9 @@ onBeforeMount(() => {
 
 <template data-theme="corporate">
   <table class="table" v-if="staffList.length > 0">
-    <thead>
+    <thead class="text-base text-black font-bold">
       <tr>
-        <th>Name</th>
+        <th class="text-left">Name</th>
         <th>Email</th>
         <th></th>
       </tr>

@@ -28,6 +28,7 @@ const { loggedIn, role: userRole, userInfo } = authInfo.value;
 const loading = ref(true);
 const modalOpen = ref(false);
 
+const createStaffDisplayError = ref(null);
 const searchTerm = ref('');
 const staffList = ref([]);
 
@@ -65,6 +66,12 @@ onBeforeMount(async () => {
 });
 
 
+watch(modalOpen, (newValue) => {
+  if (newValue) {
+    createStaffDisplayError.value = null;
+  }
+});
+
 function openCreateStaffModal() {
   console.log(FILENAME, '_handleOpenModal');
   modalOpen.value = true;
@@ -74,15 +81,19 @@ function registerStaff({ newStaffInfo }) {
   console.log(FILENAME, 'registerStaff', { newStaffInfo });
   loading.value = true;
 
+  createStaffDisplayError.value = null;
+
   // ....
   // .... TODO UPDATE STATUS
   // ....
 
   setTimeout(() => {
     loading.value = false;
-    modalOpen.value = false;
+    // modalOpen.value = false;
 
-    staffList.value.push({});
+    createStaffDisplayError.value = "SOMW ERROR";
+
+    // staffList.value.push({ 'staffId': 'aasdd' });
   }, 5000);
 };
 
@@ -97,24 +108,25 @@ const filteredStaffList = computed(() => {
 </script>
 
 <template>
-  <div class="w-2/3 mx-auto">
+  <div class="w-1/2 mx-auto">
     <div class="text-center w-full">
       <span class="custom_loading" :style="{
         'opacity': (loading ? 100 : 0)
       }"></span>
     </div>
-    <div class="flex justify-end">
-      <button v-on:click="openCreateStaffModal" class="btn btn-primary">Register Staff</button>
+    <div class="flex justify-between pb-2">
+      <h1 class="text-2xl font-bold">Browse Staff</h1>
+      <button v-on:click="openCreateStaffModal" class="btn btn-accent btn-outline">Register Staff</button>
     </div>
-    <div>
-      <input v-model="searchTerm" placeholder="Search by name">
+    <div class="pb-2">
+      <input v-model="searchTerm" placeholder="Search by name" class="w-full">
     </div>
     <div>
       <StaffList :staffList="filteredStaffList" />
     </div>
 
     <CreateStaffModal v-if="modalOpen" v-model:modalOpen="modalOpen" @registerStaff="registerStaff"
-      :disableButtons="loading" />
+      :disableButtons="loading" :displayError="createStaffDisplayError" />
   </div>
 </template>
 

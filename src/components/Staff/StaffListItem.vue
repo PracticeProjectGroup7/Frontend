@@ -28,20 +28,18 @@ onBeforeMount(() => {
 
 <template>
   <tr class="shadow-xs">
-    <td>
-      <div class="flex items-center justify-center">
-        {{ staffInfo.name }}
-      </div>
-    </td>
-    <td>
-      <div>
-        {{ staffInfo.email }}
-      </div>
-    </td>
-    <td class="text-center">
-      <RouterLink :to="{ name: ROUTE_STAFF_PROFILE, params: { staffId: staffInfo.staffId } }" class="btn-outline btn">
+    <td class="text-left">{{ staffInfo.name }}</td>
+    <td>{{ staffInfo.email }}</td>
+    <td class="text-right">
+      <RouterLink :to="{ name: ROUTE_STAFF_PROFILE, params: { staffId: staffInfo.staffId } }" class="btn-neutral btn">
         View Profile
       </RouterLink>
     </td>
   </tr>
 </template>
+
+<style scoped>
+tr>td {
+  @apply py-1;
+}
+</style>
