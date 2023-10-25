@@ -48,7 +48,7 @@ const placeHolder = computed(() => {
   <header
     class="sticky top-0 z-40 py-1 border-b-2 border-b-slate-900/10 backdrop-blur supports-[backdrop-blur]:bg-white/95 shadow bg-white/95">
 
-    <div class="w-full md:w-3/4 max-w-screen-xl mx-auto pt-1 pb-0 navbar text-base-content">
+    <div class="w-full md:w-3/4 max-w-screen-xl mx-auto pt-0 pb-0 navbar text-base-content">
 
       <div class="navbar-start">
         <RouterLink :to="{ name: ROUTE_HOME }" class="btn btn-ghost normal-case text-2xl">
