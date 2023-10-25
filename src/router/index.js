@@ -6,12 +6,9 @@ import RegisterView from '../views/accounts/RegisterView.vue';
 import BookingHistoryView from '../views/BookingHistory.vue';
 import BookingBillView from '../views/BookingBill.vue';
 import ServicesCatalogView from '../views/catalog/ServicesCatalogView.vue';
-<<<<<<< HEAD
 import StaffView from '../views/admin/StaffView.vue';
 import StaffProfileView from '../views/admin/StaffProfileView.vue';
-=======
 import UserProfileView from '../views/accounts/UserProfileView.vue';
->>>>>>> feature/basic_ui
 
 const ROUTE_HOME = 'ROUTE_HOME';
 const ROUTE_LOGIN = 'ROUTE_LOGIN';
