@@ -46,6 +46,7 @@ onBeforeMount(async () => {
 
 // Internal Data
 const displayError = ref(null);
+const displayErrorElement = ref(null);
 const loading = ref(false);
 
 const email = ref(null);
@@ -54,21 +55,31 @@ const password = ref(null);
 // Internal functions
 
 async function login(e) {
-  e.preventDefault();
-  console.log('login');
-
-  loading.value = true;
   console.log(FILENAME, 'login', 'start');
 
+  e.preventDefault();
+  loading.value = true;
   displayError.value = null;
 
-  const result = await props.internal ? (userAuthStore.privelegedLogin(email, password)) : (userAuthStore.login(email, password));
+  const loginInfo = {
+    email: email.value,
+    password: password.value,
+  };
+
+  const result = await props.internal ? (userAuthStore.privelegedLogin(loginInfo)) : (userAuthStore.login(loginInfo));
+
+  console.log(FILENAME, 'login', result);
 
   // ...
   // ...
   // ...
+
+  console.log(result);
 
   appLogin({ kk: 'lll' });
+
+  loading.value = false;
+  console.log(FILENAME, 'login', 'end');
 }
 
 </script>
@@ -81,7 +92,7 @@ async function login(e) {
 
       <div class="text-center w-full">
         <span class="custom_loading" :style="{
-          'opacity': (loading ? 100 : 100) // TODO : 100 : 0
+          'opacity': (loading ? 100 : 0)
         }"></span>
       </div>
 
@@ -89,14 +100,15 @@ async function login(e) {
         <label class="form_label_label">
           <span class="form_label_span">Email</span>
         </label>
-        <input type="email" class="form_input" required v-model="email" />
+        <input v-model="email" type="email" class="form_input" required autocomplete="email" />
       </div>
 
       <div class="join join-vertical w-full">
         <label class="form_label_label">
           <span class="form_label_span">Password</span>
         </label>
-        <input type="password" class="form_input" required minlength="8" v-model="password" />
+        <input v-model="password" type="password" class="form_input" required minlength="8"
+          autocomplete="current-password" />
       </div>
 
       <div class="join join-vertical w-full">
@@ -114,15 +126,16 @@ async function login(e) {
         </label>
       </div>
 
-      <div class="join join-vertical w-full" v-if="displayError != null">
-        <label class="label font-bold pb-0 px-0">
-          <span class="label-text text-red-700 font-bold">Error : </span> <br>
-        </label>
-        <label class="label pt-0 px-0">
-          <span class="label-text text-red-700">{{ displayError }}</span>
-        </label>
+      <div class="join join-vertical w-full" ref="displayErrorElement">
+        <template v-if="displayError != null">
+          <label class="label">
+            <span class="label-text text-red-700 font-bold">Error : </span> <br>
+          </label>
+          <label class="label">
+            <span class="label-text text-red-700">{{ displayError }}</span>
+          </label>
+        </template>
       </div>
-
     </form>
   </div>
 </template>

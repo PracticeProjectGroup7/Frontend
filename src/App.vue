@@ -12,12 +12,12 @@ import { userAuthStore as _userAuthStore } from './stores/userAuth';
 import { HOME_NAME, BUILD_INFO } from './config';
 import { USER_AUTH_STORE_INJECT, USER_AUTH_STORE_INJECT_TESTING } from './config/injectKeys';
 
-import { ROLE_ADMIN } from './config/constants';
+import { ROLE_ADMIN, ROLE_PATIENT } from './config/constants';
 
 // =====
 
-let loggedIn = true; // TODO
-let role = ROLE_ADMIN; // TODO
+let loggedIn = false; // TODO
+let role = ROLE_PATIENT; // TODO
 let userInfo = { name: 'Dummy User', userId: '12233636' };
 
 if (_userAuthStore.loggedIn && _userAuthStore.userInfo.role) {

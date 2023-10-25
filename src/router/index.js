@@ -6,8 +6,12 @@ import RegisterView from '../views/accounts/RegisterView.vue';
 import BookingHistoryView from '../views/BookingHistory.vue';
 import BookingBillView from '../views/BookingBill.vue';
 import ServicesCatalogView from '../views/catalog/ServicesCatalogView.vue';
+<<<<<<< HEAD
 import StaffView from '../views/admin/StaffView.vue';
 import StaffProfileView from '../views/admin/StaffProfileView.vue';
+=======
+import UserProfileView from '../views/accounts/UserProfileView.vue';
+>>>>>>> feature/basic_ui
 
 const ROUTE_HOME = 'ROUTE_HOME';
 const ROUTE_LOGIN = 'ROUTE_LOGIN';
@@ -19,6 +23,7 @@ const ROUTE_BOOKING_HISTORY_OTHERS = 'ROUTE_BOOKING_HISTORY_OTHERS';
 const ROUTE_BOOKING_BILL = 'ROUTE_BOOKING_BILL';
 
 const ROUTE_SERVICE_CATALOG = 'ROUTE_SERVICE_CATALOG';
+const ROUTE_USER_PROFILE = 'ROUTE_USER_PROFILE';
 
 const ROUTE_STAFF_LIST = 'ROUTE_STAFF_LIST';
 const ROUTE_STAFF_PROFILE = 'ROUTE_STAFF_PROFILE';
@@ -66,6 +71,13 @@ const routes = [
     path: '/services',
     name: ROUTE_SERVICE_CATALOG,
     component: ServicesCatalogView,
+    props: true,
+  },,
+  {
+    path: '/user-profile',
+    name: ROUTE_USER_PROFILE,
+    component: UserProfileView,
+    props: true,
   },
   {
     path: '/_internal/staff',
@@ -91,6 +103,7 @@ export {
   ROUTE_LOGIN, ROUTE_LOGIN_INTERNAL, ROUTE_REGISTER,
   ROUTE_BOOKING_HISTORY_SELF, ROUTE_BOOKING_HISTORY_OTHERS,
   ROUTE_BOOKING_BILL,
+  ROUTE_USER_PROFILE,
 
   ROUTE_SERVICE_CATALOG,
 

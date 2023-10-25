@@ -6,7 +6,7 @@ import { computed, ref } from 'vue';
 import { inject } from 'vue';
 import { useRouter, RouterLink, useRoute } from 'vue-router';
 
-import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG } from '../router';
+import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE } from '../router';
 
 import { userAuthStore as _userAuthStore } from '../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
@@ -48,7 +48,7 @@ const placeHolder = computed(() => {
   <header
     class="sticky top-0 z-40 py-1 border-b-2 border-b-slate-900/10 backdrop-blur supports-[backdrop-blur]:bg-white/95 shadow bg-white/95">
 
-    <div class="w-full md:w-3/4 max-w-screen-xl mx-auto pt-1 pb-0 navbar text-base-content">
+    <div class="w-full md:w-3/4 max-w-screen-xl mx-auto pt-0 pb-0 navbar text-base-content">
 
       <div class="navbar-start">
         <RouterLink :to="{ name: ROUTE_HOME }" class="btn btn-ghost normal-case text-2xl">
@@ -59,7 +59,7 @@ const placeHolder = computed(() => {
       <div class="navbar-center flex">
         <ul class="menu menu-horizontal text-lg">
           <li>
-            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }"><a>Services</a></RouterLink>
+            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }" :props="{ loggedIn }"><a>Services</a></RouterLink>
           </li>
           <li v-if="loggedIn && (userRole == 'admin' || userRole == 'staff')"><a>Patient Management</a></li>
           <li v-if="loggedIn && userRole == 'admin'"><a>Staff Management</a></li>
@@ -79,17 +79,17 @@ const placeHolder = computed(() => {
             <ul tabindex="0"
               class="mt-2 z-2 p-0 shadow-2xl menu menu-md border-2 border-base-content dropdown-content bg-base-100 rounded-box w-52">
               <li>
-                <a class="justify-between">
+                <RouterLink :to="{ name: ROUTE_USER_PROFILE }"><a class="justify-between">
                   Profile
-                  <span class="badge">New</span>
-                </a>
+                  <!-- <span class="badge">New</span> -->
+                </a></RouterLink>
               </li>
-              <li>
+              <!-- <li>
                 <a class="justify-between">
                   Profile
                   <span class="badge badge-warning">1</span>
                 </a>
-              </li>
+              </li> -->
               <li><a>Settings</a></li>
               <li><a>Logout</a></li>
             </ul>

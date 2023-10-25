@@ -3,8 +3,8 @@ const FILENAME = 'ServicesCatalogView.vue';
 
 import { ref, computed } from 'vue';
 
-import DoctorAppointments from './DoctorAppointments.vue';
-import LabTests from './LabTests.vue';
+import DoctorAppointments from '../../components/ServiceCatalog/DoctorAppointments.vue';
+import LabTests from '../../components/ServiceCatalog/LabTests.vue';
 
 import { BOOKING_TYPE_LAB, BOOKING_TYPE_DOCTOR } from '../../config/constants';
 
@@ -16,6 +16,13 @@ function showContent(type) {
   currentContent.value = type;
 }
 
+const props = defineProps({
+  loggedIn: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 </script>
 
 <template>
@@ -23,19 +30,19 @@ function showContent(type) {
     <!-- Our #nav div contains our beloved menu -->
     <div class="nav">
       <a class="font-bold">AVAILABLE SERVICES</a>
-      <a @click="showContent(BOOKING_TYPE_DOCTOR)" :class="{ 'font-bold': currentContent === BOOKING_TYPE_DOCTOR }"
+      <a id="doctor-appointments" @click="showContent(BOOKING_TYPE_DOCTOR)" :class="{ 'font-bold': currentContent === BOOKING_TYPE_DOCTOR }"
         class="nav-link">Doctor Appointments</a>
-      <a @click="showContent(BOOKING_TYPE_LAB)" :class="{ 'font-bold': currentContent === BOOKING_TYPE_LAB }" class="nav-link">Lab Tests
+      <a id="lab-tests" @click="showContent(BOOKING_TYPE_LAB)" :class="{ 'font-bold': currentContent === BOOKING_TYPE_LAB }" class="nav-link">Lab Tests
         & Scans</a>
     </div>
 
     <div class="content">
       <div v-if="currentContent === BOOKING_TYPE_DOCTOR">
-        <DoctorAppointments :loggedIn="true" />
+        <DoctorAppointments :loggedIn="loggedIn" />
       </div>
 
       <div v-if="currentContent === BOOKING_TYPE_LAB">
-        <LabTests :loggedIn="true" />
+        <LabTests :loggedIn="loggedIn" />
       </div>
     </div>
   </div>
