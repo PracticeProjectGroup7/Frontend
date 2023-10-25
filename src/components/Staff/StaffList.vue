@@ -43,5 +43,5 @@ onBeforeMount(() => {
   </table>
 </template>
 
-<style>
+<style scoped>
 </style>

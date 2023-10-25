@@ -65,7 +65,7 @@ const isModalOpen = (doctorId) => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .doctor-appointments {
   @apply p-5 space-y-5; /* Use DaisyUI and Tailwind classes for padding and spacing */
 }

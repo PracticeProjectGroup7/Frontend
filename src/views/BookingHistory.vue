@@ -112,5 +112,5 @@ const _isPrivilegedUser = computed(() => {
   </div>
 </template>
 
-<style>
+<style scoped>
 </style>

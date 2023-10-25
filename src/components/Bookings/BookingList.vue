@@ -56,5 +56,5 @@ function _handleOpenModal({ bookingId }) {
   <BookingDetailsModal :bookingDetails="selectedBooking" v-if="modalOpen" v-model:modalOpen="modalOpen" />
 </template>
 
-<style>
+<style scoped>
 </style>

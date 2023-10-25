@@ -48,7 +48,7 @@ const props = defineProps({
   </div>
 </template>
 
-<style>
+<style scoped>
 .nav {
   @apply p-10 space-y-8; /* Padding and spacing classes */
 

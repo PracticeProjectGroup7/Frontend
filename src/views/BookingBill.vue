@@ -87,5 +87,5 @@ onBeforeMount(async () => {
   </div>
 </template>
 
-<style>
+<style scoped>
 </style>

@@ -137,7 +137,7 @@ const _billDetails = computed(() => {
     v-model:modalOpen="modalOpen" @updateBillStatus="_updateBillStatus" :disableButtons="loading" />
 </template>
 
-<style>
+<style scoped>
 .payment-status-badge {
   @apply badge badge-lg font-normal py-2 rounded ml-4;
 

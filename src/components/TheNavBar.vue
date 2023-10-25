@@ -107,7 +107,7 @@ const placeHolder = computed(() => {
   </header>
 </template>
 
-<style>
+<style scoped>
 .navbar-center {
   position: relative;
 
