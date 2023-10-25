@@ -1,19 +1,34 @@
 <script setup>
 import { ref } from 'vue';
+import UserProfileEditModal from '../../components/Modals/UserProfileEditModal.vue';
 import { dummyUserProfile } from '../../_dummy_data/userProfile';
 
 const FILENAME = 'UserProfileVue';
 
 const user = ref(dummyUserProfile);
+const isEditModalOpen = ref(false);
 
-const editProfile = () => {
-  // Implement your edit profile logic here
-  console.log('Edit profile clicked');
+const logOut = () => {
+  // Implement your deactivate profile logic here
+  console.log(FILENAME, 'Log Out clicked');
 };
 
-const deactivateProfile = () => {
-  // Implement your deactivate profile logic here
-  console.log('Deactivate profile clicked');
+const openEditModal = () => {
+  console.log(FILENAME, 'Edit profile clicked');
+  isEditModalOpen.value = true;
+};
+
+const closeEditModal = () => {
+  console.log(FILENAME, 'Closing Edit Profile Modal');
+  isEditModalOpen.value = false;
+};
+
+const saveEditedProfile = (editedUserData) => {
+  // Implement the logic to save the edited profile data here
+  console.log(FILENAME, 'Edited Profile Data:', editedUserData);
+  // Update user data in the parent component here
+  user.value = editedUserData;
+  closeEditModal();
 };
 </script>
 
@@ -54,10 +69,18 @@ const deactivateProfile = () => {
           <label for="dob" class="font-semibold">Date of Birth: </label>
           <span id="dob">{{ user.dob }}</span>
         </div>
-        <div class="data space-x-4">
-          <button @click="editProfile" class="btn btn-blue">Edit Profile</button>
-          <button @click="deactivateProfile" class="btn btn-red">Deactivate Profile</button>
+        <div class="data-container btn-container">
+          <button @click="openEditModal" class="btn btn-white">Edit Profile</button>
+          <button @click="logOut" class="btn btn-red">Log Out</button>
         </div>
+
+        <!-- Conditionally render the edit profile modal -->
+        <UserProfileEditModal
+          v-if="isEditModalOpen"
+          :user="user"
+          @save="saveEditedProfile"
+          @close="closeEditModal"
+        />
       </div>
     </div>
     <div v-else>
@@ -76,16 +99,16 @@ span {
   @apply pl-4;
 }
 
+.btn-container {
+  @apply flex flex-col space-y-2;
+}
+
 .btn {
-  @apply px-4 py-2 rounded cursor-pointer transition;
+  @apply px-4 py-2 rounded cursor-pointer w-52 transition;
 }
 
-.btn-blue {
-  @apply bg-blue-500 text-white;
-}
-
-&:hover {
-  @apply bg-blue-700;
+.btn-white {
+  @apply border border-black text-black bg-white;
 }
 
 .btn-red {

@@ -5,7 +5,7 @@ const dummyUserProfile = {
   nricOrPassport: 'S1234567A',
   address: '10 Kent Ridge Rd',
   medConditions: 'None',
-  gender: 'Male',
+  gender: 'O',
   dob: '01-01-2001',
 };
 
