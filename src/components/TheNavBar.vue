@@ -6,10 +6,13 @@ import { computed, ref } from 'vue';
 import { inject } from 'vue';
 import { useRouter, RouterLink, useRoute } from 'vue-router';
 
-import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE } from '../router';
+import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE, ROUTE_STAFF_LIST } from '../router';
 
 import { userAuthStore as _userAuthStore } from '../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
+import { isPrivilegedUser } from '../utils/permissions';
+import { ROLE_ADMIN } from '../config/constants';
+
 
 // =====
 
@@ -59,10 +62,20 @@ const placeHolder = computed(() => {
       <div class="navbar-center flex">
         <ul class="menu menu-horizontal text-lg">
           <li>
-            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }" :props="{ loggedIn }"><a>Services</a></RouterLink>
+            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }" :props="{ loggedIn }">
+              Services
+            </RouterLink>
           </li>
-          <li v-if="loggedIn && (userRole == 'admin' || userRole == 'staff')"><a>Patient Management</a></li>
-          <li v-if="loggedIn && userRole == 'admin'"><a>Staff Management</a></li>
+          <li v-if="loggedIn && userRole == ROLE_ADMIN">
+            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }"> <!-- TODO -->
+              Patient Management
+            </RouterLink>
+          </li>
+          <li v-if="loggedIn && isPrivilegedUser(userRole)">
+            <RouterLink :to="{ name: ROUTE_STAFF_LIST }">
+              Staff Management
+            </RouterLink>
+          </li>
         </ul>
       </div>
 
@@ -80,9 +93,9 @@ const placeHolder = computed(() => {
               class="mt-2 z-2 p-0 shadow-2xl menu menu-md border-2 border-base-content dropdown-content bg-base-100 rounded-box w-52">
               <li>
                 <RouterLink :to="{ name: ROUTE_USER_PROFILE }"><a class="justify-between">
-                  Profile
-                  <!-- <span class="badge">New</span> -->
-                </a></RouterLink>
+                    Profile
+                    <!-- <span class="badge">New</span> -->
+                  </a></RouterLink>
               </li>
               <!-- <li>
                 <a class="justify-between">
@@ -111,12 +124,8 @@ const placeHolder = computed(() => {
 .navbar-center {
   position: relative;
 
-  .menu>li {
+  .menu>li>a {
     @apply border-b-2 border-transparent;
-  }
-
-  .menu>li:hover {
-    @apply border-b-2 border-black;
   }
 
   .menu>li>a {
@@ -127,15 +136,19 @@ const placeHolder = computed(() => {
     @apply border-black;
   }
 
-  .menu>li.active {
-    @apply font-bold border-b-2 border-black;
+  .menu>li>a .active {
+    @apply border-b-2 border-black;
   }
 }
 
 /** This fails on the home page */
-.router-link-exact-active, .router-link-active {
+.router-link-exact-active,
+.router-link-active {
+  @apply border-b-2 border-black !important;
   /* Your styles for exact active link */
-  @apply font-bold; /* Apply bold font-weight*/
-  /* @apply text-red-500; */ /* For example, change the link text color to red */
+  /* @apply font-bold; */
+  /* Apply bold font-weight*/
+  /* @apply text-red-500; */
+  /* For example, change the link text color to red */
 }
 </style>
