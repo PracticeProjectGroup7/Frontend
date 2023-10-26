@@ -15,7 +15,6 @@ const props = defineProps({
   },
 });
 
-
 // =====
 
 onBeforeMount(() => {
@@ -28,7 +27,7 @@ onBeforeMount(() => {
 
 <template>
   <tr class="shadow-xs">
-    <td class="text-left">{{ staffInfo.name }}</td>
+    <td class="text-left">{{ staffInfo.firstName }} {{ staffInfo.lastName }}</td>
     <td>{{ staffInfo.email }}</td>
     <td class="text-right">
       <RouterLink :to="{ name: ROUTE_STAFF_PROFILE, params: { staffId: staffInfo.staffId } }" class="btn-neutral btn">

@@ -1,5 +1,5 @@
 <script setup>
-const FILENAME = 'CreateStaffModal.vue';
+const FILENAME = 'StaffFormModal.vue';
 
 import { computed, onBeforeMount, ref } from 'vue';
 
@@ -24,13 +24,18 @@ const props = defineProps({
   },
   mode: {
     type: String,
-    required: false,
+    required: true,
     default: 'create',
   },
   displayError: {
     type: String,
     required: false,
     default: null,
+  },
+  existingStaffInfo: {
+    type: Object,
+    required: false,
+    default: () => { },
   },
 });
 
@@ -50,6 +55,18 @@ const _form = ref(null);
 
 onBeforeMount(() => {
   console.log(FILENAME, 'beforeMount', 'start');
+
+  console.log(FILENAME, 'beforeMount', 'mode', props.mode);
+
+  if (props.mode === 'edit') {
+    firstName.value = props.existingStaffInfo.firstName;
+    lastName.value = props.existingStaffInfo.lastName;
+    email.value = props.existingStaffInfo.email;
+    nric.value = props.existingStaffInfo.nric;
+    phoneNumber.value = props.existingStaffInfo.phone;
+    role.value = props.existingStaffInfo.role || props.existingStaffInfo.type;
+    speciality.value = props.existingStaffInfo.speciality;
+  }
 
   console.log(FILENAME, 'beforeMount', 'end');
 });
@@ -84,6 +101,13 @@ const allowedRolesToCreateStr = computed(() => {
   return allowedRolesToCreate.reduce((current, role) => ({ ...current, [role]: titlize(role.split('_')[1]) }), {});
 });
 
+const modalLabels = computed(() => {
+  return {
+    modalTitle: props.mode == 'create' ? 'Register Staff' : 'Edit Staff',
+    buttonTitle: props.mode == 'create' ? 'Register Staff' : 'Edit Staff',
+  };
+});
+
 </script>
 
 <template>
@@ -91,7 +115,7 @@ const allowedRolesToCreateStr = computed(() => {
 
     <div class="modal-box">
 
-      <div class="custom-modal-title">Register Staff </div>
+      <div class="custom-modal-title">{{ modalLabels.modalTitle }} </div>
 
       <form action="/" method="POST" v-on:submit="registerStaff" class="login_regiser_form" ref="_form">
         <div class="modal-body">
@@ -127,7 +151,7 @@ const allowedRolesToCreateStr = computed(() => {
               <label class="form_label_label">
                 <span class="form_label_span">Password</span>
               </label>
-              <input type="password" class="form_input" required minlength="8" v-model="password"
+              <input type="password" class="form_input" :required="mode == 'create'" minlength="8" v-model="password"
                 autocomplete="new-password " />
             </div>
           </div>
@@ -186,7 +210,7 @@ const allowedRolesToCreateStr = computed(() => {
         <div class="modal-action justify-center">
           <label class="form_label_label py-0 -my-2">
           </label>
-          <input type="submit" value="Register Staff" class="btn btn-neutral" :disabled="disableButtons" />
+          <input type="submit" :value="modalLabels.buttonTitle" class="btn btn-neutral" :disabled="disableButtons" />
         </div>
       </form>
 

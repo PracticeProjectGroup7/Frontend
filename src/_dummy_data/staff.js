@@ -1,54 +1,64 @@
 import { ROLE_STAFF, ROLE_DOCTOR } from '../config/constants';
+import { specialities } from '../config/specialities';
+
 
 const staffList = [
   {
     staffId: 1,
-    name: 'Dr. John Doe',
-    type: ROLE_STAFF,
+    firstName: 'Dr. John',
+    lastName: 'Doe',
+    type: ROLE_DOCTOR,
+    nric: 'Dummy NRIC',
+    phone: '9999990000',
     email: 'asd@ad.com',
     experience: 15,
+    speciality: specialities[Math.floor(Math.random() * specialities.length)],
   },
   {
     staffId: 2,
-    name: 'Dr. Jane Smith',
+    firstName: 'Dr. Jane',
+    lastName: 'Smith',
+
     type: ROLE_DOCTOR,
-    specialization: 'Pediatrician',
+    speciality: specialities[Math.floor(Math.random() * specialities.length)],
     email: 'asd@ad.com',
 
     experience: 10,
   },
   {
     staffId: 3,
-    name: 'Dr. Brendon Smith',
+    firstName: 'Brendon',
+    lastName: 'Smith',
+
     type: ROLE_STAFF,
     email: 'asd@ad.com',
-
-    experience: 12,
   },
   {
     staffId: 4,
-    name: 'Dr. Sad Smith',
-    type: ROLE_DOCTOR,
-    specialization: 'General Physician',
-    email: 'asd@ad.com',
+    firstName: 'Dr. Sad',
+    lastName: 'Smith',
 
+    type: ROLE_DOCTOR,
+    speciality: specialities[Math.floor(Math.random() * specialities.length)],
+    email: 'asd@ad.com',
     experience: 4,
   },
   {
     staffId: 5,
-    name: 'Dr. Human Smith',
+    firstName: 'Human',
+    lastName: 'Smith',
+
     type: ROLE_STAFF,
     email: 'asd@ad.com',
-
-    experience: 7,
   },
   {
     staffId: 10,
-    name: 'Dr. John Doe',
-    type: ROLE_DOCTOR,
-    specialization: 'Cardiologist',
-    email: 'asd@ad.com',
+    firstName: 'Dr. John',
+    lastName: 'Dow',
 
+    type: ROLE_DOCTOR,
+    speciality: specialities[Math.floor(Math.random() * specialities.length)],
+    email: 'asd@ad.com',
     experience: 15,
   },
 ];

@@ -8,7 +8,7 @@ const AUTH_TOKEN = 'auth_token';
 const AUTH_INFO = 'auth_info';
 
 import { USER_AUTH_STORE_NAME } from './storeNames';
-import { ROLE_PATIENT, ROLE_TO_DISPLAY } from '../config/constants';
+import { ROLE_PATIENT, ROLE_TO_BACKEND } from '../config/constants';
 
 import { like4xx, like5xx, commonHeaders } from './utils';
 
@@ -107,7 +107,7 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
           ...commonHeaders(),
           body: JSON.stringify({
             ...patientInfo,
-            'type': ROLE_TO_DISPLAY[ROLE_PATIENT],
+            'type': ROLE_TO_BACKEND[ROLE_PATIENT],
           }),
         });
 

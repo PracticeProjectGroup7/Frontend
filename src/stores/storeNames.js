@@ -1,5 +1,8 @@
 const USER_AUTH_STORE_NAME = 'userAuth';
+const STAFF_MANAGEMENT_STORE_NAME = 'staffManagement';
+
 
 export {
   USER_AUTH_STORE_NAME,
+  STAFF_MANAGEMENT_STORE_NAME,
 };

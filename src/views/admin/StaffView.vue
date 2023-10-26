@@ -11,7 +11,7 @@ import NotFoundBanner from '../../components/static/NotFoundBanner.vue';
 import URLCorrectBanner from '../../components/static/URLCorrectBanner.vue';
 import BookingBill from '../../components/Bookings/BookingBill.vue';
 import StaffList from '../../components/Staff/StaffList.vue';
-import CreateStaffModal from '../../components/Modals/CreateStaffModal.vue';
+import StaffFormModal from '../../components/Modals/StaffFormModal.vue';
 
 import { staffList as dummyStaffList } from '../../_dummy_data/staff';
 import { ROLE_ADMIN } from '../../config/constants';
@@ -83,15 +83,11 @@ function registerStaff({ newStaffInfo }) {
 
   createStaffDisplayError.value = null;
 
-  // ....
-  // .... TODO UPDATE STATUS
-  // ....
-
   setTimeout(() => {
     loading.value = false;
     // modalOpen.value = false;
 
-    createStaffDisplayError.value = "SOMW ERROR";
+    createStaffDisplayError.value = 'SOMW ERROR';
 
     // staffList.value.push({ 'staffId': 'aasdd' });
   }, 5000);
@@ -101,7 +97,12 @@ const filteredStaffList = computed(() => {
   if (searchTerm.value == '') {
     return staffList.value;
   }
-  return staffList.value;
+
+  return staffList.value.filter((staffInfo) =>
+    (staffInfo.firstName + ' ' + staffInfo.lastName).toLowerCase().includes(searchTerm.value.toLowerCase() ||
+      staffInfo.email.toLowerCase().includes(searchTerm.value.toLowerCase(),
+      ),
+    ));
 });
 
 
@@ -125,8 +126,8 @@ const filteredStaffList = computed(() => {
       <StaffList :staffList="filteredStaffList" />
     </div>
 
-    <CreateStaffModal v-if="modalOpen" v-model:modalOpen="modalOpen" @registerStaff="registerStaff"
-      :disableButtons="loading" :displayError="createStaffDisplayError" />
+    <StaffFormModal v-if="modalOpen" v-model:modalOpen="modalOpen" @registerStaff="registerStaff"
+      :disableButtons="loading" :displayError="createStaffDisplayError" :mode='"create"' />
   </div>
 </template>
 
