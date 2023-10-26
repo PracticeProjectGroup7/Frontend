@@ -1,8 +1,8 @@
-name: Build and deploy to S3
+name: Build and deploy to staging
 
 on:
   push:
-    branches: ["main"]
+    branches: ["track/staging"]
   workflow_dispatch:
     inputs:
       BUILD_ID:
@@ -44,8 +44,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.STAGING_AWS_ROLE_ARN }}
+          aws-region: ${{ vars.STAGING_AWS_REGION }}
       - name: Copy files to S3
         run: |
-          aws s3 cp dist s3://${{ secrets.AWS_S3_BUCKET }} --recursive
+          aws s3 cp dist s3://${{ vars.STAGING_AWS_S3_BUCKET_NAME }} --recursive
