@@ -69,7 +69,7 @@ const routes = [
     name: ROUTE_SERVICE_CATALOG,
     component: ServicesCatalogView,
     props: true,
-  },,
+  },
   {
     path: '/user-profile',
     name: ROUTE_USER_PROFILE,

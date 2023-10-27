@@ -44,6 +44,6 @@ const specialities = [
   'Paediatric Intensive Care',
   'Paediatric Gastroenterology',
   'Paediatric Haematology & Oncology',
-].sort();
+].sort((a, b) => a.localeCompare(b));
 
 export { specialities };
