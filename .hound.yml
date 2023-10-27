@@ -3,4 +3,4 @@ eslint:
   config_file: .eslintrc.json
 
 jshint:
-  enables: false
+  enabled: false
