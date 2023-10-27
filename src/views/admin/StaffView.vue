@@ -16,6 +16,8 @@ import StaffFormModal from '../../components/Modals/StaffFormModal.vue';
 import { staffList as dummyStaffList } from '../../_dummy_data/staff';
 import { ROLE_ADMIN } from '../../config/constants';
 
+import { StaffManagementAPIClient } from '../../api/staffManagement';
+
 // ==
 
 const router = useRouter();
@@ -83,12 +85,13 @@ function registerStaff({ newStaffInfo }) {
 
   createStaffDisplayError.value = null;
 
-  setTimeout(() => {
+  setTimeout(async () => {
     loading.value = false;
-    // modalOpen.value = false;
 
+    // await StaffManagementAPIClient.newStaff({ newStaffInfo });
     createStaffDisplayError.value = 'SOMW ERROR';
 
+    // modalOpen.value = false;
     // staffList.value.push({ 'staffId': 'aasdd' });
   }, 5000);
 };

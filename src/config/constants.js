@@ -22,7 +22,7 @@ const ROLE_TO_DISPLAY = Object.keys(ROLE_TO_BACKEND).reduce(
     { ...current, [role]: titlize(role.split('_')[1]) }
   )
   , {});
-console.log('ROLE_TO_DISPLAY', ROLE_TO_DISPLAY);
+console.debug('ROLE_TO_DISPLAY', ROLE_TO_DISPLAY);
 
 const PAYMENT_STATS_PAID = 'paid';
 const PAYMENT_STATS_UNPAID = 'unpaid';

@@ -1,6 +1,6 @@
 import { ROLE_STAFF, ROLE_DOCTOR } from '../config/constants';
 import { specialities } from '../config/specialities';
-
+import { getRandomInt } from '../utils/utils';
 
 const staffList = [
   {
@@ -12,7 +12,7 @@ const staffList = [
     phone: '9999990000',
     email: 'asd@ad.com',
     experience: 15,
-    speciality: specialities[Math.floor(Math.random() * specialities.length)],
+    speciality: specialities[getRandomInt(specialities.length)],
   },
   {
     staffId: 2,
@@ -20,7 +20,7 @@ const staffList = [
     lastName: 'Smith',
 
     type: ROLE_DOCTOR,
-    speciality: specialities[Math.floor(Math.random() * specialities.length)],
+    speciality: specialities[getRandomInt(specialities.length)],
     email: 'asd@ad.com',
 
     experience: 10,
@@ -39,7 +39,7 @@ const staffList = [
     lastName: 'Smith',
 
     type: ROLE_DOCTOR,
-    speciality: specialities[Math.floor(Math.random() * specialities.length)],
+    speciality: specialities[getRandomInt(specialities.length)],
     email: 'asd@ad.com',
     experience: 4,
   },
@@ -57,7 +57,7 @@ const staffList = [
     lastName: 'Dow',
 
     type: ROLE_DOCTOR,
-    speciality: specialities[Math.floor(Math.random() * specialities.length)],
+    speciality: specialities[getRandomInt(specialities.length)],
     email: 'asd@ad.com',
     experience: 15,
   },

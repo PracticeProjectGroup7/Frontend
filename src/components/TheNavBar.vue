@@ -8,7 +8,6 @@ import { useRouter, RouterLink, useRoute } from 'vue-router';
 
 import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE, ROUTE_STAFF_LIST } from '../router';
 
-import { userAuthStore as _userAuthStore } from '../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 import { isPrivilegedUser } from '../utils/permissions';
 import { ROLE_ADMIN } from '../config/constants';

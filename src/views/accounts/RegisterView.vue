@@ -6,16 +6,16 @@ import { computed, ref } from 'vue';
 import { inject } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 
-import { userAuthStore as _userAuthStore } from '../../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 import StaticHero from '../../components/static/StaticHero.vue';
 import { ROUTE_LOGIN } from '../../router';
 
+import { UserAuthAPIClient } from '../../api/userAuth';
+
 // =====
 
 const router = useRouter();
-const userAuthStore = _userAuthStore();
 
 const { authInfo } = inject(USER_AUTH_STORE_INJECT);
 const { loggedIn } = authInfo.value;
@@ -68,7 +68,7 @@ async function register(e) {
   loading.value = true;
   displayError.value = null;
 
-  const result = await userAuthStore.registerPatient({
+  const result = await UserAuthAPIClient.registerPatient({
     'patientInfo': {
       'firstName': firstName.value, 'lastName': lastName.value,
       'email': email.value, 'password': password.value,
@@ -84,7 +84,7 @@ async function register(e) {
     loading.value = false;
     await router.push({ name: ROUTE_LOGIN });
     console.log(FILENAME, 'register', 'end');
-  } else if (result.user_error) {
+  } else if (result.userError) {
     displayError.value = result.errorMessage;
     await window.scrollTo(0, displayErrorElement.value.offsetTop + displayErrorElement.value.offsetHeight);
   }
