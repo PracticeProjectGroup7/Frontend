@@ -1,85 +1,64 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
-import HelloWorld from './components/HelloWorld.vue';
+const FILENAME = 'App.vue';
+
+import { computed, inject, provide, readonly, ref } from 'vue';
+import { RouterView } from 'vue-router';
+
+import TheStaticFooter from './components/TheStaticFooter.vue';
+import TheNavBar from './components/TheNavBar.vue';
+
+import { userAuthStore as _userAuthStore } from './stores/userAuth';
+
+import { HOME_NAME, BUILD_INFO } from './config';
+import { USER_AUTH_STORE_INJECT, USER_AUTH_STORE_INJECT_TESTING } from './config/injectKeys';
+
+import { ROLE_ADMIN, ROLE_PATIENT } from './config/constants';
+
+// =====
+
+let loggedIn = false; // TODO
+let role = ROLE_PATIENT; // TODO
+let userInfo = { name: 'Dummy User', userId: '12233636' };
+
+if (_userAuthStore.loggedIn && _userAuthStore.userInfo.role) {
+  console.log(FILENAME, 'authInfo from store', tetsingAuthInfo);
+
+  loggedIn = _userAuthStore.loggedIn;
+  role = _userAuthStore.authInfo.role;
+  userInfo = _userAuthStore.authInfo.userInfo;
+}
+
+const tetsingAuthInfo = inject(USER_AUTH_STORE_INJECT_TESTING);
+if (tetsingAuthInfo) {
+  console.log(FILENAME, 'authInfo from inject', tetsingAuthInfo.value.authInfo);
+
+  loggedIn = tetsingAuthInfo.value.authInfo.loggedIn;
+  role = tetsingAuthInfo.value.authInfo.role;
+  userInfo = tetsingAuthInfo.value.authInfo.userInfo;
+}
+
+const authInfo = ref({ loggedIn, role, userInfo });
+const login = (loginInfo) => {
+  console.log(FILENAME, 'loginInfo', 'called with', loginInfo);
+
+  authInfo.value.loggedIn = true;
+  authInfo.value.role = true;
+};
+
+provide(USER_AUTH_STORE_INJECT, {
+  authInfo: readonly(authInfo),
+  login,
+});
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <TheNavBar :appName=HOME_NAME />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="mx-auto bg-base-100 min-h-screen">
+    <RouterView :key="$route.fullPath" />
+  </div>
 
-      <nav>
-        <RouterLink class="link link-primary" to="/">Home</RouterLink>
-        <RouterLink class="link-accent" to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <TheStaticFooter :buildInfo="BUILD_INFO" />
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>

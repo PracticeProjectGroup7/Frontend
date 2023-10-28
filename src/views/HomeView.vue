@@ -1,9 +1,11 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue';
+const FILENAME = 'HomeView.vue';
+
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
+  <main class="w-1/2 mx-auto">
+    <!-- <LoggedOutWelcome []/> -->
+    <!-- <LoggedIn /> -->
   </main>
 </template>
