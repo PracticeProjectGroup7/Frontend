@@ -69,6 +69,6 @@ const closeModal = (doctorId) => {
     </div>
   </template>
 
-<style>
+<style scoped>
 @import './bookServicesModalStyle.css';
 </style>

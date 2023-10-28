@@ -24,7 +24,7 @@ select {
 
 .login_regiser_form {
   .form_label_label {
-    @apply label font-bold px-0 py-1 join-item;
+    @apply label font-semibold px-0 py-1 join-item;
   }
 
   .form_label_span {

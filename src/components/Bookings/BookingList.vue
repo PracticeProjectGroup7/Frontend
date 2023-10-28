@@ -31,9 +31,9 @@ onBeforeMount(() => {
 function _handleOpenModal({ bookingId }) {
   console.log(FILENAME, '_handleOpenModal', bookingId);
 
-  for (let i = 0; i < props.bookingList.length; i++) {
-    if (props.bookingList[i].bookingId === bookingId) {
-      selectedBooking.value = props.bookingList[i];
+  for (const booking of props.bookingList) {
+    if (booking.bookingId === bookingId) {
+      selectedBooking.value = booking;
       break;
     }
   }
@@ -56,5 +56,5 @@ function _handleOpenModal({ bookingId }) {
   <BookingDetailsModal :bookingDetails="selectedBooking" v-if="modalOpen" v-model:modalOpen="modalOpen" />
 </template>
 
-<style>
+<style scoped>
 </style>

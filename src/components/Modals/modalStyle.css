@@ -7,7 +7,7 @@
 }
 
 .modal-box {
-  @apply p-0 rounded-xl;
+  @apply p-0 rounded-md;
 }
 
 .modal-action {

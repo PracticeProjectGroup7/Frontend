@@ -6,16 +6,17 @@ import { computed, ref } from 'vue';
 import { inject } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 
-import { userAuthStore as _userAuthStore } from '../../stores/userAuth';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 import StaticHero from '../../components/static/StaticHero.vue';
 import { ROUTE_REGISTER } from '../../router';
 
+import { UserAuthAPIClient } from '../../api/userAuth';
+
+
 // =====
 
 const router = useRouter();
-const userAuthStore = _userAuthStore();
 
 const { authInfo, login: appLogin } = inject(USER_AUTH_STORE_INJECT);
 const { loggedIn } = authInfo.value;
@@ -66,7 +67,7 @@ async function login(e) {
     password: password.value,
   };
 
-  const result = await props.internal ? (userAuthStore.privelegedLogin(loginInfo)) : (userAuthStore.login(loginInfo));
+  const result = await (props.internal ? (UserAuthAPIClient.privelegedLogin(loginInfo)) : (UserAuthAPIClient.login(loginInfo)));
 
   console.log(FILENAME, 'login', result);
 

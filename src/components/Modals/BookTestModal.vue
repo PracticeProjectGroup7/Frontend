@@ -77,6 +77,6 @@ function getDateWithoutTime(date) {
   </div>
 </template>
 
-<style>
+<style scoped>
 @import './bookServicesModalStyle.css';
 </style>

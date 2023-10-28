@@ -105,9 +105,8 @@ const _billDetails = computed(() => {
     </div>
 
     <div class="mb-4">
-      <div class="font-bold text-lg">Charges</div>
-
-      <table class="table w-3/4">
+      <div class="font-bold text-lg" id="bill-charges-list">Charges</div>
+      <table class="table w-3/4" aria-describedby="bill-charges-list">
         <tbody>
           <template v-for="(fee, i) in _billDetails.fees" :key="i">
             <tr>
@@ -137,7 +136,7 @@ const _billDetails = computed(() => {
     v-model:modalOpen="modalOpen" @updateBillStatus="_updateBillStatus" :disableButtons="loading" />
 </template>
 
-<style>
+<style scoped>
 .payment-status-badge {
   @apply badge badge-lg font-normal py-2 rounded ml-4;
 
