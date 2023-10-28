@@ -1,4 +1,4 @@
-name: Continous Unit Tests
+name: Unit Tests
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
 jobs:
   build_job:
     runs-on: ubuntu-latest
-    name: Unit Tests
+    name: Calculate coverage
     permissions:
       pull-requests: write
     steps:
