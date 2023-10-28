@@ -10,6 +10,7 @@ import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 import { userAuthStore as _userAuthStore } from '../../stores/userAuth';
 
 import StaticHero from '../../components/static/StaticHero.vue';
+import FormErrors from '../../components/FormErrors.vue';
 import { ROUTE_REGISTER } from '../../router';
 
 import { UserAuthAPIClient } from '../../api/userAuth';
@@ -134,14 +135,7 @@ async function login(e) {
       </div>
 
       <div class="join join-vertical w-full" ref="displayErrorElement">
-        <template v-if="displayError != null">
-          <label class="label">
-            <span class="label-text text-red-700 font-bold">Error : </span> <br>
-          </label>
-          <label class="label">
-            <span class="label-text text-red-700">{{ displayError }}</span>
-          </label>
-        </template>
+        <FormErrors v-if="displayError != null"  :error="displayError"/>
       </div>
     </form>
   </div>
