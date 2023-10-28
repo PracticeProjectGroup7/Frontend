@@ -28,7 +28,7 @@ jobs:
         id: unit_test
       - name: Modify test coverage
         run: |
-          echo -n '```' >> coverage/coverage.txt
+          echo '```' >> coverage/coverage.txt
           tac coverage/coverage.txt >> coverage/coverage.txt.reversed
           echo -n '```'  >> coverage/coverage.txt.reversed
           tac coverage/coverage.txt.reversed >> coverage/coverage.txt.final
