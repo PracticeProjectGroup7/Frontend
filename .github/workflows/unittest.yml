@@ -26,11 +26,17 @@ jobs:
       - name: Run unit tests
         run: npm run test:unit
         id: unit_test
+      - name: Modify test coverage
+        run: |
+          echo -n '```' >> coverage/coverage.txt
+          tac coverage/coverage.txt >> coverage/coverage.txt.reversed
+          echo -n '```'  >> coverage/coverage.txt.reversed
+          tac coverage/coverage.txt.reversed >> coverage/coverage.txt.final
       - name: Add coverage
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body-path: 'coverage/coverage.txt'
+          body-path: 'coverage/coverage.txt.final'
       - name: Mark unit test fail
         if: ${{ failure() && steps.unit_test.conclusion == 'failure'}}
         uses: peter-evans/create-or-update-comment@v3
