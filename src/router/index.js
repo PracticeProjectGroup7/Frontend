@@ -9,6 +9,8 @@ import ServicesCatalogView from '../views/catalog/ServicesCatalogView.vue';
 import StaffView from '../views/admin/StaffView.vue';
 import StaffProfileView from '../views/admin/StaffProfileView.vue';
 import UserProfileView from '../views/accounts/UserProfileView.vue';
+import LabTestManagementView from '../views/labTestManagement/LabTestManagementView.vue';
+import LabTestDetailsView from '../views/labTestManagement/LabTestDetailsView.vue';
 
 const ROUTE_HOME = 'ROUTE_HOME';
 const ROUTE_LOGIN = 'ROUTE_LOGIN';
@@ -21,6 +23,8 @@ const ROUTE_BOOKING_BILL = 'ROUTE_BOOKING_BILL';
 
 const ROUTE_SERVICE_CATALOG = 'ROUTE_SERVICE_CATALOG';
 const ROUTE_USER_PROFILE = 'ROUTE_USER_PROFILE';
+const ROUTE_LABTEST_MANAGEMENT = 'ROUTE_LABTEST_MANAGEMENT';
+const ROUTE_LABTEST_DETAILS = 'ROUTE_LABTEST_DETAILS';
 
 const ROUTE_STAFF_LIST = 'ROUTE_STAFF_LIST';
 const ROUTE_STAFF_PROFILE = 'ROUTE_STAFF_PROFILE';
@@ -85,6 +89,18 @@ const routes = [
     path: '/_internal/staff-profile/:staffId',
     name: ROUTE_STAFF_PROFILE,
     component: StaffProfileView,
+  },
+  {
+    path: '/test-management',
+    name: ROUTE_LABTEST_MANAGEMENT,
+    component: LabTestManagementView,
+    props: true,
+  },
+  {
+    path: '/test-management/:testId',
+    name: ROUTE_LABTEST_DETAILS,
+    component: LabTestDetailsView,
+>>>>>>> 09f2925 (feat: Add LabTestManagament view for staff to view all test bookings)
     props: true,
   },
 ];
@@ -103,7 +119,7 @@ export {
   ROUTE_USER_PROFILE,
 
   ROUTE_SERVICE_CATALOG,
-
+  ROUTE_LABTEST_MANAGEMENT, ROUTE_LABTEST_DETAILS,
   ROUTE_STAFF_LIST, ROUTE_STAFF_PROFILE,
 };
 
