@@ -65,10 +65,16 @@ function createPatch(oldObj, newObj) {
 }
 
 
+function isDoctorType(bookingType) {
+  return bookingType === 'doctor';
+}
+
+
 export {
   getRandomInt,
   humanizeDate,
   titlize,
 
   createPatch,
+  isDoctorType,
 };
