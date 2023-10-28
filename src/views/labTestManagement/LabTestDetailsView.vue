@@ -1,22 +1,18 @@
 <script setup>
 const FILENAME = 'LabTestDetailsView.vue';
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { RouterLink } from 'vue-router';
 import { labTestBookingDetails } from '../../_dummy_data/labTestBookings';
-import Breadcrumb from '../../components/Breadcrumb.vue';
+import { ROUTE_BOOKING_HISTORY_OTHERS } from '../../router';
+import UpdateLabTestStatusModal from '../../components/Modals/UpdateLabTestStatusModal.vue';
 
-const searchStatus = ref('');
-const router = useRouter();
-console.log(FILENAME, 'On details page');
-const viewDetails = (booking) => {
-  // router.push(`/${booking.id}`);
+const { props } = defineProps(['testId']);
+const showModal = ref(false);
+const openModal = () => {
+  showModal.value = true;
 };
 
-const filteredLabTestBookings = computed(() => {
-  return labTestBookings.filter((booking) =>
-    booking.status.toLowerCase().includes(searchStatus.value.toLowerCase()),
-  );
-});
+console.log(FILENAME, 'On details page');
 
 const booking = ref(labTestBookingDetails);
 
@@ -25,12 +21,25 @@ const breadcrumbItems = [
   { text: 'View Test Details', to: `/test-management/${booking.value.id}` },
 ];
 
+const handleStatusSaved = (data) => {
+  // Handle the updated status data here
+  console.log(FILENAME, 'Status saved:', data);
+};
+
+const closeModal = () => {
+  showModal.value = false;
+};
+
 </script>
 
 <template data-theme="corporate">
   <div class="p-8">
-    <Breadcrumb :items="breadcrumbItems" />
-
+    <div class="text-sm breadcrumbs">
+      <ul>
+      <li><RouterLink to="/test-management">Test Management</RouterLink></li> 
+      <li>View Test Details</li>
+      </ul>
+    </div>
     <div class="p-8">
       <div class="flex items-center"> <!-- Add a flex container -->
         <h2 class="text-xl font-semibold mb-2">Lab Test Details - Booking #{{ booking.id }}</h2>
@@ -67,10 +76,18 @@ const breadcrumbItems = [
     </div>
 
     <div class="mt-4 space-x-4 p-8">
-      <button class="view-history-button">View Appointment History</button>
-      <button class="update-status-button">Update Status</button>
+      <RouterLink :to="{ name: ROUTE_BOOKING_HISTORY_OTHERS, params: { patientId: booking.patientId } }">
+        <button class="view-history-button">View Appointment History</button>
+      </RouterLink>
+      <button class="update-status-button" @click="openModal">Update Status</button>
     </div>
   </div>
+  <UpdateLabTestStatusModal
+      v-if="showModal"
+      :booking="booking"
+      @status-saved="handleStatusSaved"
+      @close="closeModal"
+    />
 </template>
 
 <style scoped>

@@ -100,7 +100,6 @@ const routes = [
     path: '/test-management/:testId',
     name: ROUTE_LABTEST_DETAILS,
     component: LabTestDetailsView,
->>>>>>> 09f2925 (feat: Add LabTestManagament view for staff to view all test bookings)
     props: true,
   },
 ];

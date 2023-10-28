@@ -17,7 +17,6 @@ const filteredLabTestBookings = computed(() => {
     booking.status.toLowerCase().includes(searchStatus.value.toLowerCase()),
   );
 });
-
 </script>
 
 <template data-theme="corporate">
@@ -25,6 +24,7 @@ const filteredLabTestBookings = computed(() => {
     <h1 class="text-xl font-semibold mb-4">View Booked Tests</h1>
     <input v-model="searchStatus" class="w-full p-2 mb-4 border rounded" placeholder="Search by Test Status" />
     <table>
+      <caption hidden>List of Lab Test bookings</caption>
       <thead>
         <tr>
           <th class="table-item">Patient Name</th>

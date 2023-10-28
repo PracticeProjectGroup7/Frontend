@@ -28,18 +28,6 @@ const labTestBookingDetails = {
   status: 'pending',
   testResult: '',
 };
-/*   {
-    id: 'q12347',
-    patientName: 'B Person',
-    patientId: '123457',
-    dob: '19-01-2000',
-    gender: 'F',
-    testName: 'COVID test',
-    testDate: '03 October 2023',
-    status: 'completed',
-    testResult: '',
-  },
-]; */
 
 export {
   labTestBookings,
