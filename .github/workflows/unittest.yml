@@ -1,0 +1,38 @@
+name: Continous Unit Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**.js'
+      - '**.vue'
+
+jobs:
+  build_job:
+    runs-on: ubuntu-latest
+    name: Unit Tests
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+      - name: Install packages
+        run: npm ci --no-fund --no-update-notifier
+      - name: Run unit tests
+        run: npm run test:unit
+        id: unit_test
+      - name: Add coverage
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-path: 'coverage/coverage.txt'
+      - name: Mark unit test fail
+        if: ${{ failure() && steps.unit_test.conclusion == 'failure'}}
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: 'Unit test failed'
+
