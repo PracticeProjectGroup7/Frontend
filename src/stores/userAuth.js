@@ -1,6 +1,7 @@
 const FILENAME = 'stores/userAuth';
 
 import { defineStore } from 'pinia';
+import { jwtDecode } from 'jwt-decode';
 
 const AUTH_TOKEN = 'auth_token';
 const AUTH_INFO = 'auth_info';
@@ -9,12 +10,12 @@ import { USER_AUTH_STORE_NAME } from './storeNames';
 
 import { UserAuthAPIClient } from '../api/userAuth';
 
+
 export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
   state: () => {
     return {
       _loginToken: window.localStorage.getItem(AUTH_TOKEN),
       _authInfo: window.localStorage.getItem(AUTH_INFO) != null ? JSON.parse(window.localStorage.getItem(AUTH_INFO)) : null,
-      _csrfToken: null,
     };
   },
   getters: {
@@ -51,13 +52,19 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
     async login({ email, password }) {
       console.log(FILENAME, 'login', 'start');
 
-      const resposne = await UserAuthAPIClient.login({ email, password });
+      const response = await UserAuthAPIClient.login({ email, password });
 
-      if (resposne.done) {
-        // TODO STORE
+      if (response.done) {
+        console.log(response.body.data.token);
+        const token = jwtDecode(response.body.data.token);
+
+        this._setAuthToken(response.body.data.token);
+        this._setauthInfo(token);
+
+        response.body['authInfo'] = token;
       }
 
-      return resposne;
+      return response;
     },
   },
 });

@@ -17,6 +17,9 @@ const ROLE_TO_BACKEND = {
   [ROLE_ADMIN]: 'ROLE_ADMIN',
 };
 
+const BACKEND_TO_ROLE = Object.keys(ROLE_TO_BACKEND)
+  .reduce((current, key) => ({ ...current, [ROLE_TO_BACKEND[key]]: key }), {});
+
 const ROLE_TO_DISPLAY = Object.keys(ROLE_TO_BACKEND).reduce(
   (current, role) => (
     { ...current, [role]: titlize(role.split('_')[1]) }
@@ -31,7 +34,7 @@ export {
   BOOKING_TYPE_DOCTOR, BOOKING_TYPE_LAB,
 
   ROLE_PATIENT, ROLE_STAFF, ROLE_DOCTOR, ROLE_ADMIN,
-  ROLE_TO_BACKEND, ROLE_TO_DISPLAY,
+  ROLE_TO_BACKEND, ROLE_TO_DISPLAY, BACKEND_TO_ROLE,
 
   PAYMENT_STATS_PAID, PAYMENT_STATS_UNPAID,
 };

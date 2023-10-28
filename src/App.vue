@@ -12,7 +12,7 @@ import { userAuthStore as _userAuthStore } from './stores/userAuth';
 import { HOME_NAME, BUILD_INFO } from './config';
 import { USER_AUTH_STORE_INJECT, USER_AUTH_STORE_INJECT_TESTING } from './config/injectKeys';
 
-import { ROLE_ADMIN, ROLE_PATIENT } from './config/constants';
+import { ROLE_ADMIN, ROLE_PATIENT, BACKEND_TO_ROLE } from './config/constants';
 
 // =====
 
@@ -20,12 +20,16 @@ let loggedIn = false; // TODO
 let role = ROLE_PATIENT; // TODO
 let userInfo = { name: 'Dummy User', userId: '12233636' };
 
-if (_userAuthStore.loggedIn && _userAuthStore.userInfo.role) {
-  console.log(FILENAME, 'authInfo from store', tetsingAuthInfo);
+const userAuthStore = _userAuthStore();
 
-  loggedIn = _userAuthStore.loggedIn;
-  role = _userAuthStore.authInfo.role;
-  userInfo = _userAuthStore.authInfo.userInfo;
+if (userAuthStore.loggedIn && userAuthStore.authInfo) {
+  console.debug(FILENAME, 'authInfo from store', userAuthStore.authInfo);
+
+  loggedIn = true;
+  role = BACKEND_TO_ROLE[userAuthStore.authInfo.ROLE];
+  userInfo = userAuthStore.authInfo;
+
+  console.debug(FILENAME, 'authInfo from store', { loggedIn, role, userInfo });
 }
 
 const tetsingAuthInfo = inject(USER_AUTH_STORE_INJECT_TESTING);
@@ -39,10 +43,11 @@ if (tetsingAuthInfo) {
 
 const authInfo = ref({ loggedIn, role, userInfo });
 const login = (loginInfo) => {
-  console.log(FILENAME, 'loginInfo', 'called with', loginInfo);
+  console.debug(FILENAME, 'loginInfo', 'called with', loginInfo);
 
   authInfo.value.loggedIn = true;
-  authInfo.value.role = true;
+  authInfo.value.role = BACKEND_TO_ROLE[loginInfo.ROLE];
+  authInfo.value.userInfo = loginInfo;
 };
 
 provide(USER_AUTH_STORE_INJECT, {
