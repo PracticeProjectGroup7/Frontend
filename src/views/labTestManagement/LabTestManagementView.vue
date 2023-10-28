@@ -8,9 +8,8 @@ const searchStatus = ref('');
 const router = useRouter();
 
 const viewDetails = (booking) => {
-  // Implement the logic to view details of the selected booking
-  // You can use router to navigate to the details page or show a modal, etc.
-  // Example: router.push(`/details/${booking.id}`);
+  console.log(FILENAME, 'Clicked on View Details');
+  router.push(`/test-management/${booking.id}`);
 };
 
 const filteredLabTestBookings = computed(() => {
@@ -29,7 +28,6 @@ const filteredLabTestBookings = computed(() => {
       <thead>
         <tr>
           <th class="table-item">Patient Name</th>
-          <th class="table-item">Patient ID</th>
           <th class="table-item">Test Name</th>
           <th class="table-item">Test Date</th>
           <th class="table-item">Status</th>
@@ -39,7 +37,6 @@ const filteredLabTestBookings = computed(() => {
       <tbody>
         <tr v-for="booking in filteredLabTestBookings" :key="booking.id">
           <td class="table-item">{{ booking.patientName }}</td>
-          <td class="table-item">{{ booking.patientId }}</td>
           <td class="table-item">{{ booking.testName }}</td>
           <td class="table-item">{{ booking.testDate }}</td>
           <td class="table-item">
