@@ -1,0 +1,24 @@
+name: Continous Unit Tests
+
+on:
+  push:
+    paths:
+      - '**.js'
+      - '**.vue'
+
+jobs:
+  build_job:
+    runs-on: ubuntu-latest
+    name: Unit Tests
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+      - name: Install packages
+        run: npm ci --no-fund --no-update-notifier
+      - name: Run unit tests
+        run: npm run test:unit
