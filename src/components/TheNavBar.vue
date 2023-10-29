@@ -16,8 +16,7 @@ import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_STAFF, ROLE_RECEPTION } from '../config/c
 
 // =====
 
-const { authInfo } = inject(USER_AUTH_STORE_INJECT);
-const { loggedIn, role: userRole, userInfo } = authInfo.value;
+const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 const route = useRoute();
 
 // =====
@@ -42,7 +41,7 @@ watch(
 // ====
 
 const placeHolder = computed(() => {
-  return userInfo.name.split(' ').map((splitName) => splitName[0]).join('');
+  return userInfo.value.name.split(' ').map((splitName) => splitName[0]).join('');
 });
 
 </script>

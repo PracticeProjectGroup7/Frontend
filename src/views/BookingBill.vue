@@ -17,8 +17,7 @@ import { mixedBookingList, bill as dummyBillDetails } from '../_dummy_data/booki
 
 const router = useRouter();
 
-const { authInfo } = inject(USER_AUTH_STORE_INJECT);
-const { loggedIn, role: userRole, userInfo } = authInfo.value;
+const { loggedIn } = inject(USER_AUTH_STORE_INJECT);
 
 // ====
 
@@ -42,7 +41,7 @@ onBeforeMount(async () => {
   loading.value = true;
   console.log(FILENAME, 'beforeMount', 'start');
 
-  if (!loggedIn) {
+  if (!loggedIn.value) {
     console.log(FILENAME, 'Not logged in');
     await router.push('/login');
     loading.value = false;

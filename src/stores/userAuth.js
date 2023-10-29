@@ -11,11 +11,16 @@ import { USER_AUTH_STORE_NAME } from './storeNames';
 import { UserAuthAPIClient } from '../api/userAuth';
 
 
+const getItem = (name) => {
+  return window.localStorage.getItem(name);
+};
+
 export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
   state: () => {
     return {
-      _loginToken: window.localStorage.getItem(AUTH_TOKEN),
-      _authInfo: window.localStorage.getItem(AUTH_INFO) != null ? JSON.parse(window.localStorage.getItem(AUTH_INFO)) : null,
+      _loginToken: getItem(AUTH_TOKEN),
+      _authInfo: getItem(AUTH_INFO) != null ? JSON.parse(getItem(AUTH_INFO)) : null,
+      _intervalId: null,
     };
   },
   getters: {
@@ -49,6 +54,39 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
       this._authInfo = null;
     },
 
+    _clearIfExpired() {
+      console.log(FILENAME, 'clearIfExpired', 'checking');
+      if (this._authInfo == null) {
+        console.log(FILENAME, 'clearIfExpired', 'no need to check');
+        return;
+      }
+
+      console.log(FILENAME, 'clearIfExpired', 'exp', this._authInfo['exp']);
+      const expireAt = this._authInfo['exp'] * 1000;
+
+      if (expireAt > Date.now()) {
+        return;
+      }
+
+      this._setAuthToken(null);
+      this._setauthInfo(null);
+      this.logout();
+    },
+
+    initRefresh() {
+      console.log(FILENAME, 'initRefresh', 'start');
+      this._intervalId = setInterval(() => {
+        console.log(FILENAME, 'initRefresh', 'reloading');
+        this._loginToken = getItem(AUTH_TOKEN);
+        this._authInfo = getItem(AUTH_INFO) != null ? JSON.parse(getItem(AUTH_INFO)) : null;
+
+        console.log(FILENAME, 'this._loginToken', this._loginToken);
+        console.log(FILENAME, 'this._authInfo', this._authInfo);
+
+        this._clearIfExpired();
+      }, 10_000);
+    },
+
     async login({ email, password }) {
       console.log(FILENAME, 'login', 'start');
 
@@ -57,7 +95,7 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
       if (response.done) {
         console.log(response.body.data.token);
         const token = jwtDecode(response.body.data.token);
-
+        console.log(token);
         this._setAuthToken(response.body.data.token);
         this._setauthInfo(token);
 

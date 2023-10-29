@@ -20,8 +20,7 @@ import { UserAuthAPIClient } from '../../api/userAuth';
 
 const router = useRouter();
 
-const { authInfo, login: appLogin } = inject(USER_AUTH_STORE_INJECT);
-const { loggedIn } = authInfo.value;
+const { loggedIn } = inject(USER_AUTH_STORE_INJECT);
 
 const userAuthStore = _userAuthStore();
 
@@ -37,7 +36,7 @@ onBeforeMount(async () => {
   loading.value = true;
   console.log(FILENAME, 'beforeMount', 'start');
 
-  if (loggedIn) {
+  if (loggedIn.value) {
     console.log(FILENAME, 'Already logged in');
     await router.push('/');
     loading.value = false;
@@ -76,7 +75,6 @@ async function login(e) {
   console.log(FILENAME, 'login', result);
 
   if (result.done) {
-    appLogin(result.body.authInfo);
     await router.push('/');
   }
 

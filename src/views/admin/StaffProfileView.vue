@@ -24,9 +24,7 @@ import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_TO_DISPLAY } from '../../config/constants
 
 const router = useRouter();
 
-const { authInfo } = inject(USER_AUTH_STORE_INJECT);
-const { loggedIn, role: userRole, userInfo } = authInfo.value;
-
+const { userInfo, loggedIn, role: userRole } = inject(USER_AUTH_STORE_INJECT);
 
 // ==
 
@@ -58,14 +56,14 @@ onBeforeMount(async () => {
   loading.value = true;
   console.log(FILENAME, 'beforeMount', 'start');
 
-  if (!loggedIn) {
+  if (!loggedIn.value) {
     console.log(FILENAME, 'Not logged in');
     await router.push('/login');
     loading.value = false;
     return;
   }
 
-  if (userRole != ROLE_ADMIN) {
+  if (userRole.value != ROLE_ADMIN) {
     console.log(FILENAME, 'Not logged in');
     await router.push('/');
     loading.value = false;
