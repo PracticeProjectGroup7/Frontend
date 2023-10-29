@@ -100,7 +100,7 @@ const closeModal = () => {
   }
 
   .btn-gray {
-    @appl text-black bg-gray-200;
+    @apply text-black bg-gray-200;
   }
 
   .btn-orange {

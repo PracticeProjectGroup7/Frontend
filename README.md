@@ -13,8 +13,7 @@
 
 ## Run locally
 
-```bash
-  ./run_local.sh
+```bash run_local.sh
 ```
 
 open localhost:5173

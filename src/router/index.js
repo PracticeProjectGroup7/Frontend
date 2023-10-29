@@ -9,8 +9,11 @@ import ServicesCatalogView from '../views/catalog/ServicesCatalogView.vue';
 import StaffView from '../views/admin/StaffView.vue';
 import StaffProfileView from '../views/admin/StaffProfileView.vue';
 import UserProfileView from '../views/accounts/UserProfileView.vue';
-import LabTestManagementView from '../views/labTestManagement/LabTestManagementView.vue';
-import LabTestDetailsView from '../views/labTestManagement/LabTestDetailsView.vue';
+import BookingManagementView from '../views/bookingManagement/BookingManagementView.vue';
+import BookingDetailsView from '../views/bookingManagement/BookingDetailsView.vue';
+import ManageBillsView from '../views/receptionist/ManageBillsView.vue';
+import ReceptionBookingBillView from '../views/receptionist/ReceptionBookingBill.vue';
+import { BOOKING_TYPE_DOCTOR, BOOKING_TYPE_LAB } from '../config/constants';
 
 const ROUTE_HOME = 'ROUTE_HOME';
 const ROUTE_LOGIN = 'ROUTE_LOGIN';
@@ -25,6 +28,10 @@ const ROUTE_SERVICE_CATALOG = 'ROUTE_SERVICE_CATALOG';
 const ROUTE_USER_PROFILE = 'ROUTE_USER_PROFILE';
 const ROUTE_LABTEST_MANAGEMENT = 'ROUTE_LABTEST_MANAGEMENT';
 const ROUTE_LABTEST_DETAILS = 'ROUTE_LABTEST_DETAILS';
+const ROUTE_APPOINTMENT_MANAGEMENT = 'ROUTE_APPOINTMENT_MANAGEMENT';
+const ROUTE_APPOINTMENT_DETAILS = 'ROUTE_APPOINTMENT_DETAILS';
+const ROUTE_BILL_MANAGEMENT = 'ROUTE_BILL_MANAGEMENT';
+const ROUTE_BOOKING_BILL_RECEPTION = 'ROUTE_BOOKING_BILL_RECEPTION';
 
 const ROUTE_STAFF_LIST = 'ROUTE_STAFF_LIST';
 const ROUTE_STAFF_PROFILE = 'ROUTE_STAFF_PROFILE';
@@ -93,13 +100,37 @@ const routes = [
   {
     path: '/test-management',
     name: ROUTE_LABTEST_MANAGEMENT,
-    component: LabTestManagementView,
-    props: true,
+    component: BookingManagementView,
+    props: { bookingType: BOOKING_TYPE_LAB },
   },
   {
     path: '/test-management/:testId',
     name: ROUTE_LABTEST_DETAILS,
-    component: LabTestDetailsView,
+    component: BookingDetailsView,
+    props: { bookingType: BOOKING_TYPE_LAB },
+  },
+  {
+    path: '/appointment-management',
+    name: ROUTE_APPOINTMENT_MANAGEMENT,
+    component: BookingManagementView,
+    props: { bookingType: BOOKING_TYPE_DOCTOR },
+  },
+  {
+    path: '/appointment-management/:appointmentId',
+    name: ROUTE_APPOINTMENT_DETAILS,
+    component: BookingDetailsView,
+    props: { bookingType: BOOKING_TYPE_DOCTOR },
+  },
+  {
+    path: '/bill-management',
+    name: ROUTE_BILL_MANAGEMENT,
+    component: ManageBillsView,
+    props: true,
+  },
+  {
+    path: '/bill-management/:billId',
+    name: ROUTE_BOOKING_BILL_RECEPTION,
+    component: ReceptionBookingBillView,
     props: true,
   },
 ];
@@ -119,7 +150,9 @@ export {
 
   ROUTE_SERVICE_CATALOG,
   ROUTE_LABTEST_MANAGEMENT, ROUTE_LABTEST_DETAILS,
+  ROUTE_APPOINTMENT_MANAGEMENT, ROUTE_APPOINTMENT_DETAILS,
   ROUTE_STAFF_LIST, ROUTE_STAFF_PROFILE,
+  ROUTE_BILL_MANAGEMENT, ROUTE_BOOKING_BILL_RECEPTION,
 };
 
 export default router;

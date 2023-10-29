@@ -1,25 +1,32 @@
 <script setup>
-const FILENAME = 'LabTestDetailsView.vue';
-import { ref } from 'vue';
+const FILENAME = 'BookingDetailsView.vue';
+import { ref, computed } from 'vue';
 import { RouterLink } from 'vue-router';
-import { labTestBookingDetails } from '../../_dummy_data/labTestBookings';
+import { isDoctorType } from '../../utils/utils';
+import { doctorBooking, labBooking } from '../../_dummy_data/bookings';
 import { ROUTE_BOOKING_HISTORY_OTHERS } from '../../router';
-import UpdateLabTestStatusModal from '../../components/Modals/UpdateLabTestStatusModal.vue';
+import UpdateBookingStatusModal from '../../components/Modals/UpdateBookingStatusModal.vue';
 
-const { props } = defineProps(['testId']);
+const props = defineProps({
+  'testId': String,
+  'bookingType': String,
+});
 const showModal = ref(false);
 const openModal = () => {
   showModal.value = true;
 };
+const isDoctorTypeBooking = isDoctorType(props.bookingType);
+
+const bookingTypeStr = computed(() => {
+  return isDoctorTypeBooking ? 'Appointment' : 'Test';
+});
+const breadcrumbPath = computed(() => {
+  return isDoctorTypeBooking ? '/appointment-management' : '/test-management';
+});
 
 console.log(FILENAME, 'On details page');
 
-const booking = ref(labTestBookingDetails);
-
-const breadcrumbItems = [
-  { text: 'Test Management', to: '/test-management' },
-  { text: 'View Test Details', to: `/test-management/${booking.value.id}` },
-];
+const booking = ref(isDoctorTypeBooking ? doctorBooking : labBooking);
 
 const handleStatusSaved = (data) => {
   // Handle the updated status data here
@@ -36,13 +43,17 @@ const closeModal = () => {
   <div class="p-8">
     <div class="text-sm breadcrumbs">
       <ul>
-      <li><RouterLink to="/test-management">Test Management</RouterLink></li> 
-      <li>View Test Details</li>
+      <li><RouterLink :to="breadcrumbPath">
+        {{ bookingTypeStr }} Management
+      </RouterLink></li>
+      <li>View {{ bookingTypeStr }} Details</li>
       </ul>
     </div>
     <div class="p-8">
       <div class="flex items-center"> <!-- Add a flex container -->
-        <h2 class="text-xl font-semibold mb-2">Lab Test Details - Booking #{{ booking.id }}</h2>
+        <h2 class="text-xl font-semibold mb-2">
+          {{ isDoctorTypeBooking ? 'Appointment' : 'Lab Test' }} Details - Booking #{{ booking.id }}
+        </h2>
         <span
           :class="{
             'bg-orange-700': booking.status === 'pending',
@@ -57,7 +68,6 @@ const closeModal = () => {
 
     <div class="grid grid-cols-2 gap-2 ml-8">
       <div>
-        <!-- <h3 class="text-lg font-semibold">Patient Information</h3> -->
         <ul>
           <li><strong>Patient Name:</strong> {{ booking.patientName }}</li>
           <li><strong>Date of Birth:</strong> {{ booking.dob }}</li>
@@ -66,11 +76,25 @@ const closeModal = () => {
       </div>
 
       <div>
-        <!-- <h3 class="text-lg font-semibold">Test Information</h3> -->
         <ul>
-          <li><strong>Test Name:</strong> {{ booking.testName }}</li>
-          <li><strong>Test Date:</strong> {{ booking.testDate }}</li>
-          <li><strong>Test Result:</strong> {{ booking.testResult }}</li>
+          <li>
+            <strong>
+              {{ bookingTypeStr }} Name:
+            </strong>
+            {{ isDoctorTypeBooking ? booking.doctorName : booking.testName }}
+          </li>
+          <li>
+            <strong>
+              {{ bookingTypeStr }} Date:
+            </strong>
+            {{ isDoctorTypeBooking ? booking.appointmentDate : booking.testDate }}
+          </li>
+          <li>
+            <strong>
+              {{ bookingTypeStr }} Result:
+            </strong>
+            {{ isDoctorTypeBooking ? booking.diagnosis : booking.testResult }}
+          </li>
         </ul>
       </div>
     </div>
@@ -82,9 +106,10 @@ const closeModal = () => {
       <button class="update-status-button" @click="openModal">Update Status</button>
     </div>
   </div>
-  <UpdateLabTestStatusModal
+  <UpdateBookingStatusModal
       v-if="showModal"
       :booking="booking"
+      :isDoctorTypeBooking="isDoctorTypeBooking"
       @status-saved="handleStatusSaved"
       @close="closeModal"
     />
