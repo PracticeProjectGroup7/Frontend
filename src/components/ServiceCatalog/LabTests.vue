@@ -1,9 +1,9 @@
 <script setup>
 const FILENAME = 'LabTests.vue';
-
-import { ref, computed } from 'vue';
-import { labTestCatalog } from '../../_dummy_data/servicesCatalog';
+import { ref, computed, onMounted } from 'vue';
 import BookTestModal from '../Modals/BookTestModal.vue';
+import { BOOKING_TYPE_LAB } from '../../config/constants';
+import { fetchCatalog } from '../../api/serviceCatalog.js';
 
 const props = defineProps({
   loggedIn: {
@@ -13,8 +13,15 @@ const props = defineProps({
   },
 });
 const searchedItem = ref('');
-const labTests = ref(labTestCatalog);// TODO
+const labTests = ref([]);
 const labTestModal = ref({});
+
+onMounted(async () => {
+  const data = await fetchCatalog(BOOKING_TYPE_LAB); // Use the fetchCatalog function
+  if (data) {
+    labTests.value = data; // Update the labTests array with the API response data
+  }
+});
 
 const filteredTests = computed(() => {
   return labTests.value.filter((labTest) =>

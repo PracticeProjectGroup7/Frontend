@@ -1,8 +1,9 @@
 <script setup>
 const FILENAME = 'DoctorAppointments.vue';
-import { ref, computed } from 'vue';
-import { doctorsCatalog } from '../../_dummy_data/servicesCatalog';
+import { ref, computed, onMounted } from 'vue';
 import BookAppointmentModal from '../Modals/BookAppointmentModal.vue';
+import { BOOKING_TYPE_DOCTOR } from '../../config/constants';
+import { fetchCatalog } from '../../api/serviceCatalog.js';
 
 const props = defineProps({
   loggedIn: {
@@ -12,8 +13,15 @@ const props = defineProps({
   },
 });
 const searchedItem = ref('');
-const doctors = ref(doctorsCatalog); // TODO
+const doctors = ref([]);
 const doctorModals = ref({}); // Object to track modal state for each doctor
+
+onMounted(async () => {
+  const data = await fetchCatalog(BOOKING_TYPE_DOCTOR); // Use the fetchCatalog function
+  if (data) {
+    doctors.value = data; // Update the doctors array with the API response data
+  }
+});
 
 const filteredDoctors = computed(() => {
   return doctors.value.filter((doctor) =>
