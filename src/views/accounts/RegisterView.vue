@@ -9,6 +9,7 @@ import { useRouter, RouterLink } from 'vue-router';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 import StaticHero from '../../components/static/StaticHero.vue';
+import FormErrors from '../../components/FormErrors.vue';
 import { ROUTE_LOGIN } from '../../router';
 
 import { UserAuthAPIClient } from '../../api/userAuth';
@@ -85,8 +86,8 @@ async function register(e) {
     await router.push({ name: ROUTE_LOGIN });
     console.log(FILENAME, 'register', 'end');
   } else if (result.userError) {
-    displayError.value = result.errorMessage;
-    await window.scrollTo(0, displayErrorElement.value.offsetTop + displayErrorElement.value.offsetHeight);
+    displayError.value = result.body.errorMessage;
+    window.scrollTo(0, displayErrorElement.value.offsetTop + displayErrorElement.value.offsetHeight);
   }
 
   loading.value = false;
@@ -201,14 +202,7 @@ async function register(e) {
       </div>
 
       <div class="join w-full" ref="displayErrorElement">
-        <template v-if="displayError != null">
-          <label class="label">
-            <span class="label-text text-red-700 font-bold text-lg">Error : </span> <br>
-          </label>
-          <label class="label">
-            <span class="label-text text-red-700 text-lg">{{ displayError }}</span>
-          </label>
-        </template>
+        <FormErrors v-if="displayError != null"  :error="displayError"/>
       </div>
     </form>
   </div>

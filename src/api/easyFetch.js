@@ -10,6 +10,7 @@ async function _easyWithBody(method, url, body) {
     });
     return simplifyResponse(response);
   } catch (error) {
+    console.log('_easyWithBody', method, url, body, error);
     return { 'done': false, 'userError': false };
   }
 }

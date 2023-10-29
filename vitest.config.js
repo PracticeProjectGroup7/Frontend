@@ -11,7 +11,12 @@ export default defineConfig((configEnv) => mergeConfig(
       root: fileURLToPath(new URL('./', import.meta.url)),
       coverage: {
         provider: 'istanbul',
-        reporter: ['html', 'lcov', 'text-summary'],
+        clean: true,
+        reporter: [
+          'html',
+          'lcov',
+          ['text-summary', { 'file': 'coverage.txt' }],
+        ],
       },
     },
   }),

@@ -14,6 +14,7 @@ import NotFoundBanner from '../../components/static/NotFoundBanner.vue';
 import URLCorrectBanner from '../../components/static/URLCorrectBanner.vue';
 import BookingBill from '../../components/Bookings/BookingBill.vue';
 import StaffList from '../../components/Staff/StaffList.vue';
+import FormErrors from '../../components/FormErrors.vue';
 import StaffFormModal from '../../components/Modals/StaffFormModal.vue';
 
 import { staffList as dummyStaffList } from '../../_dummy_data/staff';
@@ -198,12 +199,7 @@ async function _handleOpenStaffDeleteModal() {
     </div>
 
     <div class="join join-vertical w-full" :class="{ invisible: deleteStaffDisplayError == null }">
-      <label class="label font-bold pb-0 px-0">
-        <span class="label-text text-red-700 font-bold">Error : </span> <br>
-      </label>
-      <label class="label pt-0 px-0">
-        <span class="label-text text-red-700">{{ deleteStaffDisplayError }}</span>
-      </label>
+      <FormErrors :error="deleteStaffDisplayError"/>
     </div>
 
 
