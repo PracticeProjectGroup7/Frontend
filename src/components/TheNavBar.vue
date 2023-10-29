@@ -6,10 +6,13 @@ import { computed, ref } from 'vue';
 import { inject } from 'vue';
 import { useRouter, RouterLink, useRoute } from 'vue-router';
 
-import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE, ROUTE_LABTEST_MANAGEMENT, ROUTE_APPOINTMENT_MANAGEMENT, ROUTE_STAFF_LIST } from '../router';
+import {
+  ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE, ROUTE_LABTEST_MANAGEMENT,
+  ROUTE_APPOINTMENT_MANAGEMENT, ROUTE_STAFF_LIST, ROUTE_BILL_MANAGEMENT,
+} from '../router';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 import { isPrivilegedUser } from '../utils/permissions';
-import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_STAFF } from '../config/constants';
+import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_STAFF, ROLE_RECEPTION } from '../config/constants';
 
 // =====
 
@@ -46,7 +49,8 @@ const placeHolder = computed(() => {
 
 <template data-theme="corporate">
   <header
-    class="sticky top-0 z-40 py-1 border-b-2 border-b-slate-900/10 backdrop-blur supports-[backdrop-blur]:bg-white/95 shadow bg-white/95">
+    class="sticky top-0 z-40 py-1 border-b-2 border-b-slate-900/10 backdrop-blur
+    supports-[backdrop-blur]:bg-white/95 shadow bg-white/95">
 
     <div class="w-full md:w-3/4 max-w-screen-xl mx-auto pt-0 pb-0 navbar text-base-content">
 
@@ -83,6 +87,11 @@ const placeHolder = computed(() => {
               Appointment Management
             </RouterLink>
           </li>
+          <li><!--  v-if="loggedIn && userRole == ROLE_RECEPTION" -->
+            <RouterLink :to="{ name: ROUTE_BILL_MANAGEMENT }">
+              Bills Management
+            </RouterLink>
+          </li>
         </ul>
       </div>
 
@@ -97,11 +106,11 @@ const placeHolder = computed(() => {
               </div>
             </label>
             <ul tabindex="0"
-              class="mt-2 z-2 p-0 shadow-2xl menu menu-md border-2 border-base-content dropdown-content bg-base-100 rounded-box w-52">
+              class="mt-2 z-2 p-0 shadow-2xl menu menu-md border-2 border-base-content dropdown-content
+              bg-base-100 rounded-box w-52">
               <li>
                 <RouterLink :to="{ name: ROUTE_USER_PROFILE }"><a class="justify-between">
                     Profile
-                    <!-- <span class="badge">New</span> -->
                   </a></RouterLink>
               </li>
               <!-- <li>
