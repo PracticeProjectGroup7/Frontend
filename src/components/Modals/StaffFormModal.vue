@@ -3,6 +3,7 @@ const FILENAME = 'StaffFormModal.vue';
 
 import { computed, onBeforeMount, ref } from 'vue';
 
+import FormErrors from '../FormErrors.vue';
 
 import { ROLE_DOCTOR, ROLE_STAFF } from '../../config/constants';
 import { specialities } from '../../config/specialities';
@@ -197,12 +198,7 @@ const modalLabels = computed(() => {
           </div>
 
           <div class="join join-vertical w-full" :class="{ invisible: displayError == null }">
-            <label class="label font-bold pb-0 px-0">
-              <span class="label-text text-red-700 font-bold">Error : </span> <br>
-            </label>
-            <label class="label pt-0 px-0">
-              <span class="label-text text-red-700">{{ displayError }}</span>
-            </label>
+            <FormErrors :error="displayError"/>
           </div>
 
         </div>

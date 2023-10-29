@@ -7,8 +7,10 @@ import { inject } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
+import { userAuthStore as _userAuthStore } from '../../stores/userAuth';
 
 import StaticHero from '../../components/static/StaticHero.vue';
+import FormErrors from '../../components/FormErrors.vue';
 import { ROUTE_REGISTER } from '../../router';
 
 import { UserAuthAPIClient } from '../../api/userAuth';
@@ -20,6 +22,8 @@ const router = useRouter();
 
 const { authInfo, login: appLogin } = inject(USER_AUTH_STORE_INJECT);
 const { loggedIn } = authInfo.value;
+
+const userAuthStore = _userAuthStore();
 
 // =====
 
@@ -67,17 +71,20 @@ async function login(e) {
     password: password.value,
   };
 
-  const result = await (props.internal ? (UserAuthAPIClient.privelegedLogin(loginInfo)) : (UserAuthAPIClient.login(loginInfo)));
+  const result = await userAuthStore.login(loginInfo);
 
   console.log(FILENAME, 'login', result);
 
-  // ...
-  // ...
-  // ...
+  if (result.done) {
+    appLogin(result.body.authInfo);
+    await router.push('/');
+  }
 
-  console.log(result);
-
-  appLogin({ kk: 'lll' });
+  if (result.userError) {
+    displayError.value = 'Username/Password was incorrect';
+  } else {
+    displayError.value = 'Something went wrong';
+  }
 
   loading.value = false;
   console.log(FILENAME, 'login', 'end');
@@ -128,14 +135,7 @@ async function login(e) {
       </div>
 
       <div class="join join-vertical w-full" ref="displayErrorElement">
-        <template v-if="displayError != null">
-          <label class="label">
-            <span class="label-text text-red-700 font-bold">Error : </span> <br>
-          </label>
-          <label class="label">
-            <span class="label-text text-red-700">{{ displayError }}</span>
-          </label>
-        </template>
+        <FormErrors v-if="displayError != null"  :error="displayError"/>
       </div>
     </form>
   </div>
