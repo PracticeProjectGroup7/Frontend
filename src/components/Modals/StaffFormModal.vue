@@ -5,7 +5,7 @@ import { computed, onBeforeMount, ref } from 'vue';
 
 import FormErrors from '../FormErrors.vue';
 
-import { ROLE_DOCTOR, ROLE_STAFF } from '../../config/constants';
+import { ROLE_DOCTOR, ROLE_STAFF, ROLE_TO_BACKEND } from '../../config/constants';
 import { specialities } from '../../config/specialities';
 
 import { titlize } from '../../utils/utils';
@@ -52,6 +52,7 @@ const nric = ref(null);
 const phoneNumber = ref(null);
 const role = ref(null);
 const speciality = ref(null);
+const consultationFees = ref(null);
 const _form = ref(null);
 
 onBeforeMount(() => {
@@ -67,6 +68,7 @@ onBeforeMount(() => {
     phoneNumber.value = props.existingStaffInfo.phone;
     role.value = props.existingStaffInfo.role || props.existingStaffInfo.type;
     speciality.value = props.existingStaffInfo.speciality;
+    consultationFees.value = props.existingStaffInfo.consultationFees;
   }
 
   console.log(FILENAME, 'beforeMount', 'end');
@@ -92,6 +94,7 @@ function registerStaff(e) {
       'email': email.value, 'password': password.value,
       'phone': phoneNumber.value, 'nric': nric.value,
       'role': role.value, 'speciality': speciality.value,
+      'consultationFees': consultationFees.value,
     },
   });
 }
@@ -173,19 +176,21 @@ const modalLabels = computed(() => {
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-4">
             <div class="join join-vertical">
               <label class="form_label_label">
                 <span class="form_label_span">Role</span>
               </label>
               <select class="select form_input" required v-model="role">
                 <template v-for="role in allowedRolesToCreate" :key="role">
-                  <option :value="role">{{ allowedRolesToCreateStr[role] }}</option>
+                  <option :value="ROLE_TO_BACKEND[role]">{{ allowedRolesToCreateStr[role] }}</option>
                 </template>
               </select>
             </div>
+          </div>
 
-            <div class="join join-vertical" v-if="role == ROLE_DOCTOR">
+          <div class="grid grid-cols-2 gap-4" v-if="role == ROLE_DOCTOR">
+            <div class="join join-vertical">
               <label class="form_label_label">
                 <span class="form_label_span">Speciality</span>
               </label>
@@ -195,10 +200,17 @@ const modalLabels = computed(() => {
                 </template>
               </select>
             </div>
+
+            <div class="join join-vertical">
+              <label class="form_label_label">
+                <span class="form_label_span">Consultation Fees</span>
+              </label>
+              <input type="number" class="form_input" required min="5" step="5" v-model="consultationFees">
+            </div>
           </div>
 
           <div class="join join-vertical w-full" :class="{ invisible: displayError == null }">
-            <FormErrors :error="displayError"/>
+            <FormErrors :error="displayError" />
           </div>
 
         </div>
@@ -226,6 +238,15 @@ const modalLabels = computed(() => {
 
   @apply text-center;
 
-  @apply py-8 px-6;
+  @apply py-6 px-6;
+}
+
+.modal-box {
+  max-height: calc(100vh - 0em);
+}
+
+label.form_label_label,
+span.form_label_span {
+  @apply text-sm;
 }
 </style>

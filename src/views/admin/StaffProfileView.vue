@@ -8,6 +8,7 @@ import { RouterLink, useRouter } from 'vue-router';
 
 import { ROUTE_STAFF_LIST } from '../../router/index';
 import { isPrivilegedUser } from '../../utils/permissions';
+import { createPatch } from '../../utils/utils';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 import NotFoundBanner from '../../components/static/NotFoundBanner.vue';
@@ -100,23 +101,7 @@ function _updateStaffProfile({ newStaffInfo }) {
   editStaffDisplayError.value = null;
   opLoading.value = true;
 
-
-  let staffPatch = Object.keys(newStaffInfo).reduce((current, key) => {
-    if (staffInfo.value[key] == newStaffInfo[key]) {
-      return current;
-    } else {
-      return { ...current, [key]: newStaffInfo[key] };
-    }
-  }, {});
-  staffPatch = Object.keys(staffInfo.value).reduce((current, key) => {
-    if (staffInfo.value[key] == newStaffInfo[key]) {
-      return current;
-    } else {
-      return { ...current, [key]: newStaffInfo[key] };
-    }
-  }, staffPatch);
-  // staffInfo
-
+  const staffPatch = createPatch(staffInfo.value, newStaffInfo);
 
   opLoading.value = false;
   console.log(FILENAME, '_u', staffInfo.value);
