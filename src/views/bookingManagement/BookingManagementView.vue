@@ -1,19 +1,29 @@
 <script setup>
-const FILENAME = 'LabTestManagementView.vue';
+const FILENAME = 'BookingManagementView';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { labTestBookings } from '../../_dummy_data/labTestBookings';
+import { isDoctorType } from '../../utils/utils';
+import { doctorBookingList, labBookingList } from '../../_dummy_data/bookings';
+
+const props = defineProps({
+  bookingType: String,
+});
 
 const searchStatus = ref('');
 const router = useRouter();
 
+const isDoctorTypeBooking = isDoctorType(props.bookingType);
+
+const bookings = ref(isDoctorTypeBooking ? doctorBookingList : labBookingList);
+
 const viewDetails = (booking) => {
   console.log(FILENAME, 'Clicked on View Details');
-  router.push(`/test-management/${booking.id}`);
+  const path = isDoctorTypeBooking ? 'appointment-management' : 'test-management';
+  router.push(`/${path}/${booking.id}`);
 };
 
-const filteredLabTestBookings = computed(() => {
-  return labTestBookings.filter((booking) =>
+const filteredBookings = computed(() => {
+  return bookings.value.filter((booking) =>
     booking.status.toLowerCase().includes(searchStatus.value.toLowerCase()),
   );
 });
@@ -21,24 +31,36 @@ const filteredLabTestBookings = computed(() => {
 
 <template data-theme="corporate">
   <div class="p-8">
-    <h1 class="text-xl font-semibold mb-4">View Booked Tests</h1>
-    <input v-model="searchStatus" class="w-full p-2 mb-4 border rounded" placeholder="Search by Test Status" />
+    <h1 class="text-xl font-semibold mb-4">
+      View Booked {{ isDoctorTypeBooking ? 'Appointments' : 'Tests' }}
+    </h1>
+    <input v-model="searchStatus" class="w-full p-2 mb-4 border rounded" placeholder="Search by status..." />
     <table>
-      <caption hidden>List of Lab Test bookings</caption>
+      <caption hidden>
+        List of {{ isDoctorTypeBooking ? 'Appointment' : 'Lab Test' }} bookings
+      </caption>
       <thead>
         <tr>
           <th class="table-item">Patient Name</th>
-          <th class="table-item">Test Name</th>
-          <th class="table-item">Test Date</th>
+          <th class="table-item">
+            {{ isDoctorTypeBooking ? 'Doctor\'s' : 'Test' }} Name
+          </th>
+          <th class="table-item">
+            {{ isDoctorTypeBooking ? 'Appointment' : 'Test' }} Date
+          </th>
           <th class="table-item">Status</th>
           <th class="table-item"></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="booking in filteredLabTestBookings" :key="booking.id">
+        <tr v-for="booking in filteredBookings" :key="booking.id">
           <td class="table-item">{{ booking.patientName }}</td>
-          <td class="table-item">{{ booking.testName }}</td>
-          <td class="table-item">{{ booking.testDate }}</td>
+          <td class="table-item">
+            {{ isDoctorTypeBooking ? booking.doctorName : booking.testName }}
+          </td>
+          <td class="table-item">
+            {{ isDoctorTypeBooking ? booking.appointmentDate : booking.testDate }}
+          </td>
           <td class="table-item">
             <span :class="{'bg-orange-700': booking.status === 'pending', 'bg-green-700': booking.status === 'completed'}" class="status">
               {{ booking.status }}

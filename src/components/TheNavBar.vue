@@ -6,8 +6,7 @@ import { computed, ref } from 'vue';
 import { inject } from 'vue';
 import { useRouter, RouterLink, useRoute } from 'vue-router';
 
-import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE, ROUTE_LABTEST_MANAGEMENT, ROUTE_STAFF_LIST } from '../router';
-
+import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE, ROUTE_LABTEST_MANAGEMENT, ROUTE_APPOINTMENT_MANAGEMENT, ROUTE_STAFF_LIST } from '../router';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 import { isPrivilegedUser } from '../utils/permissions';
 import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_STAFF } from '../config/constants';
@@ -75,11 +74,15 @@ const placeHolder = computed(() => {
             </RouterLink>
           </li>
           <li><!--  v-if="loggedIn && userRole == ROLE_STAFF" -->
-            <RouterLink :to="{ name: ROUTE_LABTEST_MANAGEMENT }" :props="{ loggedIn }">
+            <RouterLink :to="{ name: ROUTE_LABTEST_MANAGEMENT }">
               Test Management
             </RouterLink>
           </li>
-          <li v-if="loggedIn && userRole == ROLE_DOCTOR"><a>Appointment Management</a></li>
+          <li><!--  v-if="loggedIn && userRole == ROLE_DOCTOR" -->
+            <RouterLink :to="{ name: ROUTE_APPOINTMENT_MANAGEMENT }">
+              Appointment Management
+            </RouterLink>
+          </li>
         </ul>
       </div>
 

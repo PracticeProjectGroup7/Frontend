@@ -1,14 +1,15 @@
 <script setup>
 import { ref } from 'vue';
 
-const FILENAME = 'UpdateLabTestStatusModal';
+const FILENAME = 'UpdateBookingStatusModal';
 
 const props = defineProps({
   booking: Object,
+  isDoctorTypeBooking: Boolean,
 });
 
 const newStatus = ref('pending');
-const testResult = ref('');
+const result = ref('');
 const emits = defineEmits(['close', 'status-saved']);
 const closeModal = () => {
   console.log(FILENAME, 'Closing modal...');
@@ -19,7 +20,7 @@ const saveStatus = () => {
   // Handle saving the new status and test result
   // Emit an event to the parent component with the new data
   console.log(FILENAME, 'Updating status...');
-  emits('status-saved', { newStatus: newStatus.value, testResult: testResult.value });
+  emits('status-saved', { newStatus: newStatus.value, result: result.value });
   closeModal();
 };
 </script>
@@ -27,14 +28,24 @@ const saveStatus = () => {
 <template>
     <div class="modal modal-open">
       <div class="modal-content">
-        <h2 class="modal-title">Set Lab Test Status</h2>
+        <h2 class="modal-title">Set {{ props.isDoctorTypeBooking ? 'Appointment' : 'Lab Test' }} Status</h2>
         <hr class="modal-hr mb-2" />
 
         <!-- Patient information -->
         <div class="modal-info mb-2">
           <p><strong>Patient Name:</strong> {{ booking.patientName }}</p>
-          <p><strong>Test Date:</strong> {{ booking.testDate }}</p>
-          <p><strong>Test Name:</strong> {{ booking.testName }}</p>
+          <p>
+            <strong>
+              {{ props.isDoctorTypeBooking ? 'Appointment' : 'Test' }} Date:
+            </strong>
+            {{ props.isDoctorTypeBooking ? booking.appointmentDate : booking.testDate }}
+          </p>
+          <p>
+            <strong>
+              {{ props.isDoctorTypeBooking ? 'Appointment' : 'Test' }} Name:
+            </strong>
+            {{ props.isDoctorTypeBooking ? booking.doctorName : booking.testName }}
+          </p>
           <p><strong>Current Status:</strong> {{ booking.status }}</p>
         </div>
 
@@ -52,8 +63,8 @@ const saveStatus = () => {
             </div>
 
             <div class="flex flex-col mb-4">
-              <label for="testResult">Test Result: </label>
-              <input type="text" id="testResult" v-model="testResult" />
+              <label for="result">{{ props.isDoctorTypeBooking ? 'Diagnosis' : 'Test Result' }}: </label>
+              <input type="text" id="result" v-model="result" />
             </div>
           </div>
 
