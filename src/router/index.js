@@ -11,6 +11,8 @@ import StaffProfileView from '../views/admin/StaffProfileView.vue';
 import UserProfileView from '../views/accounts/UserProfileView.vue';
 import BookingManagementView from '../views/bookingManagement/BookingManagementView.vue';
 import BookingDetailsView from '../views/bookingManagement/BookingDetailsView.vue';
+import ManageBillsView from '../views/receptionist/ManageBillsView.vue';
+import ReceptionBookingBillView from '../views/receptionist/ReceptionBookingBill.vue';
 import { BOOKING_TYPE_DOCTOR, BOOKING_TYPE_LAB } from '../config/constants';
 
 const ROUTE_HOME = 'ROUTE_HOME';
@@ -28,6 +30,8 @@ const ROUTE_LABTEST_MANAGEMENT = 'ROUTE_LABTEST_MANAGEMENT';
 const ROUTE_LABTEST_DETAILS = 'ROUTE_LABTEST_DETAILS';
 const ROUTE_APPOINTMENT_MANAGEMENT = 'ROUTE_APPOINTMENT_MANAGEMENT';
 const ROUTE_APPOINTMENT_DETAILS = 'ROUTE_APPOINTMENT_DETAILS';
+const ROUTE_BILL_MANAGEMENT = 'ROUTE_BILL_MANAGEMENT';
+const ROUTE_BOOKING_BILL_RECEPTION = 'ROUTE_BOOKING_BILL_RECEPTION';
 
 const ROUTE_STAFF_LIST = 'ROUTE_STAFF_LIST';
 const ROUTE_STAFF_PROFILE = 'ROUTE_STAFF_PROFILE';
@@ -117,6 +121,18 @@ const routes = [
     component: BookingDetailsView,
     props: { bookingType: BOOKING_TYPE_DOCTOR },
   },
+  {
+    path: '/bill-management',
+    name: ROUTE_BILL_MANAGEMENT,
+    component: ManageBillsView,
+    props: true,
+  },
+  {
+    path: '/bill-management/:billId',
+    name: ROUTE_BOOKING_BILL_RECEPTION,
+    component: ReceptionBookingBillView,
+    props: true,
+  },
 ];
 
 const router = createRouter({
@@ -136,6 +152,7 @@ export {
   ROUTE_LABTEST_MANAGEMENT, ROUTE_LABTEST_DETAILS,
   ROUTE_APPOINTMENT_MANAGEMENT, ROUTE_APPOINTMENT_DETAILS,
   ROUTE_STAFF_LIST, ROUTE_STAFF_PROFILE,
+  ROUTE_BILL_MANAGEMENT, ROUTE_BOOKING_BILL_RECEPTION,
 };
 
 export default router;

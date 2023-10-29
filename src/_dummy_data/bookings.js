@@ -63,6 +63,24 @@ const labBookingList = [
   },
 ];
 
+const genericBookingList = [
+  {
+    id: 'q12345',
+    patientName: 'Another Person',
+    patientId: '123456',
+    bookingDate: '30 October 2023',
+    billId: 'f23123123',
+  },
+  {
+    id: 'w12347',
+    patientName: 'Heated Laptop',
+    patientId: '123456',
+    bookingDate: '21 October 2023',
+    billId: 'a23123123',
+  },
+];
+
+
 // Sorted desc by bookingDate
 const mixedBookingList = [
   {
@@ -126,4 +144,5 @@ export {
   labBookingList,
   mixedBookingList,
   bill,
+  genericBookingList,
 };
