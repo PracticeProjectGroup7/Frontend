@@ -33,7 +33,7 @@ echo "${LEVEL_STEP}✅ Container Image Built${RESET}"
 
 echo "${LEVEL_STEP}🚧 Removing Running Container${RESET}"
 
-docker rm -f -i hms_frontend
+docker rm -f hms_frontend
 
 echo "${LEVEL_STEP}✅ Container Removed${RESET}"
 
@@ -52,17 +52,20 @@ docker run \
   --mount type=bind,source="$(pwd)"/configs,target=/hms/configs \
   -p 5173:5173 \
   --detach \
-  hms_frontend
+  hms_frontend:dev
 
 echo "${LEVEL_STEP}✅ Container Started${RESET}"
 
 ##
 
 echo "
-*************************************************************
-* 💡 To view logs      : ${LEVEL_ALERT}docker logs --follow hms_frontend${RESET}  *
-* 💡 To stop container : ${LEVEL_ALERT}docker stop -i hms_frontend${RESET}        *
-*************************************************************
+👀Hey! Check out localhost:5173
+
+***************************************************************
+* 💡 To view logs        : ${LEVEL_ALERT}docker logs --follow hms_frontend${RESET}  *
+* 💡 To stop container   : ${LEVEL_ALERT}docker stop hms_frontend${RESET}           *
+* 💡 To remove container : ${LEVEL_ALERT}docker rm hms_frontend${RESET}             *
+***************************************************************
 "
 
 echo "${LEVEL_STEP}👋 Bye${RESET}"

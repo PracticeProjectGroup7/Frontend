@@ -1,8 +1,45 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
+input,
+select {
+  border-radius: 2px !important;
+}
 
-  @apply py-4 px-2
+.loading-xl {
+  width: 3rem;
+}
+
+.loading-2xl {
+  width: 3.5rem;
+}
+
+.loading-3xl {
+  width: 4rem;
+}
+
+.custom_loading {
+  @apply loading loading-infinity loading-2xl text-warning -mb-4;
+}
+
+
+.login_regiser_form {
+  .form_label_label {
+    @apply label font-semibold px-0 py-1 join-item;
+  }
+
+  .form_label_span {
+    @apply label-text text-lg;
+  }
+
+  .link_to_other {
+    @apply label-text text-green-700 italic underline w-full text-center text-lg;
+  }
+
+  .main_btn {
+    @apply btn bg-base-300 text-lg join-item capitalize;
+  }
+
+  .form_input {
+    @apply input input-bordered join-item;
+  }
 }

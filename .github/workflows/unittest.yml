@@ -1,7 +1,8 @@
-name: Continous Unit Tests
+name: Unit Tests
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - '**.js'
       - '**.vue'
@@ -9,7 +10,9 @@ on:
 jobs:
   build_job:
     runs-on: ubuntu-latest
-    name: Unit Tests
+    name: Calculate coverage
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -22,3 +25,22 @@ jobs:
         run: npm ci --no-fund --no-update-notifier
       - name: Run unit tests
         run: npm run test:unit
+        id: unit_test
+      - name: Modify test coverage
+        run: |
+          echo '```' >> coverage/coverage.txt
+          tac coverage/coverage.txt >> coverage/coverage.txt.reversed
+          echo -n '```'  >> coverage/coverage.txt.reversed
+          tac coverage/coverage.txt.reversed >> coverage/coverage.txt.final
+      - name: Add coverage
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-path: 'coverage/coverage.txt.final'
+      - name: Mark unit test fail
+        if: ${{ failure() && steps.unit_test.conclusion == 'failure'}}
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: 'Unit test failed'
+
