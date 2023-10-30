@@ -1,9 +1,14 @@
 <script setup>
 const FILENAME = 'BookTestModal.vue';
-import { ref } from 'vue';
-import { labTestSlots } from '../../_dummy_data/servicesCatalog';
+import { ref, inject } from 'vue';
+import { easyPost } from '../../api/easyFetch';
+import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
+import { API_BASE_PATH } from '../../config/apiPaths';
+
+const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 
 console.log(FILENAME, 'isModalOpen:', true);
+console.log(FILENAME, 'userInfo:', userInfo);
 
 const props = defineProps({
   labTestService: {
@@ -12,19 +17,32 @@ const props = defineProps({
   },
 });
 
-console.log(FILENAME, 'labTestService:', props.labTestService);
-const upcomingSlots = ref(labTestSlots);
 const selectedSlot = ref(null);
 
 const emits = defineEmits(['close']); // Declare 'close' event
 
-const bookLabTest = (labTestId) => {
-  // TODO: Implement the booking logic
-  console.log(FILENAME, 'Booking service ID...', labTestId);
+const bookLabTest = async () => {
+  console.log(FILENAME, 'Booking service ID...', props.labTestService.serviceId);
+  const url = '/api/v1/services/booking';
+  const response = await easyPost({
+    url: API_BASE_PATH + url,
+    body:
+    {
+	    'serviceId': props.labTestService.serviceId,
+	    'patientId': userInfo.value.roleId,
+	    'appointmentDate': selectedSlot.value,
+	    'type': 'TEST',
+    },
+  });
+  if (response.done) {
+    console.log(`${FILENAME} - Booking successful`, response.body);
+  } else {
+    console.error(`${FILENAME} - Error in booking test`);
+  }
   emits('close');
 };
 
-const closeModal = (labTestId) => {
+const closeModal = () => {
   emits('close');
 };
 </script>
@@ -46,14 +64,11 @@ const closeModal = (labTestId) => {
       <label for="date" class="text-lg font-semibold">Select a Date:</label>
       <input v-model="selectedSlot" type="date" id="date" name="date" class="mb-2">
 
-      <!-- Conditional message when no slots are available -->
-      <p v-if="upcomingSlots.length === 0" class="error-msg">No slots available!</p>
-
-      <p v-else-if="selectedSlot" class="mt-2">Estimated Charges: ${{ labTestService.estimatedPrice }}</p>
+      <p v-if="selectedSlot" class="mt-2">Estimated Charges: ${{ labTestService.estimatedPrice }}</p>
 
       <div class="mt-4 modal-action">
-        <button @click="closeModal(labTestService.id)" class="bg-red-500">Cancel</button>
-        <button @click="bookLabTest(labTestService.id)" class="bg-green-500 ml-2" :disabled="!selectedSlot">Book</button>
+        <button @click="closeModal" class="bg-red-500">Cancel</button>
+        <button @click="bookLabTest" class="bg-green-500 ml-2" :disabled="!selectedSlot">Book</button>
       </div>
     </div>
   </div>

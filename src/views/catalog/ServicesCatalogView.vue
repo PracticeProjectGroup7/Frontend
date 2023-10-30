@@ -14,8 +14,7 @@ function showContent(type) {
   currentContent.value = type;
 }
 
-const { authInfo } = inject(USER_AUTH_STORE_INJECT);
-const { loggedIn, role: userRole, userInfo } = authInfo.value;
+const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 </script>
 
 <template>

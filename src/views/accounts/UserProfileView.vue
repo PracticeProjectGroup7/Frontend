@@ -1,16 +1,22 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import UserProfileEditModal from '../../components/Modals/UserProfileEditModal.vue';
-import { dummyUserProfile } from '../../_dummy_data/userProfile';
+import { userAuthStore } from '../../stores/userAuth';
+import { useRouter } from 'vue-router';
+import { easyGet } from '../../api/easyFetch';
+import { API_BASE_PATH } from '../../config/apiPaths';
 
-const FILENAME = 'UserProfileVue';
+const FILENAME = 'UserProfileView';
+const _userAuthStore = userAuthStore();
 
-const user = ref(dummyUserProfile);
+const user = ref({});
 const isEditModalOpen = ref(false);
+const router = useRouter();
 
 const logOut = () => {
-  // Implement your deactivate profile logic here
   console.log(FILENAME, 'Log Out clicked');
+  _userAuthStore.logout();
+  router.push('/login');
 };
 
 const openEditModal = () => {
@@ -30,6 +36,24 @@ const saveEditedProfile = (editedUserData) => {
   user.value = editedUserData;
   closeEditModal();
 };
+
+const fetchUserProfile = async () => {
+  const url = '/api/v1/user/profile';
+  const response = await easyGet({
+    url: API_BASE_PATH + url,
+  });
+  if (response.done) {
+    console.log(`${FILENAME} - Fetching user profile`);
+    user.value = response.body.data;
+  } else {
+    console.error(`${FILENAME} - Error fetching user profile`);
+  }
+};
+
+// Fetch user profile data when the component is mounted
+onMounted(() => {
+  fetchUserProfile();
+});
 </script>
 
 <template>

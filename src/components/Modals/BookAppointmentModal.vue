@@ -1,8 +1,12 @@
 <script setup>
 const FILENAME = 'BookAppointmentModal.vue';
-import { ref, watch } from 'vue';
+import { ref, watch, inject } from 'vue';
+import { easyPost } from '../../api/easyFetch';
+import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
+import { API_BASE_PATH } from '../../config/apiPaths';
 import { fetchDoctorSlots } from '../../api/booking';
 
+const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 console.log('isModalOpen:', true);
 
 const props = defineProps({
@@ -51,18 +55,36 @@ const calculateSlots = async () => {
   }
 };
 
-const bookAppointment = () => {
+const bookAppointment = async () => {
   const selectedSlotNumber = selectedSlot.value + 1;
-  if (selectedSlotNumber !== null) {
+  if (selectedSlotNumber != null) {
     // Send the selected slot number to the backend for booking
     console.log(FILENAME, `Selected Slot Number: ${selectedSlotNumber}`);
+    console.log(FILENAME, 'Booking service ID...', props.doctorService.serviceId);
+    const url = '/api/v1/services/booking';
+    const response = await easyPost({
+      url: API_BASE_PATH + url,
+      body:
+      {
+        'serviceId': props.doctorService.serviceId,
+        'patientId': userInfo.value.roleId,
+        'appointmentDate': selectedDate.value,
+        'selectedSlot': selectedSlotNumber,
+        'type': 'APPOINTMENT',
+      },
+    });
+    if (response.done) {
+      console.log(`${FILENAME} - Booking successful`, response.body);
+    } else {
+      console.error(`${FILENAME} - Error in booking appointment`);
+    }
     // Implement the booking logic here
     emits('close');
   }
 };
 
-const closeModal = (doctorId) => {
-  console.log(FILENAME, 'Closing Modal...', doctorId);
+const closeModal = () => {
+  console.log(FILENAME, 'Closing Modal...');
   emits('close');
 };
 </script>
@@ -95,7 +117,7 @@ const closeModal = (doctorId) => {
       <p v-else-if="selectedDate && selectedSlot" class="mt-2">Estimated Charges: ${{ doctorService.estimatedPrice }}</p>
 
       <div class="mt-4 modal-action">
-        <button @click="closeModal(doctorService.id)" class="bg-red-500">Cancel</button>
+        <button @click="closeModal" class="bg-red-500">Cancel</button>
         <button @click="bookAppointment" class="bg-green-500 ml-2" :disabled="selectedSlot === null">Book</button>
       </div>
     </div>

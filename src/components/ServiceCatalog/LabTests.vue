@@ -56,7 +56,7 @@ const isModalOpen = (labTestId) => {
     <div class="labTest-cards">
       <div class="labTest-card" v-for="labTest in filteredTests" :key="labTest.serviceId">
         <div class="labTest-details">
-          <h2>{{ labTest.name }}</h2>
+          <h2 class="font-bold">{{ labTest.name }}</h2>
           <p>{{ labTest.description }}</p>
         </div>
         <button v-if="props.loggedIn" class="book-labTest" v-on:click="bookLabTest(labTest.serviceId)">

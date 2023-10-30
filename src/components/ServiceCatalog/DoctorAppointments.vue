@@ -56,7 +56,7 @@ const isModalOpen = (doctorId) => {
     <div class="doctor-cards">
       <div class="doctor-card" v-for="doctor in filteredDoctors" :key="doctor.serviceId">
         <div class="doctor-details">
-          <h2>{{ doctor.name }}</h2>
+          <h2 class="font-bold">{{ doctor.name }}</h2>
           <p>{{ doctor.specialty }}</p>
           <p>Experience: {{ doctor.yearsOfExperience }} years</p>
         </div>

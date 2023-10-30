@@ -78,7 +78,11 @@ const closeModal = () => {
   </template>
 
 <style scoped>
-  /* Add your modal styling here */
+
+  .modal-content {
+    @apply bg-white p-4 rounded text-left;
+  }
+
   .form-field {
     @apply text-sm;
   }
