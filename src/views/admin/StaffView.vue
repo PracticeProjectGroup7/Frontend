@@ -3,6 +3,7 @@ const FILENAME = 'StaffView.vue';
 
 import { computed, onBeforeMount, ref, inject, onMounted, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
+import { vInfiniteScroll } from '@vueuse/components';
 
 import { isPrivilegedUser } from '../../utils/permissions';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
@@ -34,6 +35,17 @@ const searchTerm = ref('');
 const staffList = ref([]);
 
 
+// currentPage
+// currentPageSize
+// pageCount
+// total: database.value.length,
+//   page: 1,
+//   pageSize: 10,
+
+let from = 0;
+let size = 10;
+let total = Number.MIN_SAFE_INTEGER;
+
 onBeforeMount(async () => {
   loading.value = true;
   console.log(FILENAME, 'beforeMount', 'start');
@@ -55,6 +67,14 @@ onBeforeMount(async () => {
 
   console.log(FILENAME, 'Getting staff list');
 
+  let res = await StaffManagementAPIClient.getAllStuff({ from, size });
+  console.log(FILENAME, res, "res");
+
+  if (res.done) {
+    from = res.body.data.currentPage;
+    total = Math.max(total, res.body.data.totalElements);
+    staffList.value = res.body.data.items;
+  }
 
   // GET THE DATA
   // bookingList.value = []
@@ -65,7 +85,6 @@ onBeforeMount(async () => {
   console.log(FILENAME, 'beforeMount', 'end');
   loading.value = false;
 });
-
 
 watch(modalOpen, (newValue) => {
   if (newValue) {
@@ -119,6 +138,16 @@ const filteredStaffList = computed(() => {
     ));
 });
 
+function onLoadMore() {
+  // staffList.value.push(...dummyStaffList);
+
+  console.log("onLoadMore", staffList.value.length, total);
+  if (staffList.value.length >= total) {
+    console.log("STOP STOP STOP");
+  } else {
+    console.log("GET DATA");
+  }
+}
 
 </script>
 
@@ -136,8 +165,11 @@ const filteredStaffList = computed(() => {
     <div class="pb-2">
       <input v-model="searchTerm" placeholder="Search by name" class="w-full">
     </div>
-    <div>
-      <StaffList :staffList="filteredStaffList" />
+    <div v-if="filteredStaffList.length > 0">
+      <StaffList :staffList="filteredStaffList" @loadMore="onLoadMore" />
+    </div>
+    <div v-else>
+      No staff found
     </div>
 
     <StaffFormModal v-if="modalOpen" v-model:modalOpen="modalOpen" @registerStaff="registerStaff"

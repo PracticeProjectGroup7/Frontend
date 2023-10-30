@@ -1,13 +1,19 @@
 const FILENAME = 'staffManagement.js';
 
 import { easyPost, easyGet, easyDelete, easyPatch } from './easyFetch';
-import { STAFF_MANAGEMENT_API_BASE } from '../config/apiPaths';
+import { STAFF_MANAGEMENT_API_BASE, API_BASE_PATH } from '../config/apiPaths';
 
 
 class StaffManagementAPIClient {
   static async deleteStaff(staffId) {
     return easyDelete({
       url: STAFF_MANAGEMENT_API_BASE + `/${staffId}`,
+    });
+  }
+
+  static async getAllStuff({ from, size }) {
+    return easyGet({
+      url: API_BASE_PATH + `/staff?page=${from+1}&pageSize=${size}`,
     });
   }
 

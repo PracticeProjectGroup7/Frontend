@@ -40,7 +40,7 @@ const routes = [
   {
     path: '/',
     name: ROUTE_HOME,
-    component: HomeView,
+    component: ServicesCatalogView,
   },
   {
     path: '/login',

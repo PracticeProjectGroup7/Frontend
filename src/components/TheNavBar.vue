@@ -16,7 +16,7 @@ import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_STAFF, ROLE_RECEPTION } from '../config/c
 
 // =====
 
-const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
+const { loggedIn, role: userRole, userInfo, logout } = inject(USER_AUTH_STORE_INJECT);
 const route = useRoute();
 
 // =====
@@ -43,6 +43,14 @@ watch(
 const placeHolder = computed(() => {
   return userInfo.value.name.split(' ').map((splitName) => splitName[0]).join('');
 });
+
+function _logout(e) {
+  e.preventDefault();
+  const done = window.confirm('Are you sure you want to logout ?');
+  if (done) {
+    logout();
+  }
+}
 
 </script>
 
@@ -71,7 +79,7 @@ const placeHolder = computed(() => {
               Patient Management
             </RouterLink>
           </li>
-          <li v-if="loggedIn && isPrivilegedUser(userRole)">
+          <li v-if="loggedIn && userRole == ROLE_ADMIN">
             <RouterLink :to="{ name: ROUTE_STAFF_LIST }">
               Staff Management
             </RouterLink>
@@ -112,14 +120,7 @@ const placeHolder = computed(() => {
                     Profile
                   </a></RouterLink>
               </li>
-              <!-- <li>
-                <a class="justify-between">
-                  Profile
-                  <span class="badge badge-warning">1</span>
-                </a>
-              </li> -->
-              <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li><a v-on:click="_logout">Logout</a></li>
             </ul>
           </div>
         </template>
