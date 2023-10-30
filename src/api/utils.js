@@ -1,20 +1,16 @@
 import { userAuthStore } from '../stores/userAuth';
 
 /**
- * @param {Number} status HTTP Status Code
- * @return {Boolean}
+ * @param {Number} N Nxx
+ * @return {Function}
  */
-function like4xx(status) {
-  return (status / 100).toFixed(0) == 4;
+function _likeNxx(N) {
+  return (status) => ((status / 100).toFixed(0) == N);
 };
 
-/**
- * @param {Number} status HTTP Status Code
- * @return {Boolean}
- */
-function like5xx(status) {
-  return (status / 100).toFixed(0) == 5;
-};
+const like2xx = _likeNxx(2);
+const like4xx = _likeNxx(4);
+const like5xx = _likeNxx(5);
 
 const done = false;
 let _userAuthStore = null;
@@ -38,7 +34,7 @@ function commonHeaders() {
 }
 
 async function simplifyResponse(response) {
-  if (response.status == 200) {
+  if (like2xx(response.status)) {
     let r = null;
     try {
       r = await response.json();

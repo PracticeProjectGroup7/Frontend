@@ -17,8 +17,7 @@ import { mixedBookingList } from '../_dummy_data/bookings';
 
 const router = useRouter();
 
-const { authInfo } = inject(USER_AUTH_STORE_INJECT);
-const { loggedIn, role: userRole, userInfo } = authInfo.value;
+const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 
 // ====
 
@@ -39,7 +38,7 @@ onBeforeMount(async () => {
   loading.value = true;
   console.log(FILENAME, 'beforeMount', 'start');
 
-  if (!loggedIn) {
+  if (!loggedIn.value) {
     console.log(FILENAME, 'Not logged in');
     await router.push('/login');
     loading.value = false;
@@ -66,7 +65,7 @@ onBeforeMount(async () => {
 // Priveleged User -> Patient Id must be present
 // Non Priveleged User -> Patient Id must not be present OR must be equal to Patient Id
 function determineActualPatientId() {
-  if (isPrivilegedUser(userRole)) {
+  if (isPrivilegedUser(userRole.value)) {
     if (props.patientId == '-1') {
       return -1;
     }
@@ -75,10 +74,10 @@ function determineActualPatientId() {
   }
 
   if (props.patientId == '-1') {
-    return userInfo.userId;
+    return userInfo.value.userId;
   }
 
-  if (props.patientId == userInfo.userId) {
+  if (props.patientId == userInfo.value.userId) {
     return props.patientId;
   }
 
@@ -90,7 +89,7 @@ const allowedToView = computed(() => {
 });
 
 const _isPrivilegedUser = computed(() => {
-  return isPrivilegedUser(userRole);
+  return isPrivilegedUser(userRole.value);
 });
 
 </script>

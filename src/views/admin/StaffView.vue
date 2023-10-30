@@ -22,8 +22,7 @@ import { StaffManagementAPIClient } from '../../api/staffManagement';
 
 const router = useRouter();
 
-const { authInfo } = inject(USER_AUTH_STORE_INJECT);
-const { loggedIn, role: userRole, userInfo } = authInfo.value;
+const { loggedIn, role: userRole } = inject(USER_AUTH_STORE_INJECT);
 
 // ==
 
@@ -39,14 +38,14 @@ onBeforeMount(async () => {
   loading.value = true;
   console.log(FILENAME, 'beforeMount', 'start');
 
-  if (!loggedIn) {
+  if (!loggedIn.value) {
     console.log(FILENAME, 'Not logged in');
     await router.push('/login');
     loading.value = false;
     return;
   }
 
-  if (userRole != ROLE_ADMIN) {
+  if (userRole.value != ROLE_ADMIN) {
     console.log(FILENAME, 'Not logged in');
     await router.push('/');
     loading.value = false;
@@ -79,21 +78,27 @@ function openCreateStaffModal() {
   modalOpen.value = true;
 }
 
-function registerStaff({ newStaffInfo }) {
-  console.log(FILENAME, 'registerStaff', { newStaffInfo });
+async function registerStaff({ newStaffInfo }) {
   loading.value = true;
+
+  console.log(FILENAME, 'registerStaff', 'start');
+
+  console.log(FILENAME, 'registerStaff', { newStaffInfo });
 
   createStaffDisplayError.value = null;
 
-  setTimeout(async () => {
-    loading.value = false;
+  const res = await StaffManagementAPIClient.newStaff({ newStaffInfo });
+  console.log(FILENAME, 'registerStaff', res, { res });
 
-    // await StaffManagementAPIClient.newStaff({ newStaffInfo });
+  if (res.done) {
+    staffList.value.push({ ...newStaffInfo, staffId: res.body.data });
+    modalOpen.value = false;
+  } else {
     createStaffDisplayError.value = 'SOMW ERROR';
+  }
 
-    // modalOpen.value = false;
-    // staffList.value.push({ 'staffId': 'aasdd' });
-  }, 5000);
+  console.log(FILENAME, 'registerStaff', 'end');
+  loading.value = false;
 };
 
 const filteredStaffList = computed(() => {

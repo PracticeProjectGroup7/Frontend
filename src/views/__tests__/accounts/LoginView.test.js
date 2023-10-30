@@ -27,7 +27,7 @@ test('Redirects from login if loggedin', async () => {
         plugins: [
           router,
           createTestingPinia({
-            createSpy: vi.fn(),
+            createSpy: vi.fn,
           }),
         ],
         provide: {
@@ -52,7 +52,7 @@ test('Does not redirect from login if not loggedin', async () => {
         plugins: [
           router,
           createTestingPinia({
-            createSpy: vi.fn(),
+            createSpy: vi.fn,
           }),
         ],
         provide: {

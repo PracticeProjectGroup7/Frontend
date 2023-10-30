@@ -8,6 +8,7 @@ import { RouterLink, useRouter } from 'vue-router';
 
 import { ROUTE_STAFF_LIST } from '../../router/index';
 import { isPrivilegedUser } from '../../utils/permissions';
+import { createPatch } from '../../utils/utils';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 import NotFoundBanner from '../../components/static/NotFoundBanner.vue';
@@ -24,9 +25,7 @@ import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_TO_DISPLAY } from '../../config/constants
 
 const router = useRouter();
 
-const { authInfo } = inject(USER_AUTH_STORE_INJECT);
-const { loggedIn, role: userRole, userInfo } = authInfo.value;
-
+const { userInfo, loggedIn, role: userRole } = inject(USER_AUTH_STORE_INJECT);
 
 // ==
 
@@ -58,14 +57,14 @@ onBeforeMount(async () => {
   loading.value = true;
   console.log(FILENAME, 'beforeMount', 'start');
 
-  if (!loggedIn) {
+  if (!loggedIn.value) {
     console.log(FILENAME, 'Not logged in');
     await router.push('/login');
     loading.value = false;
     return;
   }
 
-  if (userRole != ROLE_ADMIN) {
+  if (userRole.value != ROLE_ADMIN) {
     console.log(FILENAME, 'Not logged in');
     await router.push('/');
     loading.value = false;
@@ -102,23 +101,7 @@ function _updateStaffProfile({ newStaffInfo }) {
   editStaffDisplayError.value = null;
   opLoading.value = true;
 
-
-  let staffPatch = Object.keys(newStaffInfo).reduce((current, key) => {
-    if (staffInfo.value[key] == newStaffInfo[key]) {
-      return current;
-    } else {
-      return { ...current, [key]: newStaffInfo[key] };
-    }
-  }, {});
-  staffPatch = Object.keys(staffInfo.value).reduce((current, key) => {
-    if (staffInfo.value[key] == newStaffInfo[key]) {
-      return current;
-    } else {
-      return { ...current, [key]: newStaffInfo[key] };
-    }
-  }, staffPatch);
-  // staffInfo
-
+  const staffPatch = createPatch(staffInfo.value, newStaffInfo);
 
   opLoading.value = false;
   console.log(FILENAME, '_u', staffInfo.value);

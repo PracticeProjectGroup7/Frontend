@@ -1,6 +1,7 @@
 const FILENAME = 'staffManagement.js';
 
 import { easyPost, easyGet, easyDelete, easyPatch } from './easyFetch';
+import { STAFF_MANAGEMENT_API_BASE } from '../config/apiPaths';
 
 
 class StaffManagementAPIClient {
@@ -16,11 +17,12 @@ class StaffManagementAPIClient {
     });
   }
 
-  static async newStaff({ staffInfo }) {
+  static async newStaff({ newStaffInfo }) {
+    console.log(FILENAME, 'newStaff', newStaffInfo);
     return await easyPost({
       url: STAFF_MANAGEMENT_API_BASE,
       body: {
-        ...staffInfo,
+        ...newStaffInfo,
       },
     });
   }

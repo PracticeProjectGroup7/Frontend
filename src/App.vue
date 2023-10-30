@@ -1,8 +1,9 @@
 <script setup>
 const FILENAME = 'App.vue';
 
-import { computed, inject, provide, readonly, ref } from 'vue';
+import { computed, inject, provide, readonly, ref, onBeforeMount, watch } from 'vue';
 import { RouterView } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
 import TheStaticFooter from './components/TheStaticFooter.vue';
 import TheNavBar from './components/TheNavBar.vue';
@@ -15,10 +16,12 @@ import { USER_AUTH_STORE_INJECT, USER_AUTH_STORE_INJECT_TESTING } from './config
 import { ROLE_ADMIN, ROLE_PATIENT, BACKEND_TO_ROLE } from './config/constants';
 
 // =====
+let lastLoginUpdateTime = Date.now();
+;
 
 let loggedIn = false; // TODO
 let role = ROLE_PATIENT; // TODO
-let userInfo = { name: 'Dummy User', userId: '12233636' };
+let userInfo = {};
 
 const userAuthStore = _userAuthStore();
 
@@ -32,6 +35,12 @@ if (userAuthStore.loggedIn && userAuthStore.authInfo) {
   console.debug(FILENAME, 'authInfo from store', { loggedIn, role, userInfo });
 }
 
+onBeforeMount(async () => {
+  if (userAuthStore != null) {
+    userAuthStore.initRefresh();
+  }
+});
+
 const tetsingAuthInfo = inject(USER_AUTH_STORE_INJECT_TESTING);
 if (tetsingAuthInfo) {
   console.log(FILENAME, 'authInfo from inject', tetsingAuthInfo.value.authInfo);
@@ -41,27 +50,44 @@ if (tetsingAuthInfo) {
   userInfo = tetsingAuthInfo.value.authInfo.userInfo;
 }
 
-const authInfo = ref({ loggedIn, role, userInfo });
-const login = (loginInfo) => {
-  console.debug(FILENAME, 'loginInfo', 'called with', loginInfo);
-
-  authInfo.value.loggedIn = true;
-  authInfo.value.role = BACKEND_TO_ROLE[loginInfo.ROLE];
-  authInfo.value.userInfo = loginInfo;
-};
-
+const loggedInRef = ref(loggedIn);
+const roleRef = ref(role);
+const userInfoRef = ref(userInfo);
 provide(USER_AUTH_STORE_INJECT, {
-  authInfo: readonly(authInfo),
-  login,
+  userInfo: userInfoRef,
+  loggedIn: loggedInRef,
+  role: roleRef,
 });
+
+
+if (userAuthStore != null) {
+  console.log('watching _loggedIn');
+
+  const { loggedIn: _loggedIn } = storeToRefs(userAuthStore);
+
+  watch(_loggedIn, (newValue) => {
+    if (newValue) {
+      loggedInRef.value = true;
+      roleRef.value = BACKEND_TO_ROLE[userAuthStore.authInfo.ROLE];
+      userInfoRef.value = userAuthStore.authInfo;
+    } else {
+      loggedInRef.value = false;
+      roleRef.value = ROLE_PATIENT;
+      userInfoRef.value = {};
+    }
+    console.log('watching _loggedIn', 'new loggedIn', newValue);
+    lastLoginUpdateTime = Date.now();
+  });
+}
+
 
 </script>
 
 <template>
-  <TheNavBar :appName=HOME_NAME />
+  <TheNavBar :key="`nav_${lastLoginUpdateTime}`" :appName=HOME_NAME />
 
   <div class="mx-auto bg-base-100 min-h-screen">
-    <RouterView :key="$route.fullPath" />
+    <RouterView :key="`${$route.fullPath}_${lastLoginUpdateTime}`" />
   </div>
 
   <TheStaticFooter :buildInfo="BUILD_INFO" />
