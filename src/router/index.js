@@ -96,6 +96,7 @@ const routes = [
     path: '/_internal/staff-profile/:staffId',
     name: ROUTE_STAFF_PROFILE,
     component: StaffProfileView,
+    props: true,
   },
   {
     path: '/test-management',

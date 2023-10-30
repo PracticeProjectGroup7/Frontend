@@ -1,7 +1,8 @@
 <script setup>
 const FILENAME = 'StaffFormModal.vue';
 
-import { computed, onBeforeMount, ref } from 'vue';
+import { computed, onBeforeMount, ref, watch } from 'vue';
+import { watchDebounced } from '@vueuse/core';
 
 import FormErrors from '../FormErrors.vue';
 
@@ -40,7 +41,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modalOpen', 'registerStaff']);
+const emit = defineEmits(['update:modalOpen', 'registerStaff', 'notifyFieldChanged']);
 
 // ==
 
@@ -111,6 +112,14 @@ const modalLabels = computed(() => {
     buttonTitle: props.mode == 'create' ? 'Register Staff' : 'Edit Staff',
   };
 });
+
+watchDebounced(
+  () => [email.value, nric.value, role.value, speciality.value, consultationFees.value],
+  () => {
+    emit('notifyFieldChanged');
+  },
+  { debounce: 500, maxWait: 1000 },
+);
 
 </script>
 
@@ -189,7 +198,7 @@ const modalLabels = computed(() => {
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-4" v-if="role == ROLE_DOCTOR">
+          <div class="grid grid-cols-2 gap-4" v-if="role == ROLE_TO_BACKEND[ROLE_DOCTOR]">
             <div class="join join-vertical">
               <label class="form_label_label">
                 <span class="form_label_span">Speciality</span>

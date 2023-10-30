@@ -20,6 +20,7 @@ import StaffFormModal from '../../components/Modals/StaffFormModal.vue';
 
 import { staffList as dummyStaffList } from '../../_dummy_data/staff';
 import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_TO_DISPLAY } from '../../config/constants';
+import { StaffManagementAPIClient } from '../../api/staffManagement';
 
 // ==
 
@@ -48,10 +49,10 @@ const opLoading = ref(false);
 
 const editModalOpen = ref(false);
 const editStaffDisplayError = ref(null);
-
 const deleteStaffDisplayError = ref(null);
 
-const staffInfo = ref({});
+const notFound = ref(false);
+const staffInfo = ref(null);
 
 onBeforeMount(async () => {
   loading.value = true;
@@ -75,10 +76,13 @@ onBeforeMount(async () => {
   if (props.staffId != -1) {
     console.log(FILENAME, 'Getting staff profile', props.staffId);
 
-    staffInfo.value = dummyStaffList[0];
+    let result = await StaffManagementAPIClient.getStaff(props.staffId);
 
-    loading.value = false;
+    console.log(FILENAME, 'getStaff', result);
 
+    if (result.userError && result.body?.status == 404) {
+      notFound.value = true;
+    }
     // GET THE DATA
     // bookingList.value = []
     //
@@ -89,6 +93,9 @@ onBeforeMount(async () => {
 
   console.log(FILENAME, 'beforeMount', 'end');
   loading.value = false;
+
+
+  console.log(loading.value, notFound.value, staffInfo.value);
 });
 
 function _handleOpenStaffEditModal() {
@@ -129,6 +136,11 @@ async function _handleOpenStaffDeleteModal() {
   // DELETE
 }
 
+function fieldChanged() {
+  editStaffDisplayError.value = null;
+};
+
+
 </script>
 
 <template data-theme="corporate">
@@ -136,7 +148,10 @@ async function _handleOpenStaffDeleteModal() {
     <span class="custom_loading" :style="{ 'opacity': ((loading || opLoading) ? 100 : 0) }"></span>
   </div>
 
-  <div v-if="!loading" class="w-2/5 mx-auto">
+  <NotFoundBanner v-if="!loading && notFound" />
+  <URLCorrectBanner v-if="!loading && !notFound && staffInfo == null" />
+
+  <div v-if="!loading && staffInfo != null" class="w-2/5 mx-auto">
     <div class="flex items-center mb-2">
       <span class="text-3xl font-bold">Staff #{{ staffInfo.staffId }}</span>
     </div>
@@ -182,13 +197,13 @@ async function _handleOpenStaffDeleteModal() {
     </div>
 
     <div class="join join-vertical w-full" :class="{ invisible: deleteStaffDisplayError == null }">
-      <FormErrors :error="deleteStaffDisplayError"/>
+      <FormErrors :error="deleteStaffDisplayError" />
     </div>
 
 
     <StaffFormModal v-if="allowedToUpdateStaff && editModalOpen" v-model:modalOpen="editModalOpen"
       @registerStaff="_updateStaffProfile" :disableButtons="loading || opLoading" :displayError="editStaffDisplayError"
-      :mode='"edit"' :existingStaffInfo="staffInfo" />
+      :mode='"edit"' :existingStaffInfo="staffInfo" @notifyFieldChanged="fieldChanged" />
 
   </div>
 </template>
