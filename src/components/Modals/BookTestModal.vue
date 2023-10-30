@@ -8,7 +8,6 @@ import { API_BASE_PATH } from '../../config/apiPaths';
 const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 
 console.log(FILENAME, 'isModalOpen:', true);
-console.log(FILENAME, 'userInfo:', userInfo);
 
 const props = defineProps({
   labTestService: {
