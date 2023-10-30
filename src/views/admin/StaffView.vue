@@ -93,12 +93,18 @@ async function registerStaff({ newStaffInfo }) {
   if (res.done) {
     staffList.value.push({ ...newStaffInfo, staffId: res.body.data });
     modalOpen.value = false;
+  } else if (res.userError) {
+    createStaffDisplayError.value = res.body.errorMessage;
   } else {
-    createStaffDisplayError.value = 'SOMW ERROR';
+    createStaffDisplayError.value = 'Please Try Again';
   }
 
   console.log(FILENAME, 'registerStaff', 'end');
   loading.value = false;
+};
+
+function fieldChanged() {
+  createStaffDisplayError.value = null;
 };
 
 const filteredStaffList = computed(() => {
@@ -135,7 +141,8 @@ const filteredStaffList = computed(() => {
     </div>
 
     <StaffFormModal v-if="modalOpen" v-model:modalOpen="modalOpen" @registerStaff="registerStaff"
-      :disableButtons="loading" :displayError="createStaffDisplayError" :mode='"create"' />
+      :disableButtons="loading" :displayError="createStaffDisplayError" :mode='"create"'
+      @notifyFieldChanged="fieldChanged" />
   </div>
 </template>
 

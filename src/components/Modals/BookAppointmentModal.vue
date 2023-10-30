@@ -46,7 +46,7 @@ const closeModal = (doctorId) => {
 
         <div class="mb-4">
           <h3 class="text-lg font-semibold">{{ doctor.name }}</h3>
-          <p class="text-gray-600">{{ doctor.specialization }}</p>
+          <p class="text-gray-600">{{ doctor.specialty }}</p>
         </div>
 
         <hr>
