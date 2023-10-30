@@ -45,6 +45,7 @@ const isModalOpen = (labTestId) => {
   // Check if the modal is open for the specific doctor
   return labTestModal.value[labTestId] || false;
 };
+
 </script>
 
 <template>
@@ -53,19 +54,19 @@ const isModalOpen = (labTestId) => {
       <input placeholder="Search by name..." v-model="searchedItem">
     </div>
     <div class="labTest-cards">
-      <div class="labTest-card" v-for="labTest in filteredTests" :key="labTest.id">
+      <div class="labTest-card" v-for="labTest in filteredTests" :key="labTest.serviceId">
         <div class="labTest-details">
           <h2>{{ labTest.name }}</h2>
           <p>{{ labTest.description }}</p>
         </div>
-        <button v-if="loggedIn" class="book-labTest" v-on:click="bookLabTest(labTest.id)">
+        <button v-if="props.loggedIn" class="book-labTest" v-on:click="bookLabTest(labTest.serviceId)">
           Book Test/Scan
         </button>
         <div v-else>
           Please log in to book tests or scans.
         </div>
         <!-- Modal component to book lab test -->
-        <BookTestModal v-if="isModalOpen(labTest.id)" :labTest="labTest" @close="closeModal(labTest.id)" />
+        <BookTestModal v-if="isModalOpen(labTest.serviceId)" :labTestService="labTest" @close="closeModal(labTest.serviceId)" />
       </div>
     </div>
   </div>

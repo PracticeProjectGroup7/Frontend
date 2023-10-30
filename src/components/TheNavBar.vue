@@ -63,7 +63,7 @@ const placeHolder = computed(() => {
       <div class="navbar-center flex">
         <ul class="menu menu-horizontal text-lg">
           <li>
-            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }" :props="{ loggedIn }">
+            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }">
               Services
             </RouterLink>
           </li>

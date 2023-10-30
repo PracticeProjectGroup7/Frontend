@@ -3,46 +3,30 @@ const FILENAME = 'BookTestModal.vue';
 import { ref } from 'vue';
 import { labTestSlots } from '../../_dummy_data/servicesCatalog';
 
-console.log('isModalOpen:', true);
+console.log(FILENAME, 'isModalOpen:', true);
 
 const props = defineProps({
-  labTest: {
+  labTestService: {
     type: Object,
     required: true,
   },
 });
+
+console.log(FILENAME, 'labTestService:', props.labTestService);
 const upcomingSlots = ref(labTestSlots);
 const selectedSlot = ref(null);
 
 const emits = defineEmits(['close']); // Declare 'close' event
 
-const calculateCharges = () => {
-  // Return the calculated charges.
-  return '150';
-};
-
-const calculateSlots = () => {
-  // TODO : logic to retrieve available bookings for the labTest
-  return;
-};
-
-const bookLabTest = () => {
+const bookLabTest = (labTestId) => {
   // TODO: Implement the booking logic
-  // reduce available slots by 1 for the selected date
+  console.log(FILENAME, 'Booking service ID...', labTestId);
   emits('close');
 };
 
 const closeModal = (labTestId) => {
-  console.log(FILENAME, 'Closing Modal for test ID...', labTestId);
   emits('close');
 };
-
-function getDateWithoutTime(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-}
 </script>
 
 <template>
@@ -52,26 +36,24 @@ function getDateWithoutTime(date) {
       <hr>
 
       <div class="mb-4">
-        <h3 class="text-lg font-semibold">{{ labTest.name }}</h3>
-        <p class="text-gray-600">{{ labTest.description }}</p>
+        <h3 class="text-lg font-semibold">{{ labTestService.name }}</h3>
+        <p class="text-gray-600">{{ labTestService.description }}</p>
       </div>
 
       <hr>
 
-      <h3 class="text-lg font-semibold">Available dates</h3>
-      <select v-model="selectedSlot">
-        <option value="null" disabled hidden selected>Select a slot</option>
-        <option v-for="slot in upcomingSlots">{{ getDateWithoutTime(slot.date) }}</option>
-      </select>
+      <!-- Step 2: Change slot selector to a date selector -->
+      <label for="date" class="text-lg font-semibold">Select a Date:</label>
+      <input v-model="selectedSlot" type="date" id="date" name="date" class="mb-2">
 
       <!-- Conditional message when no slots are available -->
       <p v-if="upcomingSlots.length === 0" class="error-msg">No slots available!</p>
 
-      <p v-else-if="selectedSlot" class="mt-2">Estimated Charges: ${{ calculateCharges(selectedSlot) }}</p>
+      <p v-else-if="selectedSlot" class="mt-2">Estimated Charges: ${{ labTestService.estimatedPrice }}</p>
 
       <div class="mt-4 modal-action">
-        <button @click="closeModal(labTest.id)" class="bg-red-500">Cancel</button>
-        <button @click="bookLabTest" class="bg-green-500 ml-2" :disabled="!selectedSlot">Book</button>
+        <button @click="closeModal(labTestService.id)" class="bg-red-500">Cancel</button>
+        <button @click="bookLabTest(labTestService.id)" class="bg-green-500 ml-2" :disabled="!selectedSlot">Book</button>
       </div>
     </div>
   </div>
