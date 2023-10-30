@@ -14,11 +14,7 @@ export async function fetchCatalog(bookingType) {
   if (response.done) {
     console.log(`${FILENAME} - Fetching service catalog`);
     return response.body.data.items;
-  } /* else if (response.userError) {
-    console.error(`${FILENAME} - Error fetching service catalog: ${response.body}`);
-    return null;
-  }  */
-  else {
+  } else {
     console.error(`${FILENAME} - Error fetching service catalog`);
     return null;
   }

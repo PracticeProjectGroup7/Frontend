@@ -45,6 +45,7 @@ const isModalOpen = (doctorId) => {
   // Check if the modal is open for the specific doctor
   return doctorModals.value[doctorId] || false;
 };
+
 </script>
 
 <template>
@@ -53,13 +54,13 @@ const isModalOpen = (doctorId) => {
       <input placeholder="Search by specialty..." v-model="searchedItem">
     </div>
     <div class="doctor-cards">
-      <div class="doctor-card" v-for="doctor in filteredDoctors" :key="doctor.id">
+      <div class="doctor-card" v-for="doctor in filteredDoctors" :key="doctor.serviceId">
         <div class="doctor-details">
           <h2>{{ doctor.name }}</h2>
           <p>{{ doctor.specialty }}</p>
           <p>Experience: {{ doctor.yearsOfExperience }} years</p>
         </div>
-        <button v-if="loggedIn" class="book-appointment" v-on:click="bookAppointment(doctor.id)">
+        <button v-if="props.loggedIn" class="book-appointment" v-on:click="bookAppointment(doctor.serviceId)">
           Book Appointment
         </button>
         <div v-else>
@@ -67,7 +68,7 @@ const isModalOpen = (doctorId) => {
         </div>
 
         <!-- Modal component to book appointment -->
-        <BookAppointmentModal v-if="isModalOpen(doctor.id)" :doctor="doctor" @close="closeModal(doctor.id)" />
+        <BookAppointmentModal v-if="isModalOpen(doctor.serviceId)" :doctorService="doctor" @close="closeModal(doctor.serviceId)" />
       </div>
     </div>
   </div>
