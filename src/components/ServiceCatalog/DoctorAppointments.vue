@@ -25,7 +25,7 @@ onMounted(async () => {
 
 const filteredDoctors = computed(() => {
   return doctors.value.filter((doctor) =>
-    doctor.specialization.toLowerCase().includes(searchedItem.value.toLowerCase()),
+    doctor.specialty.toLowerCase().includes(searchedItem.value.toLowerCase()),
   );
 });
 
@@ -56,8 +56,8 @@ const isModalOpen = (doctorId) => {
       <div class="doctor-card" v-for="doctor in filteredDoctors" :key="doctor.id">
         <div class="doctor-details">
           <h2>{{ doctor.name }}</h2>
-          <p>{{ doctor.specialization }}</p>
-          <p>Experience: {{ doctor.experience }} years</p>
+          <p>{{ doctor.specialty }}</p>
+          <p>Experience: {{ doctor.yearsOfExperience }} years</p>
         </div>
         <button v-if="loggedIn" class="book-appointment" v-on:click="bookAppointment(doctor.id)">
           Book Appointment

@@ -166,11 +166,18 @@ function fieldChanged() {
       <div class="font-medium">{{ ROLE_TO_DISPLAY[staffInfo.role || staffInfo.type] }}</div>
     </div>
 
-    <div class="mb-2 text-lg" v-if="staffInfo.role == ROLE_DOCTOR || staffInfo.type == ROLE_DOCTOR">
-      <div class="font-bold">Speciality</div>
-      <div class="font-medium">{{ staffInfo.speciality }}</div>
-    </div>
+    <template v-if="staffInfo.role == ROLE_DOCTOR || staffInfo.type == ROLE_DOCTOR">
+      <div class="mb-2 text-lg">
+        <div class="font-bold">Specialty</div>
+        <div class="font-medium">{{ staffInfo.specialty }}</div>
+      </div>
 
+      <div class="mb-2 text-lg">
+        <div class="font-bold">Experience</div>
+        <div class="font-medium">{{ staffInfo.yearsOfExperience }}</div>
+      </div>
+
+    </template>
 
     <div class="mb-2 text-lg">
       <div class="font-bold">Email</div>

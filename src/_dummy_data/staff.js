@@ -11,8 +11,8 @@ const staffList = [
     nric: 'Dummy NRIC',
     phone: '9999990000',
     email: 'asd@ad.com',
-    experience: 15,
-    speciality: specialities[getRandomInt(specialities.length)],
+    yearsOfExperience: 15,
+    specialty: specialities[getRandomInt(specialities.length)],
   },
   {
     staffId: 2,
@@ -20,10 +20,10 @@ const staffList = [
     lastName: 'Smith',
 
     type: ROLE_DOCTOR,
-    speciality: specialities[getRandomInt(specialities.length)],
+    specialty: specialities[getRandomInt(specialities.length)],
     email: 'asd@ad.com',
 
-    experience: 10,
+    yearsOfExperience: 10,
   },
   {
     staffId: 3,
@@ -39,9 +39,9 @@ const staffList = [
     lastName: 'Smith',
 
     type: ROLE_DOCTOR,
-    speciality: specialities[getRandomInt(specialities.length)],
+    specialty: specialities[getRandomInt(specialities.length)],
     email: 'asd@ad.com',
-    experience: 4,
+    yearsOfExperience: 4,
   },
   {
     staffId: 5,
@@ -57,9 +57,9 @@ const staffList = [
     lastName: 'Dow',
 
     type: ROLE_DOCTOR,
-    speciality: specialities[getRandomInt(specialities.length)],
+    specialty: specialities[getRandomInt(specialities.length)],
     email: 'asd@ad.com',
-    experience: 15,
+    yearsOfExperience: 15,
   },
 ];
 

@@ -52,8 +52,9 @@ const password = ref(null);
 const nric = ref(null);
 const phoneNumber = ref(null);
 const role = ref(null);
-const speciality = ref(null);
+const specialty = ref(null);
 const consultationFees = ref(null);
+const yearsOfExperience = ref(null);
 const _form = ref(null);
 
 onBeforeMount(() => {
@@ -68,8 +69,9 @@ onBeforeMount(() => {
     nric.value = props.existingStaffInfo.nric;
     phoneNumber.value = props.existingStaffInfo.phone;
     role.value = props.existingStaffInfo.role || props.existingStaffInfo.type;
-    speciality.value = props.existingStaffInfo.speciality;
+    specialty.value = props.existingStaffInfo.specialty;
     consultationFees.value = props.existingStaffInfo.consultationFees;
+    yearsOfExperience.value = props.existingStaffInfo.yearsOfExperience;
   }
 
   console.log(FILENAME, 'beforeMount', 'end');
@@ -94,8 +96,9 @@ function registerStaff(e) {
       'firstName': firstName.value, 'lastName': lastName.value,
       'email': email.value, 'password': password.value,
       'phone': phoneNumber.value, 'nric': nric.value,
-      'role': role.value, 'speciality': speciality.value,
+      'role': role.value, 'specialty': specialty.value,
       'consultationFees': consultationFees.value,
+      'yearsOfExperience': yearsOfExperience.value,
     },
   });
 }
@@ -114,7 +117,7 @@ const modalLabels = computed(() => {
 });
 
 watchDebounced(
-  () => [email.value, nric.value, role.value, speciality.value, consultationFees.value],
+  () => [email.value, nric.value, role.value, specialty.value, consultationFees.value],
   () => {
     emit('notifyFieldChanged');
   },
@@ -198,14 +201,14 @@ watchDebounced(
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-4" v-if="role == ROLE_TO_BACKEND[ROLE_DOCTOR]">
+          <div class="grid grid-cols-3 gap-2" v-if="role == ROLE_TO_BACKEND[ROLE_DOCTOR]">
             <div class="join join-vertical">
               <label class="form_label_label">
-                <span class="form_label_span">Speciality</span>
+                <span class="form_label_span">Specialty</span>
               </label>
-              <select class="select form_input" required v-model="speciality">
-                <template v-for="speciality in specialities" :key="speciality">
-                  <option :value="speciality">{{ speciality }}</option>
+              <select class="select form_input" required v-model="specialty">
+                <template v-for="specialty in specialities" :key="specialty">
+                  <option :value="specialty">{{ specialty }}</option>
                 </template>
               </select>
             </div>
@@ -215,6 +218,13 @@ watchDebounced(
                 <span class="form_label_span">Consultation Fees</span>
               </label>
               <input type="number" class="form_input" required min="5" step="5" v-model="consultationFees">
+            </div>
+
+            <div class="join join-vertical">
+              <label class="form_label_label">
+                <span class="form_label_span">Years Of Experience</span>
+              </label>
+              <input type="number" class="form_input" required min="1" step="1" v-model="yearsOfExperience">
             </div>
           </div>
 
@@ -251,7 +261,8 @@ watchDebounced(
 }
 
 .modal-box {
-  max-height: calc(100vh - 0em);
+  max-height: calc(100vh - 0rem);
+  min-width: calc(100vw - 70rem);
 }
 
 label.form_label_label,
