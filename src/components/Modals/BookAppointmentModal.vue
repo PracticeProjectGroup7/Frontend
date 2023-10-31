@@ -1,9 +1,9 @@
 <script setup>
 const FILENAME = 'BookAppointmentModal.vue';
 import { ref, watch, inject } from 'vue';
-import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 import { timeSlots } from '../../config/timeSlots';
 import { bookServices, fetchDoctorSlots } from '../../api/booking';
+import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 console.log('isModalOpen:', true);

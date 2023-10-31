@@ -3,8 +3,7 @@ import { ref, onMounted } from 'vue';
 import UserProfileEditModal from '../../components/Modals/UserProfileEditModal.vue';
 import { userAuthStore } from '../../stores/userAuth';
 import { useRouter } from 'vue-router';
-import { easyGet } from '../../api/easyFetch';
-import { API_BASE_PATH } from '../../config/apiPaths';
+import { fetchUserProfileData } from '../../api/profile';
 
 const FILENAME = 'UserProfileView';
 const _userAuthStore = userAuthStore();
@@ -38,16 +37,7 @@ const saveEditedProfile = (editedUserData) => {
 };
 
 const fetchUserProfile = async () => {
-  const url = '/api/v1/user/profile';
-  const response = await easyGet({
-    url: API_BASE_PATH + url,
-  });
-  if (response.done) {
-    console.log(`${FILENAME} - Fetching user profile`);
-    user.value = response.body.data;
-  } else {
-    console.error(`${FILENAME} - Error fetching user profile`);
-  }
+  user.value = await fetchUserProfileData();
 };
 
 // Fetch user profile data when the component is mounted

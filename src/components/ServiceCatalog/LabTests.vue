@@ -1,9 +1,12 @@
 <script setup>
 const FILENAME = 'LabTests.vue';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
 import BookTestModal from '../Modals/BookTestModal.vue';
-import { BOOKING_TYPE_LAB } from '../../config/constants';
+import { BOOKING_TYPE_LAB, ROLE_PATIENT } from '../../config/constants';
 import { fetchCatalog } from '../../api/serviceCatalog.js';
+import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
+
+const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 
 const props = defineProps({
   loggedIn: {
@@ -59,11 +62,11 @@ const isModalOpen = (labTestId) => {
           <h2 class="font-bold">{{ labTest.name }}</h2>
           <p>{{ labTest.description }}</p>
         </div>
-        <button v-if="props.loggedIn" class="book-labTest" v-on:click="bookLabTest(labTest.serviceId)">
+        <button v-if="props.loggedIn && userRole==ROLE_PATIENT" class="book-labTest" v-on:click="bookLabTest(labTest.serviceId)">
           Book Test/Scan
         </button>
         <div v-else>
-          Please log in to book tests or scans.
+          Please log in as patient to book tests or scans.
         </div>
         <!-- Modal component to book lab test -->
         <BookTestModal v-if="isModalOpen(labTest.serviceId)" :labTestService="labTest" @close="closeModal(labTest.serviceId)" />

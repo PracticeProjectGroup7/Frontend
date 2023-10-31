@@ -1,9 +1,12 @@
 <script setup>
 const FILENAME = 'DoctorAppointments.vue';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
 import BookAppointmentModal from '../Modals/BookAppointmentModal.vue';
-import { BOOKING_TYPE_DOCTOR } from '../../config/constants';
+import { BOOKING_TYPE_DOCTOR, ROLE_PATIENT } from '../../config/constants';
 import { fetchCatalog } from '../../api/serviceCatalog.js';
+import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
+
+const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 
 const props = defineProps({
   loggedIn: {
@@ -60,11 +63,11 @@ const isModalOpen = (doctorId) => {
           <p>{{ doctor.specialty }}</p>
           <p>Experience: {{ doctor.yearsOfExperience }} years</p>
         </div>
-        <button v-if="props.loggedIn" class="book-appointment" v-on:click="bookAppointment(doctor.serviceId)">
+        <button v-if="props.loggedIn && userRole==ROLE_PATIENT" class="book-appointment" v-on:click="bookAppointment(doctor.serviceId)">
           Book Appointment
         </button>
         <div v-else>
-          Please log in to book appointments.
+          Please log in as patient to book appointments.
         </div>
 
         <!-- Modal component to book appointment -->

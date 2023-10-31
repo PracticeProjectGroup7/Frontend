@@ -1,10 +1,8 @@
 <script setup>
 const FILENAME = 'TheNavBar.vue';
 
-import { onBeforeMount, watch } from 'vue';
-import { computed, ref } from 'vue';
-import { inject } from 'vue';
-import { useRouter, RouterLink, useRoute } from 'vue-router';
+import { computed, inject, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
 
 import {
   ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE, ROUTE_LABTEST_MANAGEMENT,
@@ -76,17 +74,17 @@ const placeHolder = computed(() => {
               Staff Management
             </RouterLink>
           </li>
-          <li><!--  v-if="loggedIn && userRole == ROLE_STAFF" -->
+          <li v-if="loggedIn && userRole == ROLE_STAFF">
             <RouterLink :to="{ name: ROUTE_LABTEST_MANAGEMENT }">
               Test Management
             </RouterLink>
           </li>
-          <li><!--  v-if="loggedIn && userRole == ROLE_DOCTOR" -->
+          <li v-if="loggedIn && userRole == ROLE_DOCTOR">
             <RouterLink :to="{ name: ROUTE_APPOINTMENT_MANAGEMENT }">
               Appointment Management
             </RouterLink>
           </li>
-          <li><!--  v-if="loggedIn && userRole == ROLE_RECEPTION" -->
+          <li v-if="loggedIn && userRole == ROLE_RECEPTION">
             <RouterLink :to="{ name: ROUTE_BILL_MANAGEMENT }">
               Bills Management
             </RouterLink>
