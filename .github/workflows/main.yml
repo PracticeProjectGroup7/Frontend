@@ -40,9 +40,8 @@ jobs:
           else
             echo "VITE_BUILD_INFO=MANUAL__${{ inputs.BUILD_ID }}__${{ github.WORKFLOW_SHA }}" >> $GITHUB_ENV
           fi
-          echo "VITE_API_URL=/api/v1" >> $GITHUB_ENV
       - name: Build for staging
-        run: npm run build -- --mode staging
+        run: npm run build
       - name: '[DEBUG] List built files'
         run: ls dist/*
       - name: Configure AWS credentials
