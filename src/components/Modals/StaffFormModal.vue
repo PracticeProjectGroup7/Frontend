@@ -1,7 +1,7 @@
 <script setup>
 const FILENAME = 'StaffFormModal.vue';
 
-import { computed, onBeforeMount, ref, watch } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { watchDebounced } from '@vueuse/core';
 
 import FormErrors from '../FormErrors.vue';

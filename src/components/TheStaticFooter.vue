@@ -18,3 +18,11 @@ defineProps({
     </aside>
   </footer>
 </template>
+
+<style scoped>
+footer {
+  position: fixed;
+  bottom: 0;
+  height: 15vh;
+}
+</style>

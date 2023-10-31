@@ -1,14 +1,18 @@
 import { API_BASE_PATH } from '../config';
 
 
-const ACCOUNTS_API_BASE = API_BASE_PATH + '/api/v1/auth';
-const STAFF_MANAGEMENT_API_BASE = API_BASE_PATH + '/api/v1/hospital-staff';
+const ACCOUNTS_API_BASE = API_BASE_PATH + '/auth';
+const STAFF_MANAGEMENT_API_BASE = API_BASE_PATH + '/hospital-staff';
 
-const SERVICE_CATALOG_API = API_BASE_PATH + '/api/v1/available-services';
+const BILL_MANAGEMENT_API_BASE = API_BASE_PATH + '/admin/bills';
+
+const SERVICE_CATALOG_API = API_BASE_PATH + '/available-services';
 
 export {
   API_BASE_PATH,
   ACCOUNTS_API_BASE,
   STAFF_MANAGEMENT_API_BASE,
   SERVICE_CATALOG_API,
+
+  BILL_MANAGEMENT_API_BASE,
 };
