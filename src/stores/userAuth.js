@@ -48,10 +48,12 @@ export const userAuthStore = defineStore(USER_AUTH_STORE_NAME, {
     },
 
     logout() {
+      console.log(FILENAME, 'Logging out');
       window.localStorage.removeItem(AUTH_INFO);
       window.localStorage.removeItem(AUTH_TOKEN);
       this._loginToken = null;
       this._authInfo = null;
+      console.log(FILENAME, 'Logging out successful');
     },
 
     _clearIfExpired() {

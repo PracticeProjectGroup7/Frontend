@@ -3,7 +3,7 @@ To fetch the service catalog from the API:
 */
 import { SERVICE_CATALOG_API } from '../config/apiPaths';
 import { BOOKING_TYPE_DOCTOR } from '../config/constants';
-import { easyGet } from './easyFetch';
+import { easyGet, easyPost } from './easyFetch';
 const FILENAME = 'api/serviceCatalog';
 
 export async function fetchCatalog(bookingType) {
@@ -14,11 +14,7 @@ export async function fetchCatalog(bookingType) {
   if (response.done) {
     console.log(`${FILENAME} - Fetching service catalog`);
     return response.body.data.items;
-  } /* else if (response.userError) {
-    console.error(`${FILENAME} - Error fetching service catalog: ${response.body}`);
-    return null;
-  }  */
-  else {
+  } else {
     console.error(`${FILENAME} - Error fetching service catalog`);
     return null;
   }

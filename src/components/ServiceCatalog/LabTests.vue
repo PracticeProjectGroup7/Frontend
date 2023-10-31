@@ -1,9 +1,12 @@
 <script setup>
 const FILENAME = 'LabTests.vue';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
 import BookTestModal from '../Modals/BookTestModal.vue';
-import { BOOKING_TYPE_LAB } from '../../config/constants';
+import { BOOKING_TYPE_LAB, ROLE_PATIENT } from '../../config/constants';
 import { fetchCatalog } from '../../api/serviceCatalog.js';
+import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
+
+const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 
 const props = defineProps({
   loggedIn: {
@@ -45,6 +48,7 @@ const isModalOpen = (labTestId) => {
   // Check if the modal is open for the specific doctor
   return labTestModal.value[labTestId] || false;
 };
+
 </script>
 
 <template>
@@ -53,19 +57,19 @@ const isModalOpen = (labTestId) => {
       <input placeholder="Search by name..." v-model="searchedItem">
     </div>
     <div class="labTest-cards">
-      <div class="labTest-card" v-for="labTest in filteredTests" :key="labTest.id">
+      <div class="labTest-card" v-for="labTest in filteredTests" :key="labTest.serviceId">
         <div class="labTest-details">
-          <h2>{{ labTest.name }}</h2>
+          <h2 class="font-bold">{{ labTest.name }}</h2>
           <p>{{ labTest.description }}</p>
         </div>
-        <button v-if="loggedIn" class="book-labTest" v-on:click="bookLabTest(labTest.id)">
+        <button v-if="props.loggedIn && userRole==ROLE_PATIENT" class="book-labTest" v-on:click="bookLabTest(labTest.serviceId)">
           Book Test/Scan
         </button>
         <div v-else>
-          Please log in to book tests or scans.
+          Please log in as patient to book tests or scans.
         </div>
         <!-- Modal component to book lab test -->
-        <BookTestModal v-if="isModalOpen(labTest.id)" :labTest="labTest" @close="closeModal(labTest.id)" />
+        <BookTestModal v-if="isModalOpen(labTest.serviceId)" :labTestService="labTest" @close="closeModal(labTest.serviceId)" />
       </div>
     </div>
   </div>

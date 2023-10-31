@@ -1,14 +1,12 @@
 <script setup>
 const FILENAME = 'ServicesCatalogView.vue';
 
-import { ref, computed } from 'vue';
-
+import { ref, computed, inject } from 'vue';
 import DoctorAppointments from '../../components/ServiceCatalog/DoctorAppointments.vue';
 import LabTests from '../../components/ServiceCatalog/LabTests.vue';
-
+import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 import { BOOKING_TYPE_LAB, BOOKING_TYPE_DOCTOR } from '../../config/constants';
 
-// ==
 
 const currentContent = ref(BOOKING_TYPE_DOCTOR);
 
@@ -16,13 +14,7 @@ function showContent(type) {
   currentContent.value = type;
 }
 
-const props = defineProps({
-  loggedIn: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-});
+const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 </script>
 
 <template>
