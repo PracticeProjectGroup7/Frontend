@@ -97,10 +97,15 @@ if (userAuthStore != null) {
 <template>
   <TheNavBar :key="`nav_${lastLoginUpdateTime}`" :appName=HOME_NAME />
 
-  <div class="mx-auto bg-base-100 min-h-screen w-4/5">
+  <div class="mx-auto bg-base-100 w-4/5 min-h-4_5">
     <RouterView :key="`${$route.fullPath}_${lastLoginUpdateTime}`" />
   </div>
 
   <TheStaticFooter :buildInfo="BUILD_INFO" />
 </template>
 
+<style scoped>
+.min-h-4_5 {
+  min-height: 79vh;
+}
+</style>

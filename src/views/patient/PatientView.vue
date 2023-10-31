@@ -1,5 +1,5 @@
 <script setup>
-const FILENAME = 'StaffView.vue';
+const FILENAME = 'PatientView.vue';
 
 import { computed, onBeforeMount, ref, inject, onMounted, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
@@ -11,13 +11,12 @@ import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 import NotFoundBanner from '../../components/static/NotFoundBanner.vue';
 import URLCorrectBanner from '../../components/static/URLCorrectBanner.vue';
 import BookingBill from '../../components/Bookings/BookingBill.vue';
-import StaffList from '../../components/Staff/StaffList.vue';
-import StaffFormModal from '../../components/Modals/StaffFormModal.vue';
+import PatientList from '../../components/Patient/PatientList.vue';
+// import PatientFormModal from '../../components/Modals/PatientFormModal.vue';
 
-import { staffList as dummyStaffList } from '../../_dummy_data/staff';
 import { ROLE_ADMIN } from '../../config/constants';
 
-import { StaffManagementAPIClient } from '../../api/staffManagement';
+import { PatientManagementAPIClient } from '../../api/patientManagement';
 import { get } from '@vueuse/core';
 
 // ==
@@ -31,9 +30,9 @@ const { loggedIn, role: userRole } = inject(USER_AUTH_STORE_INJECT);
 const loading = ref(true);
 const modalOpen = ref(false);
 
-const createStaffDisplayError = ref(null);
+const createPatientDisplayError = ref(null);
 const searchTerm = ref('');
-const staffList = ref([]);
+const patientList = ref([]);
 
 
 // currentPage
@@ -66,14 +65,14 @@ onBeforeMount(async () => {
   }
 
 
-  console.log(FILENAME, 'Getting staff list');
+  console.log(FILENAME, 'Getting patient list');
 
   await getData();
 
   // GET THE DATA
   // bookingList.value = []
 
-  // staffList.value = dummyStaffList;
+  // patientList.value = dummyPatientList;
   //
 
   console.log(FILENAME, 'beforeMount', 'end');
@@ -81,75 +80,74 @@ onBeforeMount(async () => {
 
 async function getData() {
   loading.value = true;
-
-  let res = await StaffManagementAPIClient.getAllStuff({ from, size });
+  let res = await PatientManagementAPIClient.getAllStuff({ from, size });
   console.log(FILENAME, res, "res");
 
   if (res.done) {
     from = res.body.data.currentPage;
     total = Math.max(total, res.body.data.totalElements);
-    staffList.value.push(...res.body.data.items);
+    patientList.value.push(...res.body.data.items);
+    loading.value = false;
   }
-  loading.value = false;
 }
 
 watch(modalOpen, (newValue) => {
   if (newValue) {
-    createStaffDisplayError.value = null;
+    createPatientDisplayError.value = null;
   }
 });
 
-function openCreateStaffModal() {
+function openCreatePatientModal() {
   console.log(FILENAME, '_handleOpenModal');
   modalOpen.value = true;
 }
 
-async function registerStaff({ newStaffInfo }) {
+async function registerPatient({ newPatientInfo }) {
   loading.value = true;
 
-  console.log(FILENAME, 'registerStaff', 'start');
+  console.log(FILENAME, 'registerPatient', 'start');
 
-  console.log(FILENAME, 'registerStaff', { newStaffInfo });
+  console.log(FILENAME, 'registerPatient', { newPatientInfo });
 
-  createStaffDisplayError.value = null;
+  createPatientDisplayError.value = null;
 
-  const res = await StaffManagementAPIClient.newStaff({ newStaffInfo });
-  console.log(FILENAME, 'registerStaff', res, { res });
+  const res = await PatientManagementAPIClient.newPatient({ newPatientInfo });
+  console.log(FILENAME, 'registerPatient', res, { res });
 
   if (res.done) {
-    staffList.value.push({ ...newStaffInfo, staffId: res.body.data });
+    patientList.value.push({ ...newPatientInfo, patientId: res.body.data });
     modalOpen.value = false;
   } else if (res.userError) {
-    createStaffDisplayError.value = res.body.errorMessage;
+    createPatientDisplayError.value = res.body.errorMessage;
   } else {
-    createStaffDisplayError.value = 'Please Try Again';
+    createPatientDisplayError.value = 'Please Try Again';
   }
 
-  console.log(FILENAME, 'registerStaff', 'end');
+  console.log(FILENAME, 'registerPatient', 'end');
   loading.value = false;
 };
 
 function fieldChanged() {
-  createStaffDisplayError.value = null;
+  createPatientDisplayError.value = null;
 };
 
-const filteredStaffList = computed(() => {
+const filteredPatientList = computed(() => {
   if (searchTerm.value == '') {
-    return staffList.value;
+    return patientList.value;
   }
 
-  return staffList.value.filter((staffInfo) =>
-    (staffInfo.firstName + ' ' + staffInfo.lastName).toLowerCase().includes(searchTerm.value.toLowerCase() ||
-      staffInfo.email.toLowerCase().includes(searchTerm.value.toLowerCase(),
+  return patientList.value.filter((patientInfo) =>
+    (patientInfo.firstName + ' ' + patientInfo.lastName).toLowerCase().includes(searchTerm.value.toLowerCase() ||
+      patientInfo.email.toLowerCase().includes(searchTerm.value.toLowerCase(),
       ),
     ));
 });
 
 async function onLoadMore() {
-  // staffList.value.push(...dummyStaffList);
+  // patientList.value.push(...dummyPatientList);
 
-  console.log("onLoadMore", staffList.value.length, total);
-  if (staffList.value.length >= total) {
+  console.log("onLoadMore", patientList.value.length, total);
+  if (patientList.value.length >= total) {
     console.log("STOP STOP STOP");
   } else {
     await getData();
@@ -167,22 +165,22 @@ async function onLoadMore() {
       }"></span>
     </div>
     <div class="flex justify-between pb-2">
-      <h1 class="text-2xl font-bold">Browse Staff</h1>
-      <button v-on:click="openCreateStaffModal" class="btn btn-accent btn-outline">Register Staff</button>
+      <h1 class="text-2xl font-bold">Browse Patient</h1>
+      <button v-on:click="openCreatePatientModal" class="btn btn-accent btn-outline">Register Patient</button>
     </div>
     <div class="pb-2">
       <input v-model="searchTerm" placeholder="Search by name" class="w-full">
     </div>
-    <div v-if="filteredStaffList.length > 0">
-      <StaffList :staffList="filteredStaffList" @loadMore="onLoadMore" />
+    <div v-if="filteredPatientList.length > 0">
+      <PatientList :patientList="filteredPatientList" @loadMore="onLoadMore" />
     </div>
     <div v-else>
-      No staff found
+      No patient found
     </div>
-
-    <StaffFormModal v-if="modalOpen" v-model:modalOpen="modalOpen" @registerStaff="registerStaff"
-      :disableButtons="loading" :displayError="createStaffDisplayError" :mode='"create"'
-      @notifyFieldChanged="fieldChanged" />
+<!-- 
+    <PatientFormModal v-if="modalOpen" v-model:modalOpen="modalOpen" @registerPatient="registerPatient"
+      :disableButtons="loading" :displayError="createPatientDisplayError" :mode='"create"'
+      @notifyFieldChanged="fieldChanged" /> -->
   </div>
 </template>
 

@@ -5,12 +5,13 @@ import { computed, inject, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
 import {
-  ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE, ROUTE_LABTEST_MANAGEMENT,
+  ROUTE_HOME, ROUTE_LOGIN, ROUTE_SERVICE_CATALOG, ROUTE_USER_PROFILE_SELF, ROUTE_LABTEST_MANAGEMENT,
   ROUTE_APPOINTMENT_MANAGEMENT, ROUTE_STAFF_LIST, ROUTE_BILL_MANAGEMENT,
+  ROUTE_PATIENT_LIST,
 } from '../router';
 import { USER_AUTH_STORE_INJECT } from '../config/injectKeys';
 import { isPrivilegedUser } from '../utils/permissions';
-import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_STAFF, ROLE_RECEPTION } from '../config/constants';
+import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_STAFF, ROLE_RECEPTION, } from '../config/constants';
 
 // =====
 
@@ -73,7 +74,7 @@ function _logout(e) {
             </RouterLink>
           </li>
           <li v-if="loggedIn && userRole == ROLE_ADMIN">
-            <RouterLink :to="{ name: ROUTE_SERVICE_CATALOG }"> <!-- TODO -->
+            <RouterLink :to="{ name: ROUTE_PATIENT_LIST }">
               Patient Management
             </RouterLink>
           </li>
@@ -114,7 +115,7 @@ function _logout(e) {
               class="mt-2 z-2 p-0 shadow-2xl menu menu-md border-2 border-base-content dropdown-content
               bg-base-100 rounded-box w-52">
               <li>
-                <RouterLink :to="{ name: ROUTE_USER_PROFILE }"><a class="justify-between">
+                <RouterLink :to="{ name: ROUTE_USER_PROFILE_SELF }"><a class="justify-between">
                     Profile
                   </a></RouterLink>
               </li>
