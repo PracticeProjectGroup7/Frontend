@@ -25,6 +25,7 @@ const bookLabTest = async () => {
     'serviceId': props.labTestService.serviceId,
     'patientId': userInfo.value.roleId,
     'appointmentDate': selectedSlot.value,
+    'selectedSlot': 1,
     'type': 'TEST',
   };
   await bookServices({ bookingInfo });

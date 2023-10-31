@@ -10,6 +10,12 @@ const SERVICE_CATALOG_API = API_BASE_PATH + '/available-services';
 
 const USER_PROFILE_API = API_BASE_PATH + '/user/profile';
 
+const DOCTOR_APPOINTMENT_MANAGE_API = API_BASE_PATH + '/appointments';
+
+const TEST_BOOKING_MANAGE_API = API_BASE_PATH + '/tests';
+
+const BOOKING_DETAILS_API = API_BASE_PATH + '/services/bookings';
+
 export {
   API_BASE_PATH,
   ACCOUNTS_API_BASE,
@@ -18,4 +24,7 @@ export {
 
   BILL_MANAGEMENT_API_BASE,
   USER_PROFILE_API,
+  DOCTOR_APPOINTMENT_MANAGE_API,
+  TEST_BOOKING_MANAGE_API,
+  BOOKING_DETAILS_API,
 };
