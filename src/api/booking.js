@@ -3,7 +3,7 @@ import { easyGet, easyPost } from './easyFetch';
 const FILENAME = 'api/booking';
 
 export async function fetchDoctorSlots(serviceId, selectedDate) {
-  const path = `${API_BASE_PATH}/api/v1/services/bookings/${serviceId}/schedules?date=${selectedDate}`;
+  const path = `${API_BASE_PATH}/services/bookings/${serviceId}/schedules?date=${selectedDate}`;
   const response = await easyGet({
     url: path,
   });
@@ -17,7 +17,7 @@ export async function fetchDoctorSlots(serviceId, selectedDate) {
 }
 
 export async function bookServices({ bookingInfo }) {
-  const url = '/api/v1/services/booking';
+  const url = '/services/booking';
   const response = await easyPost({
     url: API_BASE_PATH + url,
     body:
