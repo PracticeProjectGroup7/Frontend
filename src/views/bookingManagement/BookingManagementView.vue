@@ -1,9 +1,9 @@
 <script setup>
 const FILENAME = 'BookingManagementView';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { isDoctorType } from '../../utils/utils';
-import { doctorBookingList, labBookingList } from '../../_dummy_data/bookings';
+import { fetchBookings } from '../../api/staffBookingManagement';
 
 const props = defineProps({
   bookingType: String,
@@ -14,12 +14,19 @@ const router = useRouter();
 
 const isDoctorTypeBooking = isDoctorType(props.bookingType);
 
-const bookings = ref(isDoctorTypeBooking ? doctorBookingList : labBookingList);
+const bookings = ref([]);
+
+onMounted(async () => {
+  const data = await fetchBookings(isDoctorTypeBooking);
+  if (data) {
+    bookings.value = data;
+  }
+});
 
 const viewDetails = (booking) => {
   console.log(FILENAME, 'Clicked on View Details');
   const path = isDoctorTypeBooking ? 'appointment-management' : 'test-management';
-  router.push(`/${path}/${booking.id}`);
+  router.push(`/${path}/${booking.bookingId}`);
 };
 
 const filteredBookings = computed(() => {
@@ -59,10 +66,10 @@ const filteredBookings = computed(() => {
             {{ isDoctorTypeBooking ? booking.doctorName : booking.testName }}
           </td>
           <td class="table-item">
-            {{ isDoctorTypeBooking ? booking.appointmentDate : booking.testDate }}
+            {{ booking.reservedDate }}
           </td>
           <td class="table-item">
-            <span :class="{'bg-orange-700': booking.status === 'pending', 'bg-green-700': booking.status === 'completed'}" class="status">
+            <span :class="{'bg-orange-700': booking.status.toLowerCase() == 'pending', 'bg-green-700': booking.status.toLowerCase() == 'completed'}" class="status">
               {{ booking.status }}
             </span>
           </td>

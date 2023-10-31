@@ -56,8 +56,8 @@ const closeModal = () => {
         </h2>
         <span
           :class="{
-            'bg-orange-700': booking.status === 'pending',
-            'bg-green-700': booking.status === 'completed',
+            'bg-orange-700': booking.status.toLowerCase() == 'pending',
+            'bg-green-700': booking.status.toLowerCase() == 'completed',
           }"
           class="rounded-full py-1 px-2 text-white ml-4"
         >

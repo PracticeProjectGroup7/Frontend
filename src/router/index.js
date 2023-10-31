@@ -105,10 +105,10 @@ const routes = [
     props: { bookingType: BOOKING_TYPE_LAB },
   },
   {
-    path: '/test-management/:testId',
+    path: '/test-management/:bookingId',
     name: ROUTE_LABTEST_DETAILS,
     component: BookingDetailsView,
-    props: { bookingType: BOOKING_TYPE_LAB },
+    props: true,
   },
   {
     path: '/appointment-management',
@@ -117,10 +117,10 @@ const routes = [
     props: { bookingType: BOOKING_TYPE_DOCTOR },
   },
   {
-    path: '/appointment-management/:appointmentId',
+    path: '/appointment-management/:bookingId',
     name: ROUTE_APPOINTMENT_DETAILS,
     component: BookingDetailsView,
-    props: { bookingType: BOOKING_TYPE_DOCTOR },
+    props: true,
   },
   {
     path: '/bill-management',
