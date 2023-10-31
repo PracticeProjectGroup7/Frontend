@@ -1,11 +1,9 @@
 <script setup>
 const FILENAME = 'BookAppointmentModal.vue';
 import { ref, watch, inject } from 'vue';
-import { easyPost } from '../../api/easyFetch';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 import { timeSlots } from '../../config/timeSlots';
-import { API_BASE_PATH } from '../../config/apiPaths';
-import { fetchDoctorSlots } from '../../api/booking';
+import { bookServices, fetchDoctorSlots } from '../../api/booking';
 
 const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 console.log('isModalOpen:', true);
@@ -44,24 +42,14 @@ const bookAppointment = async () => {
     // Send the selected slot number to the backend for booking
     console.log(FILENAME, `Selected Slot Number: ${selectedSlotNumber}`);
     console.log(FILENAME, 'Booking service ID...', props.doctorService.serviceId);
-    const url = '/api/v1/services/booking';
-    const response = await easyPost({
-      url: API_BASE_PATH + url,
-      body:
-      {
-        'serviceId': props.doctorService.serviceId,
-        'patientId': userInfo.value.roleId,
-        'appointmentDate': selectedDate.value,
-        'selectedSlot': selectedSlotNumber,
-        'type': 'APPOINTMENT',
-      },
-    });
-    if (response.done) {
-      console.log(`${FILENAME} - Booking successful`, response.body);
-    } else {
-      console.error(`${FILENAME} - Error in booking appointment`);
-    }
-    // Implement the booking logic here
+    const bookingInfo = {
+      'serviceId': props.doctorService.serviceId,
+      'patientId': userInfo.value.roleId,
+      'appointmentDate': selectedDate.value,
+      'selectedSlot': selectedSlotNumber,
+      'type': 'APPOINTMENT',
+    };
+    await bookServices({ bookingInfo });
     emits('close');
   }
 };

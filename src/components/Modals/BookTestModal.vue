@@ -1,9 +1,8 @@
 <script setup>
 const FILENAME = 'BookTestModal.vue';
 import { ref, inject } from 'vue';
-import { easyPost } from '../../api/easyFetch';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
-import { API_BASE_PATH } from '../../config/apiPaths';
+import { bookServices } from '../../api/booking';
 
 const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 
@@ -22,22 +21,13 @@ const emits = defineEmits(['close']); // Declare 'close' event
 
 const bookLabTest = async () => {
   console.log(FILENAME, 'Booking service ID...', props.labTestService.serviceId);
-  const url = '/api/v1/services/booking';
-  const response = await easyPost({
-    url: API_BASE_PATH + url,
-    body:
-    {
-	    'serviceId': props.labTestService.serviceId,
-	    'patientId': userInfo.value.roleId,
-	    'appointmentDate': selectedSlot.value,
-	    'type': 'TEST',
-    },
-  });
-  if (response.done) {
-    console.log(`${FILENAME} - Booking successful`, response.body);
-  } else {
-    console.error(`${FILENAME} - Error in booking test`);
-  }
+  const bookingInfo = {
+    'serviceId': props.labTestService.serviceId,
+    'patientId': userInfo.value.roleId,
+    'appointmentDate': selectedSlot.value,
+    'type': 'TEST',
+  };
+  await bookServices({ bookingInfo });
   emits('close');
 };
 

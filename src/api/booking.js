@@ -1,5 +1,5 @@
 import { API_BASE_PATH } from '../config/apiPaths';
-import { easyGet } from './easyFetch';
+import { easyGet, easyPost } from './easyFetch';
 const FILENAME = 'api/booking';
 
 export async function fetchDoctorSlots(serviceId, selectedDate) {
@@ -13,5 +13,21 @@ export async function fetchDoctorSlots(serviceId, selectedDate) {
   } else {
     console.error(`${FILENAME} - Error doctor slots`);
     return null;
+  }
+}
+
+export async function bookServices({ bookingInfo }) {
+  const url = '/api/v1/services/booking';
+  const response = await easyPost({
+    url: API_BASE_PATH + url,
+    body:
+      {
+        ...bookingInfo,
+      },
+  });
+  if (response.done) {
+    console.log(`${FILENAME} - Booking successful`, response.body);
+  } else {
+    console.error(`${FILENAME} - Error in booking`);
   }
 }
