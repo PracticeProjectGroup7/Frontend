@@ -1,12 +1,16 @@
 <script setup>
 const FILENAME = 'DoctorAppointments.vue';
+
 import { ref, computed, onMounted, inject } from 'vue';
+
 import BookAppointmentModal from '../Modals/BookAppointmentModal.vue';
 import { BOOKING_TYPE_DOCTOR, ROLE_PATIENT } from '../../config/constants';
 import { fetchCatalog } from '../../api/serviceCatalog.js';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
+
+// ==
 
 const props = defineProps({
   loggedIn: {
@@ -15,14 +19,19 @@ const props = defineProps({
     default: false,
   },
 });
+
+const loading = ref(true);
+
 const searchedItem = ref('');
 const doctors = ref([]);
 const doctorModals = ref({}); // Object to track modal state for each doctor
 
 onMounted(async () => {
+  loading.value = true;
   const data = await fetchCatalog(BOOKING_TYPE_DOCTOR); // Use the fetchCatalog function
   if (data) {
     doctors.value = data; // Update the doctors array with the API response data
+    loading.value = false;
   }
 });
 
@@ -32,7 +41,7 @@ const filteredDoctors = computed(() => {
   );
 });
 
-const bookAppointment = (doctorId) => {
+const openModal = (doctorId) => {
   // Set the modal state for the specific doctor to true
   doctorModals.value[doctorId] = true;
   console.log(FILENAME, 'Booking appointment with doctor ID:', doctorId);
@@ -52,6 +61,11 @@ const isModalOpen = (doctorId) => {
 </script>
 
 <template>
+  <div class="text-center w-full">
+    <span class="custom_loading" :style="{
+      'opacity': (loading ? 100 : 0)
+    }"></span>
+  </div>
   <div class="doctor-appointments">
     <div class="search">
       <input placeholder="Search by specialty..." v-model="searchedItem">
@@ -63,7 +77,7 @@ const isModalOpen = (doctorId) => {
           <p>{{ doctor.specialty }}</p>
           <p>Experience: {{ doctor.yearsOfExperience }} years</p>
         </div>
-        <button v-if="props.loggedIn && userRole==ROLE_PATIENT" class="book-appointment" v-on:click="bookAppointment(doctor.serviceId)">
+        <button v-if="loggedIn && userRole == ROLE_PATIENT" class="book-appointment" v-on:click="openModal(doctor.serviceId)">
           Book Appointment
         </button>
         <div v-else>
@@ -71,7 +85,8 @@ const isModalOpen = (doctorId) => {
         </div>
 
         <!-- Modal component to book appointment -->
-        <BookAppointmentModal v-if="isModalOpen(doctor.serviceId)" :doctorService="doctor" @close="closeModal(doctor.serviceId)" />
+        <BookAppointmentModal v-if="isModalOpen(doctor.serviceId)" :doctorService="doctor"
+          @close="closeModal(doctor.serviceId)" />
       </div>
     </div>
   </div>
@@ -79,30 +94,37 @@ const isModalOpen = (doctorId) => {
 
 <style scoped>
 .doctor-appointments {
-  @apply p-5 space-y-5; /* Use DaisyUI and Tailwind classes for padding and spacing */
+  @apply p-5 space-y-5;
+  /* Use DaisyUI and Tailwind classes for padding and spacing */
 }
 
 .search {
-  @apply flex flex-col mb-5; /* Flex and margin classes */
+  @apply flex flex-col mb-5;
+  /* Flex and margin classes */
 }
 
 .doctor-cards {
-  @apply flex flex-wrap gap-5; /* Flex, wrap, and gap classes */
+  @apply flex flex-wrap gap-5;
+  /* Flex, wrap, and gap classes */
 }
 
 .doctor-card {
-  @apply border border-gray-300 p-5 rounded w-72; /* Border, padding, rounded, and width classes */
+  @apply border border-gray-300 p-5 rounded w-72 flex flex-col;
+  /* Border, padding, rounded, and width classes */
 }
 
 .doctor-details {
-  @apply mb-5; /* Margin class */
+  @apply mb-5;
+  /* Margin class */
 }
 
 .book-appointment {
-  @apply bg-green-500 text-white rounded py-2 px-5 cursor-pointer; /* Background, text color, and padding classes */
+  @apply bg-green-500 text-white rounded py-2 px-5 cursor-pointer mt-auto;
+  /* Background, text color, and padding classes */
 
-  &:hover{
-    @apply bg-blue-500; /* Background color on hover */
+  &:hover {
+    @apply bg-blue-500;
+    /* Background color on hover */
   }
 }
 </style>

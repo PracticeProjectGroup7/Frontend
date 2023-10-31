@@ -69,7 +69,7 @@ onBeforeMount(async () => {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <div>
     <!-- <NotFoundBanner v-if="!loading" />
     <URLCorrectBanner v-if="!loading" /> -->

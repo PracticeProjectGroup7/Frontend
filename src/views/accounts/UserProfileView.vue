@@ -1,22 +1,36 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import UserProfileEditModal from '../../components/Modals/UserProfileEditModal.vue';
-import { userAuthStore } from '../../stores/userAuth';
-import { useRouter } from 'vue-router';
-import { fetchUserProfileData } from '../../api/profile';
-
 const FILENAME = 'UserProfileView';
-const _userAuthStore = userAuthStore();
 
-const user = ref({});
+import { ref, onMounted, inject } from 'vue';
+import { useRouter } from 'vue-router';
+
+import UserProfileEditModal from '../../components/Modals/UserProfileEditModal.vue';
+import { fetchUserProfileData } from '../../api/profile';
+import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
+
+
+// ==
+
+const { loggedIn, role: userRole, userInfo, logout } = inject(USER_AUTH_STORE_INJECT);
+
+const props = defineProps({
+  patientId: {
+    type: String,
+    required: true,
+    default: '-1',
+  },
+});
+
+const user = ref(null);
 const isEditModalOpen = ref(false);
-const router = useRouter();
 
-const logOut = () => {
-  console.log(FILENAME, 'Log Out clicked');
-  _userAuthStore.logout();
-  router.push('/login');
-};
+function _logout(e) {
+  e.preventDefault();
+  const done = window.confirm('Are you sure you want to logout ?');
+  if (done) {
+    logout();
+  }
+}
 
 const openEditModal = () => {
   console.log(FILENAME, 'Edit profile clicked');
@@ -48,7 +62,7 @@ onMounted(() => {
 
 <template>
   <div class="flex justify-center items-center h-screen">
-    <div v-if="user" class="p-4 space-y-4">
+    <div v-if="user != null" class="p-4 space-y-4">
       <h2 class="text-4xl font-semibold">User Profile</h2>
       <div class="space-y-2">
         <div class="data-container">
@@ -85,16 +99,11 @@ onMounted(() => {
         </div>
         <div class="data-container btn-container">
           <button @click="openEditModal" class="btn btn-white">Edit Profile</button>
-          <button @click="logOut" class="btn btn-red">Log Out</button>
+          <button @click="_logout" class="btn btn-red">Log Out</button>
         </div>
 
         <!-- Conditionally render the edit profile modal -->
-        <UserProfileEditModal
-          v-if="isEditModalOpen"
-          :user="user"
-          @save="saveEditedProfile"
-          @close="closeEditModal"
-        />
+        <UserProfileEditModal v-if="isEditModalOpen" :user="user" @save="saveEditedProfile" @close="closeEditModal" />
       </div>
     </div>
     <div v-else>
@@ -106,7 +115,8 @@ onMounted(() => {
 <style scoped>
 .data-container {
   @apply flex justify-between text-sm;
-  flex-direction: column; /* Display data below labels */
+  flex-direction: column;
+  /* Display data below labels */
 }
 
 span {

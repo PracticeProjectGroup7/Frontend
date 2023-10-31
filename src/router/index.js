@@ -13,6 +13,8 @@ import BookingManagementView from '../views/bookingManagement/BookingManagementV
 import BookingDetailsView from '../views/bookingManagement/BookingDetailsView.vue';
 import ManageBillsView from '../views/receptionist/ManageBillsView.vue';
 import ReceptionBookingBillView from '../views/receptionist/ReceptionBookingBill.vue';
+import PatientView from '../views/patient/PatientView.vue';
+
 import { BOOKING_TYPE_DOCTOR, BOOKING_TYPE_LAB } from '../config/constants';
 
 const ROUTE_HOME = 'ROUTE_HOME';
@@ -25,7 +27,10 @@ const ROUTE_BOOKING_HISTORY_OTHERS = 'ROUTE_BOOKING_HISTORY_OTHERS';
 const ROUTE_BOOKING_BILL = 'ROUTE_BOOKING_BILL';
 
 const ROUTE_SERVICE_CATALOG = 'ROUTE_SERVICE_CATALOG';
+
 const ROUTE_USER_PROFILE = 'ROUTE_USER_PROFILE';
+const ROUTE_USER_PROFILE_SELF = 'ROUTE_USER_PROFILE_SELF';
+
 const ROUTE_LABTEST_MANAGEMENT = 'ROUTE_LABTEST_MANAGEMENT';
 const ROUTE_LABTEST_DETAILS = 'ROUTE_LABTEST_DETAILS';
 const ROUTE_APPOINTMENT_MANAGEMENT = 'ROUTE_APPOINTMENT_MANAGEMENT';
@@ -35,6 +40,8 @@ const ROUTE_BOOKING_BILL_RECEPTION = 'ROUTE_BOOKING_BILL_RECEPTION';
 
 const ROUTE_STAFF_LIST = 'ROUTE_STAFF_LIST';
 const ROUTE_STAFF_PROFILE = 'ROUTE_STAFF_PROFILE';
+
+const ROUTE_PATIENT_LIST = 'ROUTE_PATIENT_LIST';
 
 const routes = [
   {
@@ -83,6 +90,12 @@ const routes = [
   },
   {
     path: '/user-profile',
+    name: ROUTE_USER_PROFILE_SELF,
+    component: UserProfileView,
+    props: true,
+  },
+  {
+    path: '/user-profile/:patientId',
     name: ROUTE_USER_PROFILE,
     component: UserProfileView,
     props: true,
@@ -97,6 +110,11 @@ const routes = [
     name: ROUTE_STAFF_PROFILE,
     component: StaffProfileView,
     props: true,
+  },
+  {
+    path: '/_internal/patient',
+    name: ROUTE_PATIENT_LIST,
+    component: PatientView,
   },
   {
     path: '/test-management',
@@ -147,13 +165,15 @@ export {
   ROUTE_LOGIN, ROUTE_LOGIN_INTERNAL, ROUTE_REGISTER,
   ROUTE_BOOKING_HISTORY_SELF, ROUTE_BOOKING_HISTORY_OTHERS,
   ROUTE_BOOKING_BILL,
-  ROUTE_USER_PROFILE,
+  ROUTE_USER_PROFILE, ROUTE_USER_PROFILE_SELF,
 
   ROUTE_SERVICE_CATALOG,
   ROUTE_LABTEST_MANAGEMENT, ROUTE_LABTEST_DETAILS,
   ROUTE_APPOINTMENT_MANAGEMENT, ROUTE_APPOINTMENT_DETAILS,
   ROUTE_STAFF_LIST, ROUTE_STAFF_PROFILE,
   ROUTE_BILL_MANAGEMENT, ROUTE_BOOKING_BILL_RECEPTION,
+
+  ROUTE_PATIENT_LIST,
 };
 
 export default router;

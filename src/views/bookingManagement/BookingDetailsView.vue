@@ -51,7 +51,7 @@ const closeModal = () => {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <div v-if="booking" class="p-8">
     <div class="text-sm breadcrumbs">
       <ul>

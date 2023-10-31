@@ -75,7 +75,7 @@ const _billDetails = computed(() => {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <div class="text-center w-full">
     <span class="custom_loading" :style="{
       'opacity': (loading ? 100 : 0)

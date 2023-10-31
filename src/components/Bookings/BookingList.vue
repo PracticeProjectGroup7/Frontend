@@ -43,7 +43,7 @@ function _handleOpenModal({ bookingId }) {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <div class="w-1/2 mx-auto">
     <table class="table">
       <tbody>

@@ -95,7 +95,7 @@ async function register(e) {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <StaticHero />
 
   <div class="w-1/3 mx-auto">
