@@ -18,7 +18,7 @@ select {
 }
 
 .custom_loading {
-  @apply loading loading-infinity loading-2xl text-warning -mb-4;
+  @apply loading loading-infinity loading-2xl text-warning -mb-4 sticky z-50;
 }
 
 

@@ -29,20 +29,15 @@ const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
     </div>
 
     <div class="content">
-      <div v-if="currentContent === BOOKING_TYPE_DOCTOR">
-        <DoctorAppointments :loggedIn="loggedIn" />
-      </div>
-
-      <div v-if="currentContent === BOOKING_TYPE_LAB">
-        <LabTests :loggedIn="loggedIn" />
-      </div>
+      <DoctorAppointments v-if="currentContent === BOOKING_TYPE_DOCTOR" :loggedIn="loggedIn" />
+      <LabTests v-if="currentContent === BOOKING_TYPE_LAB" :loggedIn="loggedIn" />
     </div>
   </div>
 </template>
 
 <style scoped>
 .nav {
-  @apply p-10 space-y-8; /* Padding and spacing classes */
+  @apply pt-10 pb-2 space-y-8; /* Padding and spacing classes */
 
   a {
     @apply text-gray-900 m-8 no-underline; /* Text color, margin, and no underline */
@@ -58,6 +53,6 @@ const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
 }
 
 .content {
-  @apply p-5; /* Padding class */
+  @apply pb-5 pt-0; /* Padding class */
 }
 </style>

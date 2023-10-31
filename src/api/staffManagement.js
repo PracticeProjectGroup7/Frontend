@@ -17,9 +17,14 @@ class StaffManagementAPIClient {
     });
   }
 
+  /**
+   *
+   * @param {String} staffId
+   * @return {*}
+   */
   static async getStaff(staffId) {
     return easyGet({
-      url: STAFF_MANAGEMENT_API_BASE + `/${staffId}`,
+      url: API_BASE_PATH + `/staff/${staffId}`,
     });
   }
 
@@ -33,9 +38,14 @@ class StaffManagementAPIClient {
     });
   }
 
-  static async updateStaff(staffId, { staffInfoPatch }) {
+  /**
+   *
+   * @param {String} userId **NOT staffId**
+   * @param {Object} staffInfoPatch
+   */
+  static async updateStaff(userId, staffInfoPatch) {
     return await easyPatch({
-      url: STAFF_MANAGEMENT_API_BASE + `/${staffId}`,
+      url: API_BASE_PATH + `/staff/${userId}`,
       body: {
         ...staffInfoPatch,
       },

@@ -19,7 +19,7 @@ import FormErrors from '../../components/FormErrors.vue';
 import StaffFormModal from '../../components/Modals/StaffFormModal.vue';
 
 import { staffList as dummyStaffList } from '../../_dummy_data/staff';
-import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_TO_DISPLAY } from '../../config/constants';
+import { ROLE_ADMIN, ROLE_DOCTOR, ROLE_TO_DISPLAY, BACKEND_TO_ROLE } from '../../config/constants';
 import { StaffManagementAPIClient } from '../../api/staffManagement';
 
 // ==
@@ -82,7 +82,14 @@ onBeforeMount(async () => {
 
     if (result.userError && result.body?.status == 404) {
       notFound.value = true;
+    } else if (result.done) {
+      staffInfo.value = {
+        ...result.body.data,
+        ...result.body.data.user,
+      };
     }
+
+
     // GET THE DATA
     // bookingList.value = []
     //
@@ -103,17 +110,30 @@ function _handleOpenStaffEditModal() {
   editModalOpen.value = true;
 }
 
-function _updateStaffProfile({ newStaffInfo }) {
+async function _updateStaffProfile({ newStaffInfo }) {
   console.log(FILENAME, '_updateStaffProfile', 'start');
   editStaffDisplayError.value = null;
   opLoading.value = true;
 
   const staffPatch = createPatch(staffInfo.value, newStaffInfo);
+  delete staffPatch.email;
+  delete staffPatch.role;
+
+  const result = await StaffManagementAPIClient.updateStaff(staffInfo.value.userId, staffPatch);
+  console.log(FILENAME, 'getStaff', result);
+  if (result.done) {
+    staffInfo.value = {
+      ...result.body.data,
+      ...result.body.data.user,
+    };
+  }
+
+  console.log(FILENAME, 'old', staffInfo.value);
+  console.log(FILENAME, 'new', newStaffInfo);
+  console.log(FILENAME, 'PATCH', staffPatch);
 
   opLoading.value = false;
-  console.log(FILENAME, '_u', staffInfo.value);
-  console.log(FILENAME, '_u', newStaffInfo);
-  console.log(FILENAME, 'PATCH', staffPatch);
+  editModalOpen.value = false;
 }
 
 async function _handleOpenStaffDeleteModal() {
@@ -153,7 +173,8 @@ function fieldChanged() {
 
   <div v-if="!loading && staffInfo != null" class="w-2/5 mx-auto">
     <div class="flex items-center mb-2">
-      <span class="text-3xl font-bold">Staff #{{ staffInfo.staffId }}</span>
+      <span class="text-2xl font-bold">Staff</span>
+      <span class="text-xl font-bold">#{{ staffInfo.staffId }}</span>
     </div>
 
     <div class="mb-2 text-lg">
@@ -163,7 +184,7 @@ function fieldChanged() {
 
     <div class="mb-2 text-lg">
       <div class="font-bold">Role</div>
-      <div class="font-medium">{{ ROLE_TO_DISPLAY[staffInfo.role || staffInfo.type] }}</div>
+      <div class="font-medium">{{ ROLE_TO_DISPLAY[BACKEND_TO_ROLE[staffInfo.role || staffInfo.type]] }}</div>
     </div>
 
     <template v-if="staffInfo.role == ROLE_DOCTOR || staffInfo.type == ROLE_DOCTOR">
@@ -191,7 +212,7 @@ function fieldChanged() {
 
     <div class="mb-8 text-lg">
       <div class="font-bold">Phone Number</div>
-      <div class="font-medium">{{ staffInfo.phoneNumber }}</div>
+      <div class="font-medium">{{ staffInfo.phone }}</div>
     </div>
 
     <div class="flex justify-around">

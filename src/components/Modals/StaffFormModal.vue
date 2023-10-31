@@ -66,9 +66,10 @@ onBeforeMount(() => {
     firstName.value = props.existingStaffInfo.firstName;
     lastName.value = props.existingStaffInfo.lastName;
     email.value = props.existingStaffInfo.email;
+    password.value = props.existingStaffInfo.password;
     nric.value = props.existingStaffInfo.nric;
     phoneNumber.value = props.existingStaffInfo.phone;
-    role.value = props.existingStaffInfo.role || props.existingStaffInfo.type;
+    role.value = props.existingStaffInfo.role;
     specialty.value = props.existingStaffInfo.specialty;
     consultationFees.value = props.existingStaffInfo.consultationFees;
     yearsOfExperience.value = props.existingStaffInfo.yearsOfExperience;
@@ -160,7 +161,7 @@ watchDebounced(
               <label class="form_label_label">
                 <span class="form_label_span">Email</span>
               </label>
-              <input type="email" class="form_input" required v-model="email" />
+              <input type="email" class="form_input" required v-model="email" :disabled="mode == 'edit'" />
             </div>
 
             <div class="join join-vertical w-full">
@@ -184,7 +185,7 @@ watchDebounced(
               <label class="form_label_label">
                 <span class="form_label_span">NRIC</span>
               </label>
-              <input type="text" class="form_input" required minlength="8" v-model="nric" />
+              <input type="text" class="form_input" required minlength="8" v-model="nric" :disabled="mode == 'edit'" />
             </div>
           </div>
 
@@ -193,7 +194,7 @@ watchDebounced(
               <label class="form_label_label">
                 <span class="form_label_span">Role</span>
               </label>
-              <select class="select form_input" required v-model="role">
+              <select class="select form_input" required v-model="role" :disabled="mode == 'edit'" >
                 <template v-for="role in allowedRolesToCreate" :key="role">
                   <option :value="ROLE_TO_BACKEND[role]">{{ allowedRolesToCreateStr[role] }}</option>
                 </template>
