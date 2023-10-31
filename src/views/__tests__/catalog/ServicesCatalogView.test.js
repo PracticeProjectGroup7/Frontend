@@ -5,7 +5,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { createTestingPinia } from '@pinia/testing';
 
 import { routes } from '../../../router';
-import ServicesCatalogView from '../../catalog/ServicesCatalogView.vue';
 import App from '../../../App.vue';
 import { USER_AUTH_STORE_INJECT_TESTING } from '../../../config/injectKeys';
 
@@ -67,4 +66,3 @@ test('Switches to LabTests component when the Lab Tests link is clicked', async 
   expect(wrapper.findComponent({ name: 'LabTests' }).exists()).toBe(true);
   expect(wrapper.findComponent({ name: 'DoctorAppointments' }).exists()).toBe(false);
 });
-

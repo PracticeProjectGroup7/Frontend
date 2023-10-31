@@ -21,7 +21,7 @@ test('Redirects from login if loggedin', async () => {
   router.push('/login');
   await router.isReady();
 
-  const wrapper = mount(App,
+  const _wrapper = mount(App,
     {
       global: {
         plugins: [
@@ -46,7 +46,7 @@ test('Does not redirect from login if not loggedin', async () => {
   router.push('/login');
   await router.isReady();
 
-  const wrapper = mount(App,
+  const _wrapper = mount(App,
     {
       global: {
         plugins: [
