@@ -33,20 +33,23 @@ const saveStatus = () => {
 
         <!-- Patient information -->
         <div class="modal-info mb-2">
-          <p><strong>Patient Name:</strong> {{ booking.patientName }}</p>
+          <p><strong>Patient Name:</strong> {{ booking.patientDetails.patientName }}</p>
           <p>
             <strong>
               {{ props.isDoctorTypeBooking ? 'Appointment' : 'Test' }} Date:
             </strong>
-            {{ props.isDoctorTypeBooking ? booking.appointmentDate : booking.testDate }}
+            {{ booking.bookingDate }}
           </p>
           <p>
             <strong>
-              {{ props.isDoctorTypeBooking ? 'Appointment' : 'Test' }} Name:
+              {{ props.isDoctorTypeBooking ? 'Doctor' : 'Test' }} Name:
             </strong>
-            {{ props.isDoctorTypeBooking ? booking.doctorName : booking.testName }}
+            {{ props.isDoctorTypeBooking ? booking.details.doctorName : booking.details.testName }}
           </p>
-          <p><strong>Current Status:</strong> {{ booking.status }}</p>
+          <p>
+            <strong>Current Status: </strong>
+            {{ props.isDoctorTypeBooking ? booking.details.appointmentStatus : booking.details.testStatus }}
+          </p>
         </div>
 
         <hr class="modal-hr mb-2" />
