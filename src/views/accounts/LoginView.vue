@@ -90,7 +90,7 @@ async function login(e) {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <StaticHero v-if="!internal" />
 
   <div class="w-1/3 mx-auto">

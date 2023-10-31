@@ -52,7 +52,7 @@ function _logout(e) {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <header
     class="sticky top-0 z-40 py-1 border-b-2 border-b-slate-900/10 backdrop-blur
     supports-[backdrop-blur]:bg-white/95 shadow bg-white/95">

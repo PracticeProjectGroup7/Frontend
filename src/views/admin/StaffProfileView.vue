@@ -163,7 +163,7 @@ function fieldChanged() {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <div class="text-center w-full">
     <span class="custom_loading" :style="{ 'opacity': ((loading || opLoading) ? 100 : 0) }"></span>
   </div>

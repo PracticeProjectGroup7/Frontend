@@ -22,7 +22,7 @@ watch(modalOpen, (e) => {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <div class="p-8">
     <div class="text-sm breadcrumbs">
       <ul>

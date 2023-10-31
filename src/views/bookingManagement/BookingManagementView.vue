@@ -36,7 +36,7 @@ const filteredBookings = computed(() => {
 });
 </script>
 
-<template data-theme="corporate">
+<template>
   <div class="p-8">
     <h1 class="text-xl font-semibold mb-4">
       View Booked {{ isDoctorTypeBooking ? 'Appointments' : 'Tests' }}

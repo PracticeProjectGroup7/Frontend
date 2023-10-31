@@ -94,7 +94,7 @@ const _isPrivilegedUser = computed(() => {
 
 </script>
 
-<template data-theme="corporate">
+<template>
   <div>
     <NotFoundBanner v-if="!loading && !allowedToView" />
     <URLCorrectBanner v-if="!loading && !allowedToView && _isPrivilegedUser" />

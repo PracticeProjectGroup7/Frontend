@@ -36,8 +36,8 @@ function onLoadMore() {
 
 </script>
 
-<template data-theme="corporate">
-  <div class="table_body overflow-x-auto" v-infinite-scroll="[onLoadMore, { distance: vh(1), interval: 2000 }]">
+<template>
+  <div class="table_body overflow-x-auto" v-infinite-scroll="[onLoadMore, { distance: vh(1), interval: 500 }]">
     <table class="table table-pin-rows" v-if="staffList.length > 0">
       <thead class="text-base text-black font-bold">
         <tr>
@@ -57,6 +57,6 @@ function onLoadMore() {
 
 <style scoped>
 .table_body {
-  height: 55vh;
+  height: 59vh;
 }
 </style>
