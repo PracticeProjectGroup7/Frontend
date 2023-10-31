@@ -6,6 +6,7 @@ import { createTestingPinia } from '@pinia/testing';
 
 import { routes } from '../../../router';
 import ServicesCatalogView from '../../catalog/ServicesCatalogView.vue';
+import App from '../../../App.vue';
 import { USER_AUTH_STORE_INJECT_TESTING } from '../../../config/injectKeys';
 
 let router;
@@ -20,12 +21,12 @@ test('Renders DoctorAppointments component by default', async () => {
   router.push('/services');
   await router.isReady();
 
-  const wrapper = mount(ServicesCatalogView, {
+  const wrapper = mount(App, {
     global: {
       plugins: [
         router,
         createTestingPinia({
-          createSpy: vi.fn(),
+          createSpy: vi.fn,
         }),
       ],
       provide: {
@@ -44,12 +45,12 @@ test('Switches to LabTests component when the Lab Tests link is clicked', async 
   router.push('/services');
   await router.isReady();
 
-  const wrapper = mount(ServicesCatalogView, {
+  const wrapper = mount(App, {
     global: {
       plugins: [
         router,
         createTestingPinia({
-          createSpy: vi.fn(),
+          createSpy: vi.fn,
         }),
       ],
       provide: {
