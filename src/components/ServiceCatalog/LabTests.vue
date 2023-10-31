@@ -1,12 +1,16 @@
 <script setup>
 const FILENAME = 'LabTests.vue';
+
 import { ref, computed, onMounted, inject } from 'vue';
+
 import BookTestModal from '../Modals/BookTestModal.vue';
 import { BOOKING_TYPE_LAB, ROLE_PATIENT } from '../../config/constants';
 import { fetchCatalog } from '../../api/serviceCatalog.js';
 import { USER_AUTH_STORE_INJECT } from '../../config/injectKeys';
 
 const { loggedIn, role: userRole, userInfo } = inject(USER_AUTH_STORE_INJECT);
+
+// ==
 
 const props = defineProps({
   loggedIn: {
@@ -15,14 +19,19 @@ const props = defineProps({
     default: false,
   },
 });
+
+const loading = ref(true);
+
 const searchedItem = ref('');
 const labTests = ref([]);
 const labTestModal = ref({});
 
 onMounted(async () => {
+  loading.value = true;
   const data = await fetchCatalog(BOOKING_TYPE_LAB); // Use the fetchCatalog function
   if (data) {
     labTests.value = data; // Update the labTests array with the API response data
+    loading.value = false;
   }
 });
 
@@ -52,6 +61,11 @@ const isModalOpen = (labTestId) => {
 </script>
 
 <template>
+  <div class="text-center w-full">
+    <span class="custom_loading" :style="{
+      'opacity': (loading ? 100 : 0)
+    }"></span>
+  </div>
   <div class="labTest-catalog">
     <div class="search">
       <input placeholder="Search by name..." v-model="searchedItem">
@@ -89,7 +103,7 @@ const isModalOpen = (labTestId) => {
 }
 
 .labTest-card {
-  @apply border border-gray-300 p-5 rounded w-72; /* Border, padding, rounded, and width classes */
+  @apply border border-gray-300 p-5 rounded w-72 flex flex-col; /* Border, padding, rounded, and width classes */
 }
 
 .labTest-details {
@@ -97,7 +111,7 @@ const isModalOpen = (labTestId) => {
 }
 
 .book-labTest {
-  @apply bg-green-500 text-white rounded py-2 px-5 cursor-pointer; /* Background, text color, and padding classes */
+  @apply bg-green-500 text-white rounded py-2 px-5 cursor-pointer mt-auto; /* Background, text color, and padding classes */
 
   &:hover {
     @apply bg-blue-500; /* Background color on hover */

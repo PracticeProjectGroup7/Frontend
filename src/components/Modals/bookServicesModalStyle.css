@@ -3,7 +3,8 @@
 }
 
 .modal-content {
-  @apply bg-white p-4 rounded text-left;
+  @apply bg-white p-10 rounded text-left;
+  @apply pt-0;
 }
 
 hr {
