@@ -12,9 +12,18 @@ class StaffManagementAPIClient {
   }
 
   static async getAllStuff({ from, size }) {
-    return easyGet({
+    let res = await easyGet({
       url: API_BASE_PATH + `/staff?page=${from+1}&pageSize=${size}`,
     });
+
+    console.log(res.done, res.body.data.items);
+    if (res.done && res.body.data.items) {
+      for (let i = 0; i < res.body.data.items.length; i++) {
+        res.body.data.items[i]['firstName'] = res.body.data.items[i]['firstname'];
+      }
+    }
+
+    return res;
   }
 
   /**

@@ -18,6 +18,7 @@ import { staffList as dummyStaffList } from '../../_dummy_data/staff';
 import { ROLE_ADMIN } from '../../config/constants';
 
 import { StaffManagementAPIClient } from '../../api/staffManagement';
+import { get } from '@vueuse/core';
 
 // ==
 
@@ -67,24 +68,28 @@ onBeforeMount(async () => {
 
   console.log(FILENAME, 'Getting staff list');
 
+  await getData();
+
+  // GET THE DATA
+  // bookingList.value = []
+
+  // staffList.value = dummyStaffList;
+  //
+
+  console.log(FILENAME, 'beforeMount', 'end');
+  loading.value = false;
+});
+
+async function getData() {
   let res = await StaffManagementAPIClient.getAllStuff({ from, size });
   console.log(FILENAME, res, "res");
 
   if (res.done) {
     from = res.body.data.currentPage;
     total = Math.max(total, res.body.data.totalElements);
-    staffList.value = res.body.data.items;
+    staffList.value.push(...res.body.data.items);
   }
-
-  // GET THE DATA
-  // bookingList.value = []
-
-  staffList.value = dummyStaffList;
-  //
-
-  console.log(FILENAME, 'beforeMount', 'end');
-  loading.value = false;
-});
+}
 
 watch(modalOpen, (newValue) => {
   if (newValue) {
@@ -138,13 +143,14 @@ const filteredStaffList = computed(() => {
     ));
 });
 
-function onLoadMore() {
+async function onLoadMore() {
   // staffList.value.push(...dummyStaffList);
 
   console.log("onLoadMore", staffList.value.length, total);
   if (staffList.value.length >= total) {
     console.log("STOP STOP STOP");
   } else {
+    await getData();
     console.log("GET DATA");
   }
 }
