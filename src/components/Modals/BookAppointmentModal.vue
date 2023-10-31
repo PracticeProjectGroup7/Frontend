@@ -139,8 +139,8 @@ const closeModal = () => {
         </div>
 
         <div class="modal-action justify-center">
-          <button @click="closeModal" class="bg-red-500">Cancel</button>
-          <button @click="bookAppointment" class="bg-green-500 ml-2" :disabled="selectedSlot === null">Book</button>
+          <button @click="closeModal" class="danger">Cancel</button>
+          <button @click="bookAppointment" class="ml-2 success" :disabled="selectedSlot === null">Book</button>
         </div>
       </form>
 
@@ -176,4 +176,5 @@ span.form_label_span {
 .charges {
   @apply justify-center;
 }
+
 </style>

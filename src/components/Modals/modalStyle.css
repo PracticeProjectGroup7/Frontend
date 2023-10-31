@@ -22,4 +22,18 @@
   button.custom-btn-outline {
     @apply btn-outline;
   }
+
+  button.danger {
+    @apply bg-red-500 outline-none border-none text-blue-50;
+  }
+
+  button.success {
+    @apply bg-green-500 outline-none border-none text-blue-50;
+  }
+
+  button:disabled {
+    @apply cursor-not-allowed;
+    pointer-events: all !important;
+  }
+
 }

@@ -12,3 +12,8 @@ html,
 body {
   scrollbar-gutter: stable;
 }
+
+button:disabled {
+  @apply cursor-not-allowed;
+  pointer-events: all !important;
+}
