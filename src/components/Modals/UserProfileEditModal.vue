@@ -33,34 +33,34 @@ const closeModal = () => {
         <!-- Add form fields for editing profile data -->
         <div class="form-field">
           <label for="email" class="font-semibold">Email: </label>
-          <input class="input-field" type="text" id="email" v-model="editedUser.email" required autocomplete="email" />
+          <input class="input-field" type="text" id="email" v-model="editedUser.user.email" required autocomplete="email" />
         </div>
         <div class="form-field">
           <label for="name" class="font-semibold">Name: </label>
-          <input class="input-field" type="text" id="name" v-model="editedUser.name" required autocomplete="name" />
+          <input class="input-field" type="text" id="name" v-model="editedUser.user.name" required autocomplete="name" />
         </div>
         <div class="form-field">
           <label for="phone" class="font-semibold">Phone: </label>
-          <input class="input-field" type="text" id="phone" v-model="editedUser.phone" required autocomplete="tel"
+          <input class="input-field" type="text" id="phone" v-model="editedUser.user.phone" required autocomplete="tel"
             min="6000000000" max="9999999999" />
         </div>
         <div class="form-field">
           <label for="nricOrPassport" class="font-semibold">NRIC / Passport: </label>
-          <input class="input-field" type="text" id="nricOrPassport" v-model="editedUser.nricOrPassport" required
+          <input class="input-field" type="text" id="nricOrPassport" v-model="editedUser.user.nric" required
             minlength="8" />
         </div>
         <div class="form-field">
           <label for="address" class="font-semibold">Address: </label>
-          <input class="input-field" type="text" id="address" v-model="editedUser.address" required
+          <input class="input-field" type="text" id="address" v-model="editedUser.user.address" required
             autocomplete="street-address" />
         </div>
         <div class="form-field">
           <label for="medConditions" class="font-semibold">Medical Conditions: </label>
-          <input class="input-field" type="text" id="medConditions" v-model="editedUser.medConditions" />
+          <input class="input-field" type="text" id="medConditions" v-model="editedUser.medicalCondition" />
         </div>
         <div class="form-field">
           <label for="gender" class="font-semibold">Gender: </label>
-          <select class="input-field" v-model="editedUser.gender" required autocomplete="sex">
+          <select class="input-field" v-model="editedUser.user.gender" required autocomplete="sex">
             <option value="M">Male</option>
             <option value="F">Female</option>
             <option value="O">Others</option>
@@ -68,7 +68,7 @@ const closeModal = () => {
         </div>
         <div class="form-field">
           <label for="dob" class="font-semibold">Date of Birth: </label>
-          <input class="input-field" type="date" id="dob" v-model="editedUser.dob" autocomplete="bday" />
+          <input class="input-field" type="date" id="dob" v-model="editedUser.user.dateOfBirth" autocomplete="bday" />
         </div>
 
         <div class="modal-actions btn-container">

@@ -67,35 +67,35 @@ onMounted(() => {
       <div class="space-y-2">
         <div class="data-container">
           <label for="email" class="font-semibold">Email: </label>
-          <span id="email">{{ user.email }}</span>
+          <span id="email">{{ user.user.email }}</span>
         </div>
         <div class="data-container">
           <label for="name" class="font-semibold">Name: </label>
-          <span id="name">{{ user.name }}</span>
+          <span id="name">{{ user.user.name }}</span>
         </div>
         <div class="data-container">
           <label for="phone" class="font-semibold">Phone: </label>
-          <span id="phone">{{ user.phone }}</span>
+          <span id="phone">{{ user.user.phone }}</span>
         </div>
         <div class="data-container">
           <label for="nricOrPassport" class="font-semibold">NRIC / Passport: </label>
-          <span id="nricOrPassport">{{ user.nricOrPassport }}</span>
+          <span id="nricOrPassport">{{ user.user.nric }}</span>
         </div>
         <div class="data-container">
           <label for="address" class="font-semibold">Address: </label>
-          <span id="address">{{ user.address }}</span>
+          <span id="address">{{ user.user.address }}</span>
         </div>
         <div class="data-container">
           <label for="medConditions" class="font-semibold">Medical Conditions: </label>
-          <span id="medConditions">{{ user.medConditions }}</span>
+          <span id="medConditions">{{ user.medicalCondition }}</span>
         </div>
         <div class="data-container">
           <label for="gender" class="font-semibold">Gender: </label>
-          <span id="gender">{{ user.gender }}</span>
+          <span id="gender">{{ user.user.gender }}</span>
         </div>
         <div class="data-container">
           <label for="dob" class="font-semibold">Date of Birth: </label>
-          <span id="dob">{{ user.dob }}</span>
+          <span id="dob">{{ user.user.dateOfBirth }}</span>
         </div>
         <div class="data-container btn-container">
           <button @click="openEditModal" class="btn btn-white">Edit Profile</button>
