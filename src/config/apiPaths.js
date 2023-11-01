@@ -14,7 +14,7 @@ const DOCTOR_APPOINTMENT_MANAGE_API = API_BASE_PATH + '/appointments';
 
 const TEST_BOOKING_MANAGE_API = API_BASE_PATH + '/tests';
 
-const BOOKING_DETAILS_API = API_BASE_PATH + '/services/bookings';
+const BOOKING_DETAILS_API = API_BASE_PATH + '/services/booking-details';
 
 export {
   API_BASE_PATH,
