@@ -6,6 +6,7 @@ on:
     paths:
       - '**.js'
       - '**.vue'
+  workflow_dispatch:
 
 jobs:
   build_job:
@@ -43,4 +44,3 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: 'Unit test failed'
-
