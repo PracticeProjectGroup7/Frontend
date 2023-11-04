@@ -2,7 +2,7 @@
 const FILENAME = 'BookingManagementView';
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { isDoctorType } from '../../utils/utils';
+import { isDoctorType } from '../../utils/user';
 import { fetchBookings } from '../../api/staffBookingManagement';
 
 const props = defineProps({

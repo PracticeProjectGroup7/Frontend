@@ -2,7 +2,7 @@
 const FILENAME = 'BookingDetailsView.vue';
 import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
-import { isDoctorType } from '../../utils/utils';
+import { isDoctorType } from '../../utils/user';
 import { BOOKING_TYPE_DOCTOR, BOOKING_TYPE_LAB } from '../../config/constants';
 import { ROUTE_BOOKING_HISTORY_OTHERS } from '../../router';
 import { fetchBookingDetails } from '../../api/staffBookingManagement';
