@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { updateBookingStatus } from '../../api/staffBookingManagement';
 
 const FILENAME = 'UpdateBookingStatusModal';
 
@@ -8,7 +9,9 @@ const props = defineProps({
   isDoctorTypeBooking: Boolean,
 });
 
-const newStatus = ref('pending');
+const newStatus = ref(props.isDoctorTypeBooking ?
+  props.booking.details.appointmentStatus : props.booking.details.testStatus);
+console.log(FILENAME, '[DVDVDVD] Previous status', newStatus);
 const result = ref('');
 const emits = defineEmits(['close', 'status-saved']);
 const closeModal = () => {
@@ -16,13 +19,21 @@ const closeModal = () => {
   emits('close'); // Emit a 'close' event to the parent component
 };
 
-const saveStatus = () => {
+const saveStatus = async () => {
   // Handle saving the new status and test result
   // Emit an event to the parent component with the new data
   console.log(FILENAME, 'Updating status...');
+  const bookingInfo = {
+    'status': newStatus.value,
+    'comments': result.value,
+    'result': result.value,
+  };
+  const bookingId = props.isDoctorTypeBooking ? props.booking.details.appointmentId : props.booking.details.testId;
+  await updateBookingStatus(props.isDoctorTypeBooking, bookingId, { bookingInfo } );
   emits('status-saved', { newStatus: newStatus.value, result: result.value });
   closeModal();
 };
+
 </script>
 
 <template>
@@ -60,8 +71,8 @@ const saveStatus = () => {
             <div class="flex flex-col mb-2">
               <label for="newStatus">New Status: </label>
               <select id="newStatus" v-model="newStatus">
-                <option value="pending">Pending</option>
-                <option value="completed">Completed</option>
+                <option value="PENDING">Pending</option>
+                <option value="COMPLETED">Completed</option>
               </select>
             </div>
 

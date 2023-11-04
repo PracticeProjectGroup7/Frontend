@@ -43,6 +43,14 @@ console.log(FILENAME, 'On details page. BookingId: ', props.bookingId);
 const handleStatusSaved = (data) => {
   // Handle the updated status data here
   console.log(FILENAME, 'Status saved:', data);
+
+  // Update the bookingStatus and comments/testResult properties
+  bookingStatus.value = data.newStatus;
+  if (isDoctorTypeBooking.value) {
+    booking.value.details.comments = data.result;
+  } else {
+    booking.value.details.testResult = data.result;
+  }
 };
 
 const closeModal = () => {
@@ -112,10 +120,10 @@ const closeModal = () => {
     </div>
 
     <div class="mt-4 space-x-4 p-8">
-      <!-- <RouterLink :to="{ name: ROUTE_BOOKING_HISTORY_OTHERS, params: { patientId: booking.patientId } }"> -->
-        <button class="view-history-button">View Appointment History</button>
       <!-- </RouterLink> -->
       <button class="update-status-button" @click="openModal">Update Status</button>
+      <!-- <RouterLink :to="{ name: ROUTE_BOOKING_HISTORY_OTHERS, params: { patientId: booking.patientId } }"> -->
+        <button class="view-history-button hidden">View Appointment History</button>
     </div>
   </div>
   <UpdateBookingStatusModal
