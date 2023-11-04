@@ -73,7 +73,7 @@ async function register(e) {
       'firstName': firstName.value, 'lastName': lastName.value,
       'email': email.value, 'password': password.value,
       'phone': phoneNumber.value, 'nric': nric.value,
-      'address': address.value,
+      'address': address.value, 'gender': gender.value,
       'dateOfBirth': dob.value,
     },
   });
