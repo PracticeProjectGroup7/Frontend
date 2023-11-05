@@ -1,5 +1,7 @@
 import { test, beforeEach } from 'vitest';
 import { fetchBookings, fetchBookingDetails, updateBookingStatus } from './staffBookingManagement';
+import { fetchDoctorSlots, bookServices } from './booking';
+
 
 // Mock easyGet and easyPatch functions
 const mockEasyGet = (response) => {
@@ -60,3 +62,25 @@ test('updateBookingStatus should update booking status', async () => {
 
   await updateBookingStatus(isDoctorTypeBooking, bookingId, { bookingInfo });
 });
+
+test('fetchDoctorSlots should return available slots', async () => {
+  const mockResponse = {
+    data: { availableSlots: [1, 2, 3] },
+  };
+  globalThis.easyPatch = mockEasyPatch(mockResponse);
+
+  const serviceId = 1;
+  const selectedDate = '2023-12-03';
+
+  await fetchDoctorSlots(serviceId, selectedDate);
+});
+
+test('bookServices should booking appointment/test', async () => {
+  const mockResponse = { status: 'updated' };
+  globalThis.easyPatch = mockEasyPatch(mockResponse);
+
+  const bookingInfo = { bookingStatus: 'booked' };
+
+  await bookServices({ bookingInfo });
+});
+
