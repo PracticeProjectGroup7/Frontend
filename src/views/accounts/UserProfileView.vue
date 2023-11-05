@@ -42,11 +42,11 @@ const closeEditModal = () => {
   isEditModalOpen.value = false;
 };
 
-const saveEditedProfile = (editedUserData) => {
+const saveEditedProfile = (editedUser) => {
   // Implement the logic to save the edited profile data here
-  console.log(FILENAME, 'Edited Profile Data:', editedUserData);
+  console.log(FILENAME, 'Edited Profile Data:', editedUser);
   // Update user data in the parent component here
-  user.value = editedUserData;
+  user.value = editedUser;
   closeEditModal();
 };
 
@@ -98,7 +98,7 @@ onMounted(() => {
           <span id="dob">{{ user.user.dateOfBirth }}</span>
         </div>
         <div class="data-container btn-container">
-          <button @click="openEditModal" class="btn btn-white">Edit Profile</button>
+          <button @click="openEditModal" class="btn btn-white" >Edit Profile</button>
           <button @click="_logout" class="btn btn-red">Log Out</button>
         </div>
 

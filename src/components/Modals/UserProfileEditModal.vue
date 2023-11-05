@@ -2,6 +2,7 @@
 const FILENAME = 'UserProfileEditModal.vue';
 
 import { ref } from 'vue';
+import { editUserProfileData } from '../../api/profile';
 
 // ==
 
@@ -14,9 +15,29 @@ const props = defineProps({
 const emit = defineEmits(['save', 'close']);
 
 const editedUser = ref(props.user);
+const password = ref('');
 
-const saveProfile = () => {
+const saveProfile = async () => {
+  if (!password.value || password.value.length < 8) {
+    // Display a message about the password requirement
+    alert('Password is required and must be at least 8 characters.');
+    return; // Exit the function without saving
+  }
   // Implement the logic to save the edited profile data
+  const lastSpaceIndex = editedUser.value.user.name.lastIndexOf(' ');
+  const userInfo = {
+    'email': editedUser.value.user.email,
+    'firstName': editedUser.value.user.name.substring(0, lastSpaceIndex),
+    'lastName': editedUser.value.user.name.substring(lastSpaceIndex+1),
+    'password': password.value,
+    'gender': editedUser.value.user.gender,
+    'dateOfBirth': editedUser.value.user.dateOfBirth,
+    'address': editedUser.value.user.address,
+    'phone': editedUser.value.user.phone,
+    'nric': editedUser.value.user.nric,
+    'medicalConditions': editedUser.value.medicalCondition,
+  };
+  await editUserProfileData( { userInfo } );
   emit('save', editedUser.value); // Emit an event to save the data
 };
 
@@ -38,6 +59,10 @@ const closeModal = () => {
         <div class="form-field">
           <label for="name" class="font-semibold">Name: </label>
           <input class="input-field" type="text" id="name" v-model="editedUser.user.name" required autocomplete="name" />
+        </div>
+        <div class="form-field">
+          <label for="name" class="font-semibold">Password: </label>
+          <input class="input-field" type="password" id="password" v-model="password" required minlength="8" autocomplete="current-password" />
         </div>
         <div class="form-field">
           <label for="phone" class="font-semibold">Phone: </label>

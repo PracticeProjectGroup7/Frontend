@@ -1,5 +1,5 @@
 import { DOCTOR_APPOINTMENT_MANAGE_API, TEST_BOOKING_MANAGE_API, BOOKING_DETAILS_API } from '../config/apiPaths';
-import { easyGet, easyPost } from './easyFetch';
+import { easyGet, easyPatch } from './easyFetch';
 const FILENAME = 'api/staffBookingManagement';
 
 export async function fetchBookings(isDoctorTypeBooking) {
@@ -27,5 +27,20 @@ export async function fetchBookingDetails( bookingId ) {
   } else {
     console.error(`${FILENAME} - Error in fetching booking details`);
     return null;
+  }
+}
+
+export async function updateBookingStatus(isDoctorTypeBooking, bookingId, { bookingInfo }) {
+  const path = (isDoctorTypeBooking ? DOCTOR_APPOINTMENT_MANAGE_API : TEST_BOOKING_MANAGE_API) + `/${bookingId}`;
+  const response = await easyPatch({
+    url: path,
+    body: {
+      ...bookingInfo,
+    },
+  });
+  if (response.done) {
+    console.log(`${FILENAME} - Updated booking`);
+  } else {
+    console.error(`${FILENAME} - Error updating booking`);
   }
 }
