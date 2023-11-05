@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'package.jspn'
+      - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
 
