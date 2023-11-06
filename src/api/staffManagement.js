@@ -16,10 +16,10 @@ class StaffManagementAPIClient {
       url: API_BASE_PATH + `/staff?page=${from+1}&pageSize=${size}`,
     });
 
-    console.log(res.done, res.body.data.items);
-    if (res.done && res.body.data.items) {
-      for (let i = 0; i < res.body.data.items.length; i++) {
-        res.body.data.items[i]['firstName'] = res.body.data.items[i]['firstname'];
+    console.log(res.done, res.body.data.content);
+    if (res.done && res.body.data.content) {
+      for (let i = 0; i < res.body.data.content.length; i++) {
+        res.body.data.content[i]['firstName'] = res.body.data.content[i]['firstname'];
       }
     }
 
