@@ -44,7 +44,7 @@ const staffList = ref([]);
 //   pageSize: 10,
 
 let from = 0;
-let size = 10;
+const size = 10;
 let total = Number.MIN_SAFE_INTEGER;
 
 onBeforeMount(async () => {
@@ -82,8 +82,8 @@ onBeforeMount(async () => {
 async function getData() {
   loading.value = true;
 
-  let res = await StaffManagementAPIClient.getAllStuff({ from, size });
-  console.log(FILENAME, res, "res");
+  const res = await StaffManagementAPIClient.getAllStuff({ from, size });
+  console.log(FILENAME, res, 'res');
 
   if (res.done) {
     from = res.body.data.currentPage;
@@ -148,12 +148,12 @@ const filteredStaffList = computed(() => {
 async function onLoadMore() {
   // staffList.value.push(...dummyStaffList);
 
-  console.log("onLoadMore", staffList.value.length, total);
+  console.log('onLoadMore', staffList.value.length, total);
   if (staffList.value.length >= total) {
-    console.log("STOP STOP STOP");
+    console.log('STOP STOP STOP');
   } else {
     await getData();
-    console.log("GET DATA");
+    console.log('GET DATA');
   }
 }
 
