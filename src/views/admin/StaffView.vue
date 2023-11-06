@@ -88,7 +88,7 @@ async function getData() {
   if (res.done) {
     from = res.body.data.currentPage;
     total = Math.max(total, res.body.data.totalElements);
-    staffList.value.push(...res.body.data.items);
+    staffList.value.push(...res.body.data.content);
   }
   loading.value = false;
 }
