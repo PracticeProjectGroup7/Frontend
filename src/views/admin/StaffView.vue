@@ -139,7 +139,7 @@ const filteredStaffList = computed(() => {
   }
 
   return staffList.value.filter((staffInfo) =>
-    (staffInfo.firstname + ' ' + staffInfo.lastName).toLowerCase().includes(searchTerm.value.toLowerCase() ||
+    (staffInfo.firstName + ' ' + staffInfo.lastName).toLowerCase().includes(searchTerm.value.toLowerCase() ||
       staffInfo.email.toLowerCase().includes(searchTerm.value.toLowerCase(),
       ),
     ));

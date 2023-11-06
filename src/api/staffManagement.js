@@ -17,11 +17,6 @@ class StaffManagementAPIClient {
     });
 
     console.log(res.done, res.body.data.content);
-    if (res.done && res.body.data.content) {
-      for (let i = 0; i < res.body.data.content.length; i++) {
-        res.body.data.content[i]['firstName'] = res.body.data.content[i]['firstname'];
-      }
-    }
 
     return res;
   }
