@@ -35,6 +35,7 @@ test('Renders BookingManagementView component', async () => {
   });
 
   await flushPromises();
+  await wrapper.vm.$nextTick();
 
   expect(wrapper.exists()).toBe(true);
   // Add more specific assertions here
@@ -58,6 +59,7 @@ test('Displays filtered bookings', async () => {
   });
 
   await flushPromises();
+  await wrapper.vm.$nextTick();
 
   searchStatus.value = 'pending'; // Update the value directly without .value
   await wrapper.vm.$nextTick();

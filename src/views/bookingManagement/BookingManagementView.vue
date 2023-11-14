@@ -4,6 +4,11 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { isDoctorType } from '../../utils/user';
 import { fetchBookings } from '../../api/staffBookingManagement';
+import DoctorBooking from '../../utils/DoctorBooking';
+import LabBooking from '../../utils/LabBooking';
+import BookingTemplate from '../../utils/BookingTemplate';
+
+let bookingView = new BookingTemplate();
 
 const props = defineProps({
   bookingType: String,
@@ -21,6 +26,7 @@ onMounted(async () => {
   if (data) {
     bookings.value = data;
   }
+  bookingView = isDoctorTypeBooking ? new DoctorBooking() : new LabBooking();
 });
 
 const viewDetails = (booking) => {
@@ -61,9 +67,10 @@ const filteredBookings = computed(() => {
       </thead>
       <tbody>
         <tr v-for="booking in filteredBookings" :key="booking.id">
-          <td class="table-item">{{ booking.patientName }}</td>
+          {{ bookingView.computeBookingDetails(booking) }}
+          <td class="table-item">{{ bookingView.patientName }}</td>
           <td class="table-item">
-            {{ isDoctorTypeBooking ? booking.doctorName : booking.testName }}
+            {{ bookingView.bookingName }}
           </td>
           <td class="table-item">
             {{ booking.reservedDate }}
