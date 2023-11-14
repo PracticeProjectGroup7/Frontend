@@ -7,6 +7,11 @@ import { BOOKING_TYPE_DOCTOR, BOOKING_TYPE_LAB } from '../../config/constants';
 import { ROUTE_BOOKING_HISTORY_OTHERS } from '../../router';
 import { fetchBookingDetails } from '../../api/staffBookingManagement';
 import UpdateBookingStatusModal from '../../components/Modals/UpdateBookingStatusModal.vue';
+import DoctorBooking from '../../utils/DoctorBooking';
+import LabBooking from '../../utils/LabBooking';
+import BookingTemplate from '../../utils/BookingTemplate';
+
+let bookingView = new BookingTemplate();
 
 const props = defineProps({
   'bookingId': {
@@ -31,6 +36,8 @@ onMounted(async () => {
     bookingStatus.value = isDoctorTypeBooking.value ?
       booking.value.details.appointmentStatus : booking.value.details.testStatus;
   }
+  bookingView = isDoctorTypeBooking.value ? new DoctorBooking() : new LabBooking();
+  bookingView.computeBookingDetails(booking);
 });
 
 const showModal = ref(false);
@@ -89,9 +96,9 @@ const closeModal = () => {
     <div class="grid grid-cols-2 gap-2 ml-8">
       <div>
         <ul>
-          <li><strong>Patient Name:</strong> {{ booking.patientDetails.patientName }}</li>
-          <li><strong>Date of Birth:</strong> {{ booking.patientDetails.dateOfBirth }}</li>
-          <li><strong>Gender:</strong> {{ booking.patientDetails.gender }}</li>
+          <li><strong>Patient Name:</strong> {{ bookingView.patientName }}</li>
+          <li><strong>Date of Birth:</strong> {{ bookingView.dateOfBirth }}</li>
+          <li><strong>Gender:</strong> {{ bookingView.gender }}</li>
         </ul>
       </div>
 
@@ -101,7 +108,7 @@ const closeModal = () => {
             <strong>
               {{ isDoctorTypeBooking ? 'Doctor' : 'Test' }} Name:
             </strong>
-            {{ isDoctorTypeBooking ? booking.details.doctorName : booking.details.testName }}
+            {{ bookingView.bookingName }}
           </li>
           <li>
             <strong>
@@ -113,7 +120,7 @@ const closeModal = () => {
             <strong>
               {{ isDoctorTypeBooking ? 'Diagnosis' : 'Test Result' }}:
             </strong>
-            {{ isDoctorTypeBooking ? booking.details.comments : booking.details.testResult }}
+            {{ bookingView.results }}
           </li>
         </ul>
       </div>
